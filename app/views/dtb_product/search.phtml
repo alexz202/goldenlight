@@ -1,0 +1,58 @@
+<?php use Phalcon\Tag; ?>
+
+<?php echo $this->getContent(); ?>
+
+<table width="100%">
+    <tr>
+        <td align="left">
+            <?php echo $this->tag->linkTo(array("dtb_product/index", "Go Back")); ?>
+        </td>
+        <td align="right">
+            <?php echo $this->tag->linkTo(array("dtb_product/new", "Create ")); ?>
+        </td>
+    </tr>
+</table>
+
+<table class="browse" align="center">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>User Of Id</th>
+            <th>Project Of Name</th>
+            <th>Product Of Name</th>
+            <th>Price</th>
+            <th>Product Of Img</th>
+            <th>Exist Of Num</th>
+         </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($page->items as $dtb_product) { ?>
+        <tr>
+            <td><?php echo $dtb_product->getProductId() ?></td>
+            <td><?php echo $dtb_product->getUserId() ?></td>
+            <td><?php echo $dtb_product->getProjectName() ?></td>
+            <td><?php echo $dtb_product->getProductName() ?></td>
+            <td><?php echo $dtb_product->getPrice() ?></td>
+            <td><?php echo $dtb_product->getProductImg() ?></td>
+            <td><?php echo $dtb_product->getExistNum() ?></td>
+            <td><?php echo $this->tag->linkTo(array("dtb_product/edit/" . $dtb_product->getProductId(), "Edit")); ?></td>
+            <td><?php echo $this->tag->linkTo(array("dtb_product/delete/" . $dtb_product->getProductId(), "Delete")); ?></td>
+        </tr>
+    <?php } ?>
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="2" align="right">
+                <table align="center">
+                    <tr>
+                        <td><?php echo $this->tag->linkTo("dtb_product/search", "First") ?></td>
+                        <td><?php echo $this->tag->linkTo("dtb_product/search?page=" . $page->before, "Previous") ?></td>
+                        <td><?php echo $this->tag->linkTo("dtb_product/search?page=" . $page->next, "Next") ?></td>
+                        <td><?php echo $this->tag->linkTo("dtb_product/search?page=" . $page->last, "Last") ?></td>
+                        <td><?php echo $page->current, "/", $page->total_pages ?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
