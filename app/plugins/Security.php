@@ -39,19 +39,19 @@ class Security extends Plugin
 
             //Private area resources
             $privateResources = array(
-                'user' => array('center','changeAvatar','changePassword'),
+                'user' => array('center','changeAvatar','changePassword','loginout'),
 
             );
             //Grant resources to role users
             $privateACL = array(
                 'Common' => array(
-                    'user' => array('center','changeAvatar','changePassword'),
+                    'user' => array('center','changeAvatar','changePassword','loginout'),
                 ),
                 'Person' => array(
-                    'user' => array('center','changeAvatar','changePassword'),
+                    'user' => array('center','changeAvatar','changePassword','loginout'),
                 ),
                 'Company' => array(
-                    'user' => array('center','changeAvatar','changePassword'),
+                    'user' => array('center','changeAvatar','changePassword','loginout'),
                 ),
 
             );
@@ -93,21 +93,35 @@ class Security extends Plugin
      */
     public function beforeDispatch(Event $event, Dispatcher $dispatcher)
     {
-       // $auth = $this->session->get('auth');
-        $auth=$this->_getCookie('auth');
-        if (!$auth) {
-            $role = 'Guests';
-        } else {
-            $role = $this->_getCookie('role');
-           // $role='Common';
+
+        if($this->config->application->user_login_form_cookies){
+            //use cookies
+            $auth=$this->_getCookie('auth');
+            if (!$auth) {
+                $role = 'Guests';
+            } else {
+                $role = $this->_getCookie('role');
+                // $role='Common';
+            }
+
+        }else{
+            $auth = $this->session->get('auth');
+            $auth=$this->_getCookie('auth');
+            if (!$auth) {
+                $role = 'Guests';
+            } else {
+                $role =$auth['role'];
+                // $role='Common';
+            }
         }
+
 
 
         $controller = $dispatcher->getControllerName();
         $action = $dispatcher->getActionName();
         $acl = $this->getAcl();
         $allowed = $acl->isAllowed($role, $controller, $action);
-        //die();
+
         if ($allowed != Acl::ALLOW) {
             $this->flash->error("You don't have access to this module");
             $dispatcher->forward(

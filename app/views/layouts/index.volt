@@ -10,11 +10,13 @@
         <title>金色光首页</title>
     </head>
     <body>
-    {% include "public/header.volt"%}
+    <!--{% include "public/header.volt"%}-->
+      {{ partial("public/header")}}
 
-<!--content render start -->
-       {{ content() }}
-<!--content render end-->
-    {% include "public/footer.volt"%}
+ <!--content render start -->
+        {{ content() }}
+ <!--content render end
+     {% include "public/footer.volt"%}-->
+      {{ partial("public/footer")}}
     </body>
 </html>

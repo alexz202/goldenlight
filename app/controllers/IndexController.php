@@ -3,10 +3,14 @@
 class IndexController extends ControllerBase
 {
 
+
+    public function initialize (){
+        parent::initialize();
+    }
+
     public function indexAction()
     {
-        var_dump($this->config->application->cookie_remember_timeout);
-        die();
+
 
 //        $ubm=new DtbUserBasic();
 //        $params=array(

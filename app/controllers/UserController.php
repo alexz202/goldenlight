@@ -5,6 +5,10 @@ class UserController extends ControllerBase
 
     private  $user_role=['Common','Person','Company'];
 
+    public function initialize (){
+        parent::initialize();
+    }
+
     public function loginAction(){
         if ($this->request->isPost()) {
             $type=$this->request->getPost('type');
@@ -35,10 +39,14 @@ class UserController extends ControllerBase
                 ));
             }
         }else{
-//            $_COOKIE['tt']=1;
-//            setcookie('tt','1',time()+86400);
-           // exit();
-        //default show
+           if($this->_isLogin()){
+               return $this->dispatcher->forward(array(
+                   'controller' => 'user',
+                   'action' => 'center'
+               ));
+           }
+
+
         }
     }
 
@@ -97,7 +105,8 @@ class UserController extends ControllerBase
 
     public function loginoutAction(){
         $this->_removeSession('auth');
-        return $this->dispatcher->forward(array("controller"=>'User',"action"=>"index"));
+        $this->_removeCookie();
+        return $this->dispatcher->forward(array("controller"=>'User',"action"=>"login"));
     }
 
 
@@ -121,7 +130,7 @@ class UserController extends ControllerBase
         //return setcookie('auth',$auth_arr,time()+2*86400);
         $this->_setCookie('auth',$user->user_id);
         $this->_setCookie('user_id',$user->user_id);
-        $this->_setCookie('role',$user->role);
+        $this->_setCookie('role',$this->user_role[$user->account_type]);
         $this->_setCookie('account_type',$user->account_type);
         $this->_setCookie('name',$user->name);
         return true;
@@ -184,25 +193,15 @@ class UserController extends ControllerBase
 
     }
 
-    private function _removeCookie($key){
-        $this->cookies->get($key)->delete();
+    private function _removeCookie(){
+        $this->cookies->get('auth')->delete();
+        $this->cookies->get('user_id')->delete();
+        $this->cookies->get('role')->delete();
+        $this->cookies->get('account_type')->delete();
+        $this->cookies->get('name')->delete();
     }
 
-    private function _setCookie($key,$value){
-        $this->cookies->set($key,$value, time()+$this->config->application->cookie_remember_timeout);
-    }
 
-    private function _getCookie($key){
-        if($this->cookies->has($key)){
-            // 获取cookie
-            $rememberMe = $this->cookies->get($key);
-
-            // 获取cookie的值
-          return   $value = $rememberMe->getValue();
-        }
-        else
-            return false;
-    }
 
 
 
