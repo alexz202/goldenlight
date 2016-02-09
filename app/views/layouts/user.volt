@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        {{ stylesheet_link('js/uploadify/uploadify.css') }}
-         {{ assets.outputCss() }}
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Phalcon PHP Framework</title>
-          {{ assets.outputJs() }}
+      {{ stylesheet_link('css/styles/public.css') }}
+      {{ stylesheet_link('css/styles/index.css') }}
+      {{ stylesheet_link('css/bootstrap/bootstrap.css') }}
+      {{ stylesheet_link('css/bootstrap/bootstrap.min.css') }}
+      {{ stylesheet_link('js/uploadify/uploadify.css') }}
+      {{javascript_include('js/jquery/jquery-2.1.4.min.js')}}
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>金色光</title>
     </head>
     <body>
-    <div align="center">
+    {% include "public/header.volt"%}
+
+<!--content render start -->
        {{ content() }}
-       </div>
+<!--content render end-->
+    {% include "public/footer.volt"%}
     </body>
 </html>

@@ -580,7 +580,7 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
     }
 
 
-    public function login($type=1,$mobile,$email,$password){
+    public function login($type=0,$mobile,$email,$password){
         if($type==1){
             return self::findFirst(array(
                 'mobile=:mobile: and password=:password:',
@@ -588,10 +588,19 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
                     'password'=>md5($password)
                     ),
             ));
-        }else{
+        }elseif($type==2){
             return self::findFirst(array(
                 'email=:email: and password=:password:',
                 'bind'=>array('email'=>$email,
+                    'password'=>md5($password)
+                ),
+            ));
+        }
+        else{
+            return self::findFirst(array(
+                'email=:email: or mobile=:mobile: and password=:password:',
+                'bind'=>array('email'=>$email,
+                    'mobile'=>$mobile,
                     'password'=>md5($password)
                 ),
             ));

@@ -3,29 +3,68 @@
 class UserController extends ControllerBase
 {
 
-    public function indexAction(){
+    private  $user_role=['Common','Person','Company'];
 
+    public function loginAction(){
+        if ($this->request->isPost()) {
+            $type=$this->request->getPost('type');
+
+            //Taking the variables sent by POST
+//            $mobile = $this->request->getPost('mobile');
+//            $email = $this->request->getPost('email');
+            $account_id=$this->request->getPost('account_id');
+            $password = $this->request->getPost('password');
+            $mobile=$account_id;
+            $email=$account_id;
+            $ubm = new DtbUserBasic();
+            $user = $ubm->login(0, $mobile, $email, $password);
+            if ($user) {
+                $this->_registerSession($user);
+                $this->_registerCookie($user);
+                //$this->cookies->set('role','Common',time()+86400,'/');
+                $this->flash->success('Welcome ' . $user->getNickname());
+                return $this->dispatcher->forward(array(
+                    'controller' => 'user',
+                    'action' => 'center'
+                ));
+            } else {
+                $this->flash->error('Wrong user/password');
+                return $this->dispatcher->forward(array(
+                    'controller' => 'user',
+                    'action' => 'login'
+                ));
+            }
+        }else{
+//            $_COOKIE['tt']=1;
+//            setcookie('tt','1',time()+86400);
+           // exit();
+        //default show
+        }
     }
 
     public function registerAction()
     {
-        $ubm=new DtbUserBasic();
-        $params=array(
-            'nickname'=>'zjy202',
-            'password'=>md5('159357123!@#'),
-            'mobile'=>'15618952231',
-            'email'=>'15618952231@hotmail.com',
-        );
-
-        echo 1;
-        $res=$ubm->register($user_id,$params);
-        var_dump($res);
-
-        exit();
+//        $ubm=new DtbUserBasic();
+//        $params=array(
+//            'nickname'=>'zjy202',
+//            'password'=>md5('159357123!@#'),
+//            'mobile'=>'15618952231',
+//            'email'=>'15618952231@hotmail.com',
+//        );
+//
+//        echo 1;
+//        $res=$ubm->register($user_id,$params);
+//        var_dump($res);
+//
+//        exit();
 
     }
 
-    public function loginAction(){
+    public function registerSubmitAction(){
+
+    }
+
+    public function loginSubmitAction(){
 
         if ($this->request->isPost()) {
             $type=$this->request->getPost('type');
@@ -46,10 +85,12 @@ class UserController extends ControllerBase
             } else {
                 $this->flash->error('Wrong user/password');
             }
-            return $this->dispatcher->forward(array(
-                'controller' => 'User',
-                'action' => 'index'
-            ));
+//            return $this->dispatcher->forward(array(
+//                'controller' => 'User',
+//                'action' => 'index'
+//            ));
+        }else{
+
         }
 
     }
@@ -62,18 +103,35 @@ class UserController extends ControllerBase
 
     private function _registerSession($user)
     {
-        $this->session->set('auth', array(
+        $auth_arr=$this->_combineAuth($user);
+        $this->session->set('auth',$auth_arr );
+    }
+
+    private function _combineAuth($user){
+        return $auth_arr=array(
             'user_id' => $user->user_id,
             'name' => $user->nickname,
-            'account_type' => $user->account_type
-        ));
+            'account_type' => $user->account_type,
+            'role'=>$this->user_role[$user->account_type],
+        );
+    }
+
+    private function _registerCookie($user){
+        //$auth_arr=$this->_combineAuth($user);
+        //return setcookie('auth',$auth_arr,time()+2*86400);
+        $this->_setCookie('auth',$user->user_id);
+        $this->_setCookie('user_id',$user->user_id);
+        $this->_setCookie('role',$user->role);
+        $this->_setCookie('account_type',$user->account_type);
+        $this->_setCookie('name',$user->name);
+        return true;
     }
 
 
 
     public function centerAction(){
           //用户中心；
-
+          echo "hello,to center";
     }
 
 
@@ -123,9 +181,28 @@ class UserController extends ControllerBase
     }
     private function _destroySession(){
         $this->session->destroy();
+
     }
 
+    private function _removeCookie($key){
+        $this->cookies->get($key)->delete();
+    }
 
+    private function _setCookie($key,$value){
+        $this->cookies->set($key,$value, time()+$this->config->application->cookie_remember_timeout);
+    }
+
+    private function _getCookie($key){
+        if($this->cookies->has($key)){
+            // 获取cookie
+            $rememberMe = $this->cookies->get($key);
+
+            // 获取cookie的值
+          return   $value = $rememberMe->getValue();
+        }
+        else
+            return false;
+    }
 
 
 

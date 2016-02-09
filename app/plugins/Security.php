@@ -28,12 +28,10 @@ class Security extends Plugin
 
             //Register roles
             $roles = array(
-                'Root' => new Phalcon\Acl\Role('Root'),
-                'Admin' => new Phalcon\Acl\Role('Admin'),
-                'Common' => new Phalcon\Acl\Role('Common'),
-                'Guests' => new Phalcon\Acl\Role('Guests'),
-                'Foreignset' => new Phalcon\Acl\Role('Foreignset'),
-                'Foreignget' => new Phalcon\Acl\Role('Foreignget'),
+                'Common' => new Phalcon\Acl\Role('Common'),//普通用户
+                'Person' => new Phalcon\Acl\Role('Person'),//个人用户
+                'Company' => new Phalcon\Acl\Role('Company'),//公司用户
+                'Guests' => new Phalcon\Acl\Role('Guests'),//游客
             );
             foreach ($roles as $role) {
                 $acl->addRole($role);
@@ -41,57 +39,21 @@ class Security extends Plugin
 
             //Private area resources
             $privateResources = array(
-                'user' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-                'logger' => array('index', 'search'),
-                'index' => array('index'),
-                'blacklist' => array('index', 'blmanage', 'ranksearch', 'loginsearch', 'hlogin'),
-                'player' => array('index', 'search'),
-                'item' => array('index', 'additems', 'adadditems','chgRoleMount','indexRoleMount'),
-                'topup' => array('index', 'search'),
-                'feepost' => array('getfee', 'setfee'),
-                'sendmail'=>array('index','send'),
-                'match'=>array('matchlist'),
-                'rank'=>array('ranklist','index'),
+                'user' => array('center','changeAvatar','changePassword'),
+
             );
             //Grant resources to role users
             $privateACL = array(
-                'Root' => array(
-                    'user' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-                    'logger' => array('index', 'search'),
-                    'index' => array('index'),
-                    'blacklist' => array('index', 'blmanage', 'ranksearch', 'loginsearch', 'hlogin'),
-                    'player' => array('index', 'search'),
-                    'item' => array('index', 'additems','chgRoleMount','indexRoleMount'),
-                    'topup' => array('index', 'search'),
-                    'feepost' => array('getfee', 'setfee'),
-                    'sendmail'=>array('index','send'),
-                    'match'=>array('matchlist'),
-                    'rank'=>array('ranklist','index'),
-                ),
-                'Admin' => array(
-                    'logger' => array('index', 'search'),
-                    'index' => array('index'),
-                    'blacklist' => array('index', 'blmanage', 'ranksearch', 'loginsearch'),
-                    'player' => array('index', 'search'),
-                    'item' => array('index', 'additems','chgRoleMount','indexRoleMount'),
-                    'topup' => array('index', 'search'),
-                    'sendmail'=>array('index','send'),
-                    'match'=>array('matchlist'),
-                    'rank'=>array('ranklist','index'),
-                ),
                 'Common' => array(
-                    'index' => array('index'),
-                    'player' => array('index', 'search'),
-                    'topup' => array('index', 'search'),
-                    'blacklist' => array('index', 'ranksearch', 'loginsearch'),
+                    'user' => array('center','changeAvatar','changePassword'),
+                ),
+                'Person' => array(
+                    'user' => array('center','changeAvatar','changePassword'),
+                ),
+                'Company' => array(
+                    'user' => array('center','changeAvatar','changePassword'),
+                ),
 
-                ),
-                'Foreignset' => array(
-                    'feepost' => array('getfee', 'setfee'),
-                ),
-                'Foreignget' => array(
-                    'feepost' => array('getfee'),
-                ),
             );
 
             foreach ($privateResources as $resource => $actions) {
@@ -99,7 +61,9 @@ class Security extends Plugin
             }
             //Public area resources
             $publicResources = array(
-                'session' => array('index', 'start', 'end', 'loginout'),
+                'user' => array('index', 'register', 'login'),
+                'index' => array('index'),
+//                'Index' => array('index'),
             );
             foreach ($publicResources as $resource => $actions) {
                 $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
@@ -129,14 +93,16 @@ class Security extends Plugin
      */
     public function beforeDispatch(Event $event, Dispatcher $dispatcher)
     {
-        $auth = $this->session->get('auth');
-
+       // $auth = $this->session->get('auth');
+        $auth=$this->_getCookie('auth');
         if (!$auth) {
             $role = 'Guests';
         } else {
-            $role = $auth['role'];
+            $role = $this->_getCookie('role');
+           // $role='Common';
         }
-       // die();
+
+
         $controller = $dispatcher->getControllerName();
         $action = $dispatcher->getActionName();
         $acl = $this->getAcl();
@@ -146,12 +112,23 @@ class Security extends Plugin
             $this->flash->error("You don't have access to this module");
             $dispatcher->forward(
                 array(
-                    'controller' => 'session',
-                    'action' => 'index'
+                    'controller' => 'user',
+                    'action' => 'login'
                 )
             );
             return false;
         }
     }
 
+    private function _getCookie($key){
+        if($this->cookies->has($key)){
+            // 获取cookie
+            $rememberMe = $this->cookies->get($key);
+
+            // 获取cookie的值
+            return   $value = $rememberMe->getValue();
+        }
+        else
+            return false;
+    }
 }

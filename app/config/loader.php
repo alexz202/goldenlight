@@ -8,7 +8,12 @@ $loader = new \Phalcon\Loader();
 $loader->registerDirs(
     array(
         $config->application->controllersDir,
-        $config->application->modelsDir
+        $config->application->modelsDir,
+        $config->application->viewsDir,
+        $config->application->libraryDir,
+        $config->application->pluginsDir,
+        $config->application->langDir,
+        $config->application->vendorDir,
     )
 
 

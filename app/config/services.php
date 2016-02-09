@@ -11,9 +11,13 @@ use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
+//use Phalcon\Http\Cookies;
+
 //use Phalcon\Queue\Beanstalk\Extended as BeanstalkExtended;
 use Phalcon\Cache\Backend\RedisEx as RedisExtend;
 use Phalcon\Assets\Manager as AssetsManager;
+
+//use Phalcon\Crypt;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
@@ -87,26 +91,48 @@ $di->setShared('session', function () {
     return $session;
 });
 
+$di->set('cookies', function() {
+    $cookies = new Phalcon\Http\Response\Cookies();
+    $cookies->useEncryption(false);
+    return $cookies;
+});
 
+$di->set('crypt', function() {
+    $crypt = new Phalcon\Crypt();
+    $crypt->setKey('#_+//*(*&eA|;76$');
+    return $crypt;
+});
+
+
+
+
+$di->set('dispatcher', function () use ($di) {
+
+    //Obtain the standard eventsManager from the DI
+    $eventsManager = $di->getShared('eventsManager');
+
+    //Instantiate the Security plugin
+    $security = new Security($di);
+
+    //Listen for events produced in the dispatcher using the Security plugin
+    $eventsManager->attach('dispatch', $security);
+
+    $dispatcher = new Phalcon\Mvc\Dispatcher();
+
+    //Bind the EventsManager to the Dispatcher
+    $dispatcher->setEventsManager($eventsManager);
+
+    return $dispatcher;
+
+});
+
+
+//$di->set('crypt', function () {
+//    $crypt = new Crypt();
 //
-//$di->set('dispatcher', function () use ($di) {
+//    $crypt->setKey('!@#gold-light!@#'); // 使用你自己的key！
 //
-//    //Obtain the standard eventsManager from the DI
-//    $eventsManager = $di->getShared('eventsManager');
-//
-//    //Instantiate the Security plugin
-//    $security = new Security($di);
-//
-//    //Listen for events produced in the dispatcher using the Security plugin
-//    $eventsManager->attach('dispatch', $security);
-//
-//    $dispatcher = new Phalcon\Mvc\Dispatcher();
-//
-//    //Bind the EventsManager to the Dispatcher
-//    $dispatcher->setEventsManager($eventsManager);
-//
-//    return $dispatcher;
-//
+//    return $crypt;
 //});
 
 
@@ -163,8 +189,8 @@ $di->set('redis',function() use($config){
 });
 
 
-$di->set('log_config',function() use($config){
-    return $config->log;
+$di->set('config',function() use($config){
+    return $config;
 });
 
 
