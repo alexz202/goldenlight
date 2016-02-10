@@ -2,24 +2,25 @@
 
 error_reporting(E_ALL);
 
-define('APP_PATH', realpath('..'));
+define('APP_PATH', realpath('.'));
+
 
 try {
 
     /**
      * Read the configuration
      */
-    $config = new \Phalcon\Config\Adapter\Ini(APP_PATH . "/app/config/config.ini");
+    $config = new \Phalcon\Config\Adapter\Ini(APP_PATH . "/../app/config/config.ini");
 
     /**
      * Read auto-loader
      */
-    include APP_PATH . "/app/config/loader.php";
+    include APP_PATH . "/../app/config/loader.php";
 
     /**
      * Read services
      */
-    include APP_PATH . "/app/config/services.php";
+    include APP_PATH . "/../app/config/services.php";
 
     /**
      * Handle the request

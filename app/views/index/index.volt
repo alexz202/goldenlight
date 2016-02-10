@@ -1,4 +1,3 @@
-{{ss}}
 <div class="width100P vis"></div>
 <div class="blank"></div>
 <div class="width_site blank part01">

@@ -3,7 +3,7 @@
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
-class DtbProductController extends ControllerBase
+class UserProductController extends ControllerBase
 {
 
     /**
@@ -39,7 +39,7 @@ class DtbProductController extends ControllerBase
             $this->flash->notice("The search did not find any dtb_product");
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "index"
             ));
         }
@@ -76,7 +76,7 @@ class DtbProductController extends ControllerBase
                 $this->flash->error("dtb_product was not found");
 
                 return $this->dispatcher->forward(array(
-                    "controller" => "dtb_product",
+                    "controller" => "user_product",
                     "action" => "index"
                 ));
             }
@@ -102,7 +102,7 @@ class DtbProductController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "index"
             ));
         }
@@ -123,7 +123,7 @@ class DtbProductController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "new"
             ));
         }
@@ -131,7 +131,7 @@ class DtbProductController extends ControllerBase
         $this->flash->success("dtb_product was created successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_product",
+            "controller" => "user_product",
             "action" => "index"
         ));
 
@@ -146,7 +146,7 @@ class DtbProductController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "index"
             ));
         }
@@ -158,7 +158,7 @@ class DtbProductController extends ControllerBase
             $this->flash->error("dtb_product does not exist " . $product_id);
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "index"
             ));
         }
@@ -178,7 +178,7 @@ class DtbProductController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "edit",
                 "params" => array($dtb_product->product_id)
             ));
@@ -187,7 +187,7 @@ class DtbProductController extends ControllerBase
         $this->flash->success("dtb_product was updated successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_product",
+            "controller" => "user_product",
             "action" => "index"
         ));
 
@@ -206,7 +206,7 @@ class DtbProductController extends ControllerBase
             $this->flash->error("dtb_product was not found");
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_product",
+                "controller" => "user_product",
                 "action" => "index"
             ));
         }
@@ -226,7 +226,7 @@ class DtbProductController extends ControllerBase
         $this->flash->success("dtb_product was deleted successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_product",
+            "controller" => "user_product",
             "action" => "index"
         ));
     }

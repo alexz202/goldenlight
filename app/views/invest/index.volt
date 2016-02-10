@@ -1,0 +1,49 @@
+<div class="width100P vis"></div>
+<div class="width100P bg">
+	<div class="width_site">
+		<div class="touzi_title"><a href="/index">首页</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;项目列表</div>
+		<div class="touzi_list">
+			<ul>
+				<li>
+					<div class="touzi_list_fl">发展状态</div>
+					<div class="touzi_list_fr"><span>全部</span><a href="touzi_cent.html">种子期</a><a href="touzi_cent.html">成长期</a><a href="touzi_cent.html">再融资</a></div>
+				</li>
+				<li>
+					<div class="touzi_list_fl">投资行业</div>
+					<div class="touzi_list_fr"><span>全部</span><a href="touzi_cent.html">农业</a><a href="touzi_cent.html">林业</a><a href="touzi_cent.html">牧业</a></div>
+				</li>
+				<li>
+					<div class="touzi_list_fl">所在地区</div>
+					<div class="touzi_list_fr"><span>全部</span><a href="touzi_cent.html">上海</a><a href="touzi_cent.html">安徽</a><a href="touzi_cent.html">江苏</a></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="width_site touzi_main">
+		<ul>
+			<li><div style=" position:absolute"><div class="img_logo_touzi"><img src="/images/img_logo.jpg" /></div></div>
+				<img src="/images/img.jpg" />
+				<h3><a href="touzi_cent.html">彤光科技</a></h3>
+				<h4><a href="touzi_cent.html">东莞市彤光科技有限公司是一家高新术企业，多年来研发团队致力于液晶</a>……</h4>
+				<div class="touzi_main_canshuo">
+					<span class="line_right">融资额<br /><font>300万元</font></span>
+					<span class="line_right">出让股份 <br /><font>18.00%</font></span>
+					<span class="line_right">起投额<br /><font>5万元</font></span>
+					<span>剩余时间<br /><font>20天</font></span>
+				</div>
+				<div class="jindutiao01"></div>
+				<div class="ren">创始人<img alt="王先生" src="/images/ren.jpg" />  领投人<img alt="王先生" src="/images/ren.jpg" /><img alt="王先生" src="images/ren.jpg" /></div>
+			</li>
+
+
+
+
+		</ul>
+	</div>
+		<div class="width_site">
+			<div class="main_page">
+			<a style="border-top-left-radius:3px;border-bottom-left-radius:3px; background-color:#7fbb30; color:#FFF" href="#">1</a><a href="#">2</a><a href="#">3</a><a style="border-right:#CCC solid 1px;border-top-right-radius:3px;border-bottom-right-radius:3px;" href="#">&gt;</a>
+			</div>
+		</div>
+</div>

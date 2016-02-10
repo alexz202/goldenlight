@@ -20,7 +20,7 @@ class ControllerBase extends Controller
             if (!$auth) {
                 $this->view->setVar('isLogin',0);
             } else {
-                $nickname = $this->_getCookie('name');
+                $nickname = $this->_getCookie('nickname');
                 $account_type = $this->_getCookie('account_type');
                 $user_id= $this->_getCookie('user_id');
                 $this->view->setVar('isLogin',1);

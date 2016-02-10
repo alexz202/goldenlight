@@ -13,6 +13,7 @@ class UserController extends ControllerBase
     public function loginAction()
     {
             if ($this->_isLogin()) {
+                return  $this->response->redirect('/user/center');
                 return $this->dispatcher->forward(array(
                     'controller' => 'user',
                     'action' => 'center'
@@ -21,7 +22,9 @@ class UserController extends ControllerBase
     }
     public function loginSubmitAction(){
         if ($this->request->isPost()) {
-            $type = $this->request->getPost('type');
+           // $type = $this->request->getPost('type');
+
+
 
             //Taking the variables sent by POST
 //            $mobile = $this->request->getPost('mobile');
@@ -37,6 +40,7 @@ class UserController extends ControllerBase
                 $this->_registerCookie($user);
                 //$this->cookies->set('role','Common',time()+86400,'/');
                 $this->flash->success('Welcome ' . $user->getNickname());
+               return  $this->response->redirect('/user/center');
                 return $this->dispatcher->forward(array(
                     'controller' => 'user',
                     'action' => 'center'
@@ -48,6 +52,8 @@ class UserController extends ControllerBase
                     'action' => 'login'
                 ));
             }
+        }else{
+            die('xxx');
         }
     }
 
@@ -57,7 +63,8 @@ class UserController extends ControllerBase
     {
         $this->_removeSession('auth');
         $this->_removeCookie();
-        return $this->dispatcher->forward(array("controller" => 'User', "action" => "login"));
+        return  $this->response->redirect('/user/login');
+        //return $this->dispatcher->forward(array("controller" => 'User', "action" => "login"));
     }
 
 
@@ -251,6 +258,7 @@ class UserController extends ControllerBase
                 $res=$uipm->applyPerson($user_id,$params);
                 if($res){
                     $this->flash->success('认证成功');
+                    return  $this->response->redirect('/user/center');
                     return $this->dispatcher->forward(array(
                         'controller' => 'user',
                         'action' => 'center'
@@ -365,6 +373,7 @@ class UserController extends ControllerBase
                 $res = $uiom->applyCompany($user_id, $params);
                 if ($res) {
                     $this->flash->success('认证成功');
+                    return  $this->response->redirect('/user/center');
                     return $this->dispatcher->forward(array(
                         'controller' => 'user',
                         'action' => 'center'
@@ -454,7 +463,7 @@ class UserController extends ControllerBase
         $this->cookies->get('user_id')->delete();
         $this->cookies->get('role')->delete();
         $this->cookies->get('account_type')->delete();
-        $this->cookies->get('name')->delete();
+        $this->cookies->get('nickname')->delete();
     }
 
     //检测创建账号和绑定账号时的共有参数
@@ -546,7 +555,7 @@ class UserController extends ControllerBase
         $this->_setCookie('user_id', $user->user_id);
         $this->_setCookie('role', $this->user_role[$user->account_type]);
         $this->_setCookie('account_type', $user->account_type);
-        $this->_setCookie('name', $user->name);
+        $this->_setCookie('nickname', $user->nickname);
         return true;
     }
 

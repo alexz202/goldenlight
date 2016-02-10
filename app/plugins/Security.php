@@ -64,6 +64,13 @@ class Security extends Plugin
                 'user' => array('index', 'register', 'login','loginSubmit','registerSubmit','loginout','applyInvest','applyPerson','applyPersonSubmit','applyCompany','applyCompanySubmit','applyTest'),
                 'index' => array('index'),
                 'file'=>array('upload'),
+                'invest'=>array('index','pjCenter'),
+                'Invest'=>array('index','pjCenter'),
+                'raiseFunds'=>array('index'),
+                'RaiseFunds'=>array('index'),
+                'raiseProduct'=>array('index','pdShow'),
+                'UserRaiseBasic'=>array('index','search','new','edit','create','save','delete'),
+                'UserRaiseBasic'=>array('index','search','new','edit','create','save','delete'),
 //                'Index' => array('index'),
             );
             foreach ($publicResources as $resource => $actions) {
