@@ -49,3 +49,9 @@ a:hover{color:#F60; }
 
 .but_test_1{border:#F60 solid 2px; padding:5px 15px 5px 15px;border-radius:3px;cursor:pointer;}
 .but_test_2{border:#CCC solid 2px; padding:5px 15px 5px 15px;border-radius:3px;cursor:pointer;}
+.current_page_tag{border-top-left-radius:3px;border-bottom-left-radius:3px; background-color:#7fbb30; color:#FFF
+;}
+.page_tag{
+    border-right:#CCC solid 1px;border-top-right-radius:3px;border-bottom-right-radius:3px;
+}
+

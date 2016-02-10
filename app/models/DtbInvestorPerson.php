@@ -4,9 +4,6 @@
 class DtbInvestorPerson extends \Phalcon\Mvc\Model
 {
 
-
-
-
     public function initialize(){
         $this->hasOne('user_id','DtbUserBasic','user_id');
     }

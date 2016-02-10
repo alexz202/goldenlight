@@ -2,7 +2,9 @@
 
 class DtbInvestLeaderCases extends \Phalcon\Mvc\Model
 {
-
+    public function initialize(){
+        $this->belongsTo('user_id','DtbUserBasic','user_id');
+    }
     /**
      *
      * @var string

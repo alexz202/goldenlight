@@ -10,7 +10,8 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
 
 
     public function initialize(){
-        $this->hasOne('invite_code','DtbInviteCode','invite_code');
+        //$this->hasOne('invite_code','DtbInviteCode','invite_code');
+        $this->hasMany('user_id','DtbRaiseProjectBasic','user_id');
     }
 
     /**

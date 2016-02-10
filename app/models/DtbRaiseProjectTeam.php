@@ -3,7 +3,7 @@
 class DtbRaiseProjectTeam extends \Phalcon\Mvc\Model
 {
     public function initialize(){
-        $this->hasMany('raise_id','DtbRaiseProjectBasic','raise_id');
+        $this->belongsTo('raise_id','DtbRaiseProjectBasic','raise_id');
     }
 
     /**

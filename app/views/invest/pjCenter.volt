@@ -1,13 +1,13 @@
 <div class="width100P vis"></div>
 <div class="width100P bg">
 	<div class="width_site">
-		<div class="touzi_title"><a href="index.html">首页</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="touzi.html">项目列表</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;彤光科技</div>
+		<div class="touzi_title"><a href="index.html">首页</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="touzi.html">项目列表</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;{{dtb_raise_project_basic.project_name}}</div>
 	  <div class="touzi_part01">
 	  	<div class="touzi_p01_img"><img src="/images/img.jpg" /></div>
 		<div class="touzi_p01_cent">
-			<h3><span class="fl">彤光科技</span><span style="font-size:12px" class="fr"><img src="/images/ic07.png" width="9" height="12" />&nbsp;上海&nbsp;&nbsp;&nbsp;<img src="/images/ic08.png" width="12" height="12" />&nbsp;其它类目</span></h3>
-			彤光科技有限公司是一家高新术企业、多年来研发团队致力于液晶……【<a href="#">查看更多</a>】		<br />
-			<span class="font_f60">计划筹资：150万&nbsp;&nbsp;股份：15.00%&nbsp;&nbsp;实际筹资和股份：161万&nbsp;&nbsp;公司估值：850万</span><br />
+			<h3><span class="fl">{{dtb_raise_project_basic.project_name}}</span><span style="font-size:12px" class="fr"><img src="/images/ic07.png" width="9" height="12" />&nbsp;上海&nbsp;&nbsp;&nbsp;<img src="/images/ic08.png" width="12" height="12" />&nbsp;其它类目</span></h3>
+			{{dtb_raise_project_basic.project_desc}}……【<a href="#">查看更多</a>】		<br />
+			<span class="font_f60">计划筹资：{{dtb_raise_project_basic.aim_money}}万&nbsp;&nbsp;股份：{{dtb_raise_project_basic.aim_equity_offered}}%&nbsp;&nbsp;实际筹资和股份：{{dtb_raise_project_basic.already_money}}万&nbsp;&nbsp;公司估值：{{dtb_raise_project_basic.valuation}}万</span><br />
 				创使人<img src="/images/ren.jpg" />&nbsp;&nbsp;领投人&nbsp;&nbsp;虚位以待
 			</div>
 			<div class="touzi_p01_bnt"><a href="#">我要投资</a></div>

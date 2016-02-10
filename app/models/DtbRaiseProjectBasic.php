@@ -3,6 +3,10 @@
 class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
 {
 
+    public function initialize(){
+        $this->belongsTo('user_id','DtbUserBasic','user_id');
+    }
+
     /**
      *
      * @var integer
@@ -56,6 +60,8 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
      * @var double
      */
     protected $already_equity_offered;
+
+    protected $project_type;
 
     /**
      *
@@ -256,6 +262,14 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     public function setProjectGrowUp($project_grow_up)
     {
         $this->project_grow_up = $project_grow_up;
+
+        return $this;
+    }
+
+
+    public function setProjectType($project_type)
+    {
+        $this->project_type = $project_type;
 
         return $this;
     }
@@ -629,6 +643,12 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     public function getUserId()
     {
         return $this->user_id;
+    }
+
+
+    public function getProjectType()
+    {
+        return $this->project_type;
     }
 
     /**

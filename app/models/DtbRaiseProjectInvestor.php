@@ -2,7 +2,9 @@
 
 class DtbRaiseProjectInvestor extends \Phalcon\Mvc\Model
 {
-
+    public function initialize(){
+        $this->belongsTo('raise_id','DtbRaiseProjectBasic','raise_id');
+    }
     /**
      *
      * @var integer

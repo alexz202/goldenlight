@@ -2,7 +2,9 @@
 
 class DtbRaiseProjectUpdates extends \Phalcon\Mvc\Model
 {
-
+    public function initialize(){
+        $this->belongsTo('tmmember_id','DtbRaiseProjectTeam','tmmember_id');
+    }
     /**
      *
      * @var string

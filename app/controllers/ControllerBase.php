@@ -80,4 +80,34 @@ class ControllerBase extends Controller
             return false;
     }
 
+    function _getBusTypeList(){
+        $type_info= DtbBustype::find();
+        $type_list=array();
+        foreach ( $type_info as $v) {
+            if($v->pid==0){
+                $type_list[$v->type_id]['name']=$v->name;
+            }else{
+                $type_list[$v->pid]['children'][]=array('type_id'=>$v->type_id,'name'=>$v->name);
+            }
+        }
+        return $type_list;
+    }
+
+    function _split_page($current,$total,$split=5){
+        $data=array('start'=>0,'end'=>0,'now_split'=>0,'total_split'=>0);
+        if($total<1)
+            return $data;
+        $total_split=ceil($total/$split);
+        $now_split=ceil($current/$split);
+        $start=intval(($now_split-1)*$split+1);
+        if($now_split==$total_split){
+            $end=$total;
+        }else{
+            $end=$now_split*$split;
+        }
+
+        $data=array('start'=>$start,'end'=>$end,'now_split'=>$now_split,'total_split'=>$total_split);
+        return $data;
+    }
+
 }
