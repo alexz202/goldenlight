@@ -39,19 +39,19 @@ class Security extends Plugin
 
             //Private area resources
             $privateResources = array(
-                'user' => array('center','changeAvatar','changePassword','loginout'),
+                'user' => array('center','changeAvatar','changePassword','applyInvest','applyPerson','applyCompany','applyTest'),
 
             );
             //Grant resources to role users
             $privateACL = array(
                 'Common' => array(
-                    'user' => array('center','changeAvatar','changePassword','loginout'),
+                    'user' => array('center','changeAvatar','changePassword','applyInvest','applyPerson','applyCompany','applyTest'),
                 ),
                 'Person' => array(
-                    'user' => array('center','changeAvatar','changePassword','loginout'),
+                    'user' => array('center','changeAvatar','changePassword'),
                 ),
                 'Company' => array(
-                    'user' => array('center','changeAvatar','changePassword','loginout'),
+                    'user' => array('center','changeAvatar','changePassword'),
                 ),
 
             );
@@ -61,8 +61,9 @@ class Security extends Plugin
             }
             //Public area resources
             $publicResources = array(
-                'user' => array('index', 'register', 'login'),
+                'user' => array('index', 'register', 'login','loginSubmit','registerSubmit','loginout','applyInvest','applyPerson','applyPersonSubmit','applyCompany','applyCompanySubmit','applyTest'),
                 'index' => array('index'),
+                'file'=>array('upload'),
 //                'Index' => array('index'),
             );
             foreach ($publicResources as $resource => $actions) {

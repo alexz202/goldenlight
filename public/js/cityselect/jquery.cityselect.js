@@ -18,7 +18,7 @@ required:必选项
 
 		// 默认值
 		settings=$.extend({
-			url:"js/city.min.js",
+			url:"/js/cityselect/city.min.js",
 			prov:null,
 			city:null,
 			dist:null,
@@ -133,6 +133,7 @@ required:必选项
 		// 设置省市json数据
 		if(typeof(settings.url)=="string"){
 			$.getJSON(settings.url,function(json){
+				console.log(json);
 				city_json=json;
 				init();
 			});

@@ -116,6 +116,8 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
      */
     protected $sate;
 
+    protected $reg_form;
+
     /**
      * Method to set the value of field user_id
      *
@@ -580,6 +582,29 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
     }
 
 
+    public function getDataByNickname($nickname){
+        return self::findFirst(array(
+            'nickname=:nickname:',
+            'bind'=>array('nickname'=>$nickname),
+        ));
+    }
+
+    public function getDataByMobile($mobile){
+        return self::findFirst(array(
+            'mobile=:mobile:',
+            'bind'=>array('mobile'=>$mobile),
+        ));
+    }
+
+    public function getDataByEmail($email){
+        return self::findFirst(array(
+            'email=:email:',
+            'bind'=>array('email'=>$email),
+        ));
+    }
+
+
+
     public function login($type=0,$mobile,$email,$password){
         if($type==1){
             return self::findFirst(array(
@@ -609,20 +634,22 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
 
 
 
-    public function register(&$user_id,$params){
+    public function register(&$user_id,$params,$type=1){
         $flag=false;
-        try{
+        try {
             $this->di['db']->begin();
-            $ubm=new DtbUserBasic();
-            $invite_code=$this->getOneinvitecode();
-            $ubm->account_type=0;
-            $ubm->mobile=$params['mobile'];
-            $ubm->nickname=$params['nickname'];
-            $ubm->email=$params['email'];
+            $ubm = new DtbUserBasic();
+            $invite_code = $this->getOneinvitecode();
+            $ubm->account_type = 0;
+
+            $ubm->nickname = $params['nickname'];
+            $ubm->mobile = $params['mobile'];
+            $ubm->email = $params['email'];
             $ubm->password=$params['password'];
             $ubm->avatar_url="default_avatar.png";
             $ubm->create_ts=time();
             $ubm->invite_code=$invite_code;
+            $ubm->reg_form=$params['reg_form'];
 
             $sql="update DtbInviteCode set is_use=1 where invite_code=$invite_code and is_use=0";
             $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
@@ -640,7 +667,7 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
                 return $flag;
             }
             else{
-                $action_type=$this->di['log_config']->log_user->register;
+                $action_type=$this->di['config']->log_user->register;
                 $log_ts=time();
                 $sql="insert into DtbLogUser (user_id,action_type,log_ts) values('{$ubm->user_id}','{$action_type}','{$log_ts}' )";
                 $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
@@ -779,17 +806,22 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
         return rand(100000,999999);
     }
 
-    private function checkMobile($mobile){
+     function checkMobile($mobile){
         $mobile_preg = '/(^13\d|^14[57]|^15[012356789]|^18[012356789]|^17[0236789])\d{8}/';
         //$mobile_preg = '/^1[3,8]{1}[\d]{9}$|^14[5,7]{1}\d{8}$|^15[012356789]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$/';
         //$mobile_preg =  "/^(1(([357][0-9])|(47)|[8][012356789]))\d{8}$/";
         return preg_match($mobile_preg, $mobile);
     }
 
-    private function checkNickName($nickname){
+     function checkNickName($nickname){
         //$ruler='/^[\p{Han}\w]{4,15}$/u';
         $ruler='/^[\x{4e00}-\x{9fa5}\w]{2,15}+$/u';
         return preg_match($ruler, $nickname);
+    }
+
+    function  checkEmail($email){
+        $ruler='/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i';
+        return preg_match($ruler, $email);
     }
 
 }

@@ -2,12 +2,11 @@
   <div class="dl">
   	<div class="dl_title">
 		<h1>登陆金色光账号</h1>
-{{ss}}
 	</div>
 	<div class="dl_cent">
 		<div class="dl_cent_left">
 			<div class="dl_nav"><span class="dl_nav_f60">&nbsp;登&nbsp;陆</span></div>
-			<form action="/user/login" method="post" id='login_form'>
+			<form action="/user/loginSubmit" method="post" id='login_form'>
 			  <table width="100%" border="0" cellspacing="0" cellpadding="5">
                   <tr>
                     <td width="17%" align="right">您的账号</td>

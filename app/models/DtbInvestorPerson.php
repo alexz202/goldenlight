@@ -58,7 +58,12 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $city_town;
+    protected $city;
+    /**
+     *
+     * @var string
+     */
+    protected $dist;
 
     /**
      *
@@ -238,12 +243,26 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field city_town
      *
-     * @param string $city_town
+     * @param string $city
      * @return $this
      */
-    public function setCityTown($city_town)
+    public function setCity($city)
     {
-        $this->city_town = $city_town;
+        $this->city = $city;
+
+        return $this;
+    }
+
+
+    /**
+     * Method to set the value of field city_town
+     *
+     * @param string $city
+     * @return $this
+     */
+    public function setDist($dist)
+    {
+        $this->dist = $dist;
 
         return $this;
     }
@@ -501,13 +520,25 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field city_town
+     * Returns the value of field city
      *
      * @return string
      */
-    public function getCityTown()
+    public function getCity()
     {
-        return $this->city_town;
+        return $this->city;
+    }
+
+
+
+    /**
+     * Returns the value of field city
+     *
+     * @return string
+     */
+    public function getDist()
+    {
+        return $this->dist;
     }
 
     /**
@@ -695,7 +726,8 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
             $invest_person->idc_img1=isset($params['idc_img1'])?$params['idc_img1']:null;
             $invest_person->idc_img2=isset($params['idc_img2'])?$params['idc_img2']:null;
             $invest_person->province=$params['province'];
-            $invest_person->city_town=$params['city_town'];
+            $invest_person->city=$params['city'];
+            $invest_person->dist=$params['dist'];
             $invest_person->income_y=isset($params['income_y'])?$params['income_y']:0;
             $invest_person->company=$params['company'];
             $invest_person->position=$params['position'];
@@ -708,6 +740,9 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
             $invest_person->available_extra_price=$params['available_extra_price'];
             $invest_person->create_ts=time();
             $invest_person->update_ts=time();
+            $invest_person->country=$params['country'];
+            $invest_person->result=0;
+
 
             if(!$invest_person->create()){
                 foreach($invest_person->getMessages() as $message){
@@ -716,12 +751,20 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
                 $this->di['db']->rollback();
                 return $flag;
             }else{
-                $action_type=$this->di['log_config']->log_user->applyperson;
+                $action_type=$this->di['config']->log_user->applyperson;
                 $log_ts=time();
                 $sql="insert into DtbLogUser (user_id,action_type,log_ts) values('{$user_id}','{$action_type}','{$log_ts}' )";
                 $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
                 $res1=$query->execute();
+
+                $sql="update  DtbUserBasic set account_type=2 where user_id={$user_id} and account_type=0";
+                $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
+                $res2=$query->execute();
+
                 if(!$res1){
+                    $this->di['db']->rollback();
+                }
+                else if(!$res2){
                     $this->di['db']->rollback();
                 }else{
                     $flag=true;
@@ -734,6 +777,13 @@ class DtbInvestorPerson extends \Phalcon\Mvc\Model
             $this->di['db']->rollback();
             return $flag;
         }
+    }
+
+    public function getDataByUserId($user_id){
+        return self::findFirst(array(
+            'user_id=:user_id:',
+            'bind'=>array('user_id'=>$user_id),
+        ));
     }
 
 }

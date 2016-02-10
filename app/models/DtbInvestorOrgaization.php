@@ -7,7 +7,7 @@ class DtbInvestorOrgaization extends \Phalcon\Mvc\Model
 
     public function initialize(){
         $this->hasOne('user_id','DtbUserBasic','user_id');
-        $this->hasOne('user_id','DtbInvestLeaderCases','user_id');
+        //$this->hasOne('user_id','DtbInvestLeaderCases','user_id');
     }
 
     /**
@@ -62,8 +62,13 @@ class DtbInvestorOrgaization extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $city_town;
+    protected $city;
 
+    /**
+     *
+     * @var string
+     */
+    protected $dist;
     /**
      *
      * @var string
@@ -247,14 +252,21 @@ class DtbInvestorOrgaization extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field city_town
+     * Method to set the value of field city
      *
      * @param string $city_town
      * @return $this
      */
-    public function setCityTown($city_town)
+    public function setCity($city)
     {
-        $this->city_town = $city_town;
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function setDist($dist)
+    {
+        $this->city = $dist;
 
         return $this;
     }
@@ -513,9 +525,13 @@ class DtbInvestorOrgaization extends \Phalcon\Mvc\Model
      *
      * @return string
      */
-    public function getCityTown()
+    public function getCity()
     {
-        return $this->city_town;
+        return $this->city;
+    }
+    public function getDist()
+    {
+        return $this->dist;
     }
 
     /**
@@ -678,6 +694,82 @@ class DtbInvestorOrgaization extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+
+    public function applyCompany($user_id,$params){
+        $flag=false;
+        try{
+            $this->di['db']->begin();
+            $invest_company=new DtbInvestorOrgaization();
+            $invest_company->user_id=$user_id;
+            $invest_company->address=$params['address'];
+            $invest_company->legal_name=$params['legal_name'];
+            $invest_company->legal_identity_card=isset($params['legal_identity_card'])?$params['legal_identity_card']:null;
+            $invest_company->legal_idc_img1=isset($params['legal_idc_img1'])?$params['legal_idc_img1']:null;
+            $invest_company->legal_idc_img2=isset($params['legal_idc_img2'])?$params['legal_idc_img2']:null;
+            $invest_company->contact_name=$params['contact_name'];
+            $invest_company->province=$params['province'];
+            $invest_company->city=$params['city'];
+            $invest_company->dist=$params['dist'];
+            $invest_company->business_licence=$params['business_licence'];
+            $invest_company->bul_img=isset($params['bul_img'])?$params['bul_img']:null;
+            $invest_company->company=$params['company'];
+            $invest_company->gold_fund=isset($params['gold_fund'])?$params['gold_fund']:0;
+            $invest_company->singel_invest_range=isset($params['singel_invest_range'])?$params['singel_invest_range']:0;
+            $invest_company->attention_direct=$params['attention_direct'];
+
+            $invest_company->invest_idea=$params['invest_idea'];
+            $invest_company->available_extra_price=$params['available_extra_price'];
+            $invest_company->create_ts=time();
+            $invest_company->update_ts=time();
+            $invest_company->country=$params['country'];
+            $invest_company->result=0;
+
+
+            if(!$invest_company->create()){
+                foreach($invest_company->getMessages() as $message){
+                    echo $message;
+                }
+                $this->di['db']->rollback();
+                return $flag;
+            }else{
+                $action_type=$this->di['config']->log_user->applyoriaization;
+                $log_ts=time();
+                $sql="insert into DtbLogUser (user_id,action_type,log_ts) values('{$user_id}','{$action_type}','{$log_ts}' )";
+                $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
+                $res1=$query->execute();
+
+                $sql2="update  DtbUserBasic set account_type=2 where user_id='{$user_id}' and account_type=0";
+                $query=new Phalcon\Mvc\Model\Query($sql2,$this->getDI());
+                $res2=$query->execute();
+//                var_dump($res2);
+
+                if(!$res1){
+                    $this->di['db']->rollback();
+                }
+                else if(!$res2){
+                    $this->di['db']->rollback();
+                }
+
+                else{
+                    $flag=true;
+                    $this->di['db']->commit();
+                }
+                return $flag;
+            }
+
+        }catch (Exception $ex){
+            $this->di['db']->rollback();
+            return $flag;
+        }
+    }
+
+    public function getDataByUserId($user_id){
+        return self::findFirst(array(
+            'user_id=:user_id:',
+            'bind'=>array('user_id'=>$user_id),
+        ));
     }
 
 }
