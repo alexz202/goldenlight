@@ -5,6 +5,13 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
 
     public function initialize(){
         $this->belongsTo('user_id','DtbUserBasic','user_id');
+        $this->hasOne('raise_id','DtbRaiseProjectIdea','raise_id');
+        $this->hasOne('raise_id','DtbRaiseProjectMarket','raise_id');
+        $this->hasOne('raise_id','DtbRaiseProjectAround','raise_id');
+        $this->hasMany('raise_id','DtbRaiseProjectInvestor','raise_id');
+        $this->hasMany('raise_id','DtbRaiseProjectTeam','raise_id');
+        $this->hasMany('raise_id','DtbRaiseProjectQa','raise_id');
+        $this->hasMany('raise_id','DtbRaiseProjectUpdates','raise_id');
     }
 
     /**

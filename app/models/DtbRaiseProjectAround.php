@@ -1,6 +1,6 @@
 <?php
 
-class DtbRaiseProjectMarket extends \Phalcon\Mvc\Model
+class DtbRaiseProjectAround extends \Phalcon\Mvc\Model
 {
     public function initialize(){
         $this->hasOne('raise_id','DtbRaiseProjectBasic','raise_id');
@@ -16,25 +16,25 @@ class DtbRaiseProjectMarket extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $aim_market;
+    protected $bj_person;
 
     /**
      *
      * @var string
      */
-    protected $aim_market_feaure;
+    protected $invest_leader;
 
     /**
      *
      * @var string
      */
-    protected $competitive_strategy;
+    protected $monitor_system;
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    protected $update_ts;
+    protected $friend_link;
 
     /**
      * Method to set the value of field raise_id
@@ -50,53 +50,53 @@ class DtbRaiseProjectMarket extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field aim_market
+     * Method to set the value of field bj_person
      *
-     * @param string $aim_market
+     * @param string $bj_person
      * @return $this
      */
-    public function setAimMarket($aim_market)
+    public function setBjPerson($bj_person)
     {
-        $this->aim_market = $aim_market;
+        $this->bj_person = $bj_person;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field aim_market_feaure
+     * Method to set the value of field invest_leader
      *
-     * @param string $aim_market_feaure
+     * @param string $invest_leader
      * @return $this
      */
-    public function setAimMarketFeaure($aim_market_feaure)
+    public function setInvestLeader($invest_leader)
     {
-        $this->aim_market_feaure = $aim_market_feaure;
+        $this->invest_leader = $invest_leader;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field competitive_strategy
+     * Method to set the value of field monitor_system
      *
-     * @param string $competitive_strategy
+     * @param string $monitor_system
      * @return $this
      */
-    public function setCompetitiveStrategy($competitive_strategy)
+    public function setMonitorSystem($monitor_system)
     {
-        $this->competitive_strategy = $competitive_strategy;
+        $this->monitor_system = $monitor_system;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field update_ts
+     * Method to set the value of field friend_link
      *
-     * @param integer $update_ts
+     * @param string $friend_link
      * @return $this
      */
-    public function setUpdateTs($update_ts)
+    public function setFriendLink($friend_link)
     {
-        $this->update_ts = $update_ts;
+        $this->friend_link = $friend_link;
 
         return $this;
     }
@@ -112,43 +112,43 @@ class DtbRaiseProjectMarket extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field aim_market
+     * Returns the value of field bj_person
      *
      * @return string
      */
-    public function getAimMarket()
+    public function getBjPerson()
     {
-        return $this->aim_market;
+        return $this->bj_person;
     }
 
     /**
-     * Returns the value of field aim_market_feaure
+     * Returns the value of field invest_leader
      *
      * @return string
      */
-    public function getAimMarketFeaure()
+    public function getInvestLeader()
     {
-        return $this->aim_market_feaure;
+        return $this->invest_leader;
     }
 
     /**
-     * Returns the value of field competitive_strategy
+     * Returns the value of field monitor_system
      *
      * @return string
      */
-    public function getCompetitiveStrategy()
+    public function getMonitorSystem()
     {
-        return $this->competitive_strategy;
+        return $this->monitor_system;
     }
 
     /**
-     * Returns the value of field update_ts
+     * Returns the value of field friend_link
      *
-     * @return integer
+     * @return string
      */
-    public function getUpdateTs()
+    public function getFriendLink()
     {
-        return $this->update_ts;
+        return $this->friend_link;
     }
 
     /**
@@ -158,14 +158,14 @@ class DtbRaiseProjectMarket extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'dtb_raise_project_market';
+        return 'dtb_raise_project_around';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return DtbRaiseProjectMarket[]
+     * @return DtbRaiseProjectAround[]
      */
     public static function find($parameters = null)
     {
@@ -176,7 +176,7 @@ class DtbRaiseProjectMarket extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return DtbRaiseProjectMarket
+     * @return DtbRaiseProjectAround
      */
     public static function findFirst($parameters = null)
     {

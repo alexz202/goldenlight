@@ -2,39 +2,154 @@
 
 class DtbRaiseProjectTeamCertificate extends \Phalcon\Mvc\Model
 {
-
     public function initialize(){
         $this->belongsTo('tmmember_id','DtbRaiseProjectTeam','tmmember_id');
     }
-    /**
-     *
-     * @var integer
-     */
-    public $id;
 
     /**
      *
      * @var integer
      */
-    public $tmmember_id;
+    protected $id;
+
+    /**
+     *
+     * @var integer
+     */
+    protected $tmmember_id;
 
     /**
      *
      * @var string
      */
-    public $organization;
+    protected $organization;
 
     /**
      *
      * @var string
      */
-    public $certificate_name;
+    protected $certificate_name;
 
     /**
      *
      * @var string
      */
-    public $reward_ts;
+    protected $reward_ts;
+
+    /**
+     * Method to set the value of field id
+     *
+     * @param integer $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field tmmember_id
+     *
+     * @param integer $tmmember_id
+     * @return $this
+     */
+    public function setTmmemberId($tmmember_id)
+    {
+        $this->tmmember_id = $tmmember_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field organization
+     *
+     * @param string $organization
+     * @return $this
+     */
+    public function setOrganization($organization)
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field certificate_name
+     *
+     * @param string $certificate_name
+     * @return $this
+     */
+    public function setCertificateName($certificate_name)
+    {
+        $this->certificate_name = $certificate_name;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field reward_ts
+     *
+     * @param string $reward_ts
+     * @return $this
+     */
+    public function setRewardTs($reward_ts)
+    {
+        $this->reward_ts = $reward_ts;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Returns the value of field tmmember_id
+     *
+     * @return integer
+     */
+    public function getTmmemberId()
+    {
+        return $this->tmmember_id;
+    }
+
+    /**
+     * Returns the value of field organization
+     *
+     * @return string
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * Returns the value of field certificate_name
+     *
+     * @return string
+     */
+    public function getCertificateName()
+    {
+        return $this->certificate_name;
+    }
+
+    /**
+     * Returns the value of field reward_ts
+     *
+     * @return string
+     */
+    public function getRewardTs()
+    {
+        return $this->reward_ts;
+    }
 
     /**
      * Returns table name mapped in the model.

@@ -9,31 +9,146 @@ class DtbRaiseProjectInvestor extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $raise_id;
+    protected $raise_id;
 
     /**
      *
      * @var integer
      */
-    public $user_id;
+    protected $user_id;
 
     /**
      *
      * @var double
      */
-    public $invest_money;
+    protected $invest_money;
 
     /**
      *
      * @var integer
      */
-    public $update_ts;
+    protected $update_ts;
 
     /**
      *
      * @var integer
      */
-    public $is_show;
+    protected $is_show;
+
+    /**
+     * Method to set the value of field raise_id
+     *
+     * @param integer $raise_id
+     * @return $this
+     */
+    public function setRaiseId($raise_id)
+    {
+        $this->raise_id = $raise_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field user_id
+     *
+     * @param integer $user_id
+     * @return $this
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field invest_money
+     *
+     * @param double $invest_money
+     * @return $this
+     */
+    public function setInvestMoney($invest_money)
+    {
+        $this->invest_money = $invest_money;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field update_ts
+     *
+     * @param integer $update_ts
+     * @return $this
+     */
+    public function setUpdateTs($update_ts)
+    {
+        $this->update_ts = $update_ts;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field is_show
+     *
+     * @param integer $is_show
+     * @return $this
+     */
+    public function setIsShow($is_show)
+    {
+        $this->is_show = $is_show;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field raise_id
+     *
+     * @return integer
+     */
+    public function getRaiseId()
+    {
+        return $this->raise_id;
+    }
+
+    /**
+     * Returns the value of field user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Returns the value of field invest_money
+     *
+     * @return double
+     */
+    public function getInvestMoney()
+    {
+        return $this->invest_money;
+    }
+
+    /**
+     * Returns the value of field update_ts
+     *
+     * @return integer
+     */
+    public function getUpdateTs()
+    {
+        return $this->update_ts;
+    }
+
+    /**
+     * Returns the value of field is_show
+     *
+     * @return integer
+     */
+    public function getIsShow()
+    {
+        return $this->is_show;
+    }
 
     /**
      * Returns table name mapped in the model.
