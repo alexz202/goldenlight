@@ -6,7 +6,7 @@
 	</div>
 	<div class="dl_cent">
 		<div class="dl_cent_center">
-			<form action="/user/applyPersonSubmit" method="post" id='apply_form'>
+			<form action="/user/applyPersonSubmit" method="post" id='apply_form'  enctype='multipart/form-data'>
 			  <table width="100%" border="0" cellspacing="0" cellpadding="5" id='tb_mobile'>
                   <tr>
                     <td width="17%" align="right">姓名</td>
@@ -28,13 +28,21 @@
                   <tr>
                     <td align="right">身份证正面</td>
                     <td  colspan="2">
-                     {{ file_field('idc_img1', 'size': "30", 'class': "") }}
+                 <!--  <div style='float:left;margin:0px 10px 0px 0px'> {{ file_field('idc_img1_upload', 'size': "30", 'class': "") }}</div>
+                    <div style='float:left'> <input type='hidden' name='idc_img1' id='idc_img1' /><span id='idc_img1_tag'></span></div>
+              -->
+              {{ file_field('idc_img1', 'size': "30", 'class': "") }}
+
                     </td>
                   </tr>
                    <tr>
                   <td align="right">身份证反面</td>
                   <td  colspan="2">
-                      {{ file_field('idc_img2', 'size': "30", 'class': "") }}
+                   <!--     <div style='float:left;margin:0px 10px 0px 0px'>{{ file_field('idc_img2_upload', 'size': "30", 'class': "") }} </div>
+
+                      <div style='float:left'><input type='hidden' name='idc_img2' id='idc_img2' /> <span id='idc_img2_tag'></span></div>
+                -->
+                 {{ file_field('idc_img2', 'size': "30", 'class': "") }}
                  </td>
                   </tr>
                   <tr>
@@ -77,7 +85,7 @@
                                                     </tr>
                   <tr>
                     <td>&nbsp;</td>
-                    <td colspan="2">以下选项申请领投人必填，个人认证投资人选填&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='tag_leader_show' tabindex="0" class="" role="button" data-toggle="popover" data-trigger="focus" title="领投人审核规则" data-placement="left" data-content="{{tag_leader_show}}">查看领投人审核规则</a></td>
+                    <td colspan="2">以下选项申请领投人必填，个人认证投资人选填&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='tag_leader_show' tabindex="0" class="" role="button" data-toggle="popover" data-trigger="focus" title="领投人审核规则" data-placement="left" >查看领投人审核规则</a></td>
                   </tr>
 
                     <tr>
@@ -97,10 +105,10 @@
                     <td align="right"></td>
                     <td colspan="2" id='show_project'>
                          <table class='project'>
-                         <tr><td> {{ file_field('project_logo', 'size': "30", 'class': "project_logo") }} </td></tr>
-                         <tr><td><input name="project_name" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
-                         <tr><td><input name="web_url" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
-                          <tr><td><input name="project_desc" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
+                         <tr><td> {{ file_field('project_logo', 'size': "30", 'class': "project_logo",'name':"project_logo[]") }} </td></tr>
+                         <tr><td><input name="project_name[]" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
+                         <tr><td><input name="web_url[]" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
+                          <tr><td><input name="project_desc[]" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
                          </table>
                     </td>
                   </tr>
@@ -122,10 +130,10 @@
 			</form>
 
 			  <table class='project' id='project_model' style='display:none;'>
-                                     <tr><td> {{ file_field('_project_logo', 'size': "30", 'class': "project_logo") }} </td></tr>
-                                     <tr><td><input name="project_name" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
-                                     <tr><td><input name="web_url" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
-                                      <tr><td><input name="project_desc" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
+                                     <tr><td> {{ file_field('_project_logo', 'size': "30", 'class': "project_logo",'name': "project_logo[]") }} </td></tr>
+                                     <tr><td><input name="project_name[]" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
+                                     <tr><td><input name="web_url[]" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
+                                      <tr><td><input name="project_desc[]" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
               </table>
 		</div>
 	</div>
@@ -138,15 +146,19 @@
     {{javascript_include('js/cityselect/jquery.cityselect.js')}}
     {{javascript_include('js/register.js')}}
     {{javascript_include('js/uploadify/jquery.uploadify.min.js')}}
-    {{javascript_include('js/bootstrap/bootstrap.min.js')}}
 <script type="text/javascript">
-$('#tag_leader_show').popover();
+$('#tag_leader_show').popover({html:true,
+content:function(){
+return "{{tag_leader_show}}";
+}
+});
+/*
         //上传图片
         /* 初始化上传插件 */
-        $("#idc_img1").uploadify({
+        $("#idc_img1_upload").uploadify({
                        "height"          : 30,
                        "swf"             : "/js/uploadify/uploadify.swf",
-                       "fileObjName"     : "upload_avatar_url",
+                       "fileObjName"     : "idc_img1",
                        "buttonText"      : "上传图片",
                        "uploader"        : "/file/upload",
                        "width"           : 120,
@@ -157,10 +169,10 @@ $('#tag_leader_show').popover();
                            alert('未检测到兼容版本的Flash.');
                        }
                    });
-       $("#idc_img2").uploadify({
+       $("#idc_img2_upload").uploadify({
                    "height"          : 30,
                    "swf"             : "/js/uploadify/uploadify.swf",
-                   "fileObjName"     : "upload_avatar_url",
+                   "fileObjName"     : "idc_img2",
                    "buttonText"      : "上传图片",
                    "uploader"        : "/file/upload",
                    "width"           : 120,
@@ -174,7 +186,7 @@ $('#tag_leader_show').popover();
         $(".project_logo").uploadify({
                            "height"          : 30,
                            "swf"             : "/js/uploadify/uploadify.swf",
-                           "fileObjName"     : "upload_avatar_url",
+                           "fileObjName"     : "project_logo",
                            "buttonText"      : "上传图片",
                            "uploader"        : "/file/upload",
                            "width"           : 120,
@@ -187,8 +199,29 @@ $('#tag_leader_show').popover();
                        });
 
         function uploadPicture(file, data){
-          console.log(file);
-          console.log(data);
-        }
+                 var data= eval('('+data+')');
+                 var key=data['key'];
+                 var new_name=data['new_name'];
+                 if(key!='project_logo'){
+                 $('#'+key).val(new_name);
+                 var img_str="<img src='/files/"+new_name+"'/>";
+                 var str="<a class='tt' role=\"button\" data-toggle='popover' data-trigger='focus'  data-placement='right'>"+new_name+"</a>";
+                $('#'+key+'_tag').html(str);
+                $('.tt').click(function(){
+                $(this).popover({
+                html : true,
+                content:function(){
+                return img_str;
+                },
+                delay: { "show": 500, "hide": 100 }
+                }).popover('toggle');
+                })
 
+                 }else{
+
+
+
+                 }
+        }
+*/
     </script>

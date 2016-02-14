@@ -2,12 +2,12 @@
 <div class="blank"></div>
 <div class="width_site blank part01">
 	<ul>
-		<li class="line_right"><img src="images/ic01.png" /><br />累计筹资额<br /><span>62380<font size="2">万</font></span></li>
-		<li class="line_right"><img src="images/ic02.png" /><br />融资项目总数<br /><span>380<font size="2">个</font></span></li>
-		<li class="line_right"><img src="images/ic03.png" /><br />已交易投资人<br /><span>80<font size="2">人</font></span></li>
-		<li class="line_right"><img src="images/ic04.png" /><br />创投机构共建<br /><span>38<font size="2">家</font></span></li>
-		<li class="line_right"><img src="images/ic05.png" /><br />18个月获得下轮投资比例<br /><span>62380%</span></li>
-		<li><img src="images/ic06.png" /><br />项目综合回报率<br /><span>62380%</span></li>
+		<li class="line_right"><img src="/images/ic01.png" /><br />累计筹资额<br /><span>{{shareTotal['all_money']}}<font size="2">万</font></span></li>
+		<li class="line_right"><img src="/images/ic02.png" /><br />融资项目总数<br /><span>{{shareTotal['all_project']}}<font size="2">个</font></span></li>
+		<li class="line_right"><img src="/images/ic03.png" /><br />已交易投资人<br /><span>{{shareTotal['all_user']}}<font size="2">人</font></span></li>
+		<li class="line_right"><img src="/images/ic04.png" /><br />创投机构共建<br /><span>{{shareTotal['all_orgaization']}}<font size="2">家</font></span></li>
+		<li class="line_right"><img src="/images/ic05.png" /><br />18个月获得下轮投资比例<br /><span>{{shareTotal['last_percent']}}%</span></li>
+		<li><img src="/images/ic06.png" /><br />项目综合回报率<br /><span>{{shareTotal['return_value']}}%</span></li>
 
 	</ul>
 </div>
@@ -57,26 +57,15 @@
 <div class="width_site part03">
 	<h1>成功案例<span style="font-size:12px;">&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">查看更多</a></span></h1>
 	<ul>
-		<li><div style=" position:absolute"><div class="img_logo"><img src="/images/img_logo.jpg" /></div></div>
-			<a href="#"><img src="images/img.jpg" />
-			<div class="left_line part03_cont">发现城市之美<br /><font>￥</font><span>300</span><font>万</font><br />投资者<font>5</font>人
+
+	{%for item in raise_success_list%}
+		<li><div style=" position:absolute"><div class="img_logo"><img src="{{item.company_logo}}" /></div></div>
+			<a href="#"><img src="{{item.company_logo}}" />
+			<div class="left_line part03_cont">{{item.project_name}}<br /><font>￥</font><span>{{item.already_money}}</span><font>万</font><br />投资者<font>{{item.wheel_invested_num}}</font>人
 			</div></a>
 		</li>
-		<li><div style=" position:absolute"><div class="img_logo"><img src="/images/img_logo.jpg" /></div></div>
-			<a href="#"><img src="images/img.jpg" />
-			<div class="left_line part03_cont">发现城市之美<br /><font>￥</font><span>300</span><font>万</font><br />投资者<font>5</font>人
-			</div></a>
-		</li>
-		<li><div style=" position:absolute"><div class="img_logo"><img src="/images/img_logo.jpg" /></div></div>
-			<a href="#"><img src="images/img.jpg" />
-			<div class="right_line left_line part03_cont">发现城市之美<br /><font>￥</font><span>300</span><font>万</font><br />投资者<font>5</font>人
-			</div></a>
-		</li>
-		<li><div style=" position:absolute"><div class="img_logo"><img src="/images/img_logo.jpg" /></div></div>
-			<a href="#"><img src="images/img.jpg" />
-			<div class="right_line part03_cont">发现城市之美<br /><font>￥</font><span>300</span><font>万</font><br />投资者<font>5</font>人
-			</div></a>
-		</li>
+	{%endfor%}
+
 	</ul>
 </div>
 <div class="width100P bg">
@@ -84,11 +73,11 @@
 		<h1>明星领投人<span style="font-size:12px;">&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">查看更多</a></span></h1>
 		<ul>
 			<li><img src="/images/img.jpg" /></li>
-			<li><img src="/images/img.jpg" /></li>
-			<li><img src="/images/img.jpg" /></li>
-			<li><img src="/images/img.jpg" /></li>
-			<li><img src="/images/img.jpg" /></li>
-			<li><img src="/images/img.jpg" /></li>
+
+	{%for item in leaders_list%}
+		<li><img src="item.DtbRaiseProjectBasic.getAvatarUrl()" /></li>
+	{%endfor%}
+
 		</ul>
 	</div>
 </div>

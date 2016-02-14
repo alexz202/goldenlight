@@ -40,16 +40,16 @@
             {% for dtb_raise_project_basic in page.items %}
 			<li><div style=" position:absolute"><div class="img_logo_touzi"><img src="/images/img_logo.jpg" /></div></div>
 				<img src="/images/img.jpg" />
-				<h3><a href="touzi_cent.html">{{ dtb_raise_project_basic.getProjectName() }}</a></h3>
-				<h4><a href="touzi_cent.html">{{ dtb_raise_project_basic.getProjectDesc() }}</a>……</h4>
+				<h3><a href="/Invest/pjCenter?raise_id={{dtb_raise_project_basic.getRaiseId()}}">{{ dtb_raise_project_basic.getProjectName() }}</a></h3>
+				<h4><a href="/Invest/pjCenter?raise_id={{dtb_raise_project_basic.getRaiseId()}}">{{ dtb_raise_project_basic.getProjectDesc() }}</a>……</h4>
 				<div class="touzi_main_canshuo">
-					<span class="line_right">融资额<br /><font>{{ dtb_raise_project_basic.getAimMoney() }}万元</font></span>
-					<span class="line_right">出让股份 <br /><font>{{ dtb_raise_project_basic.getAimEquityOffered() }}%</font></span>
-					<span class="line_right">起投额<br /><font>{{ dtb_raise_project_basic.getProjectDesc() }}万元</font></span>
-					<span>剩余时间<br /><font>{{ dtb_raise_project_basic.getEndTs() }}天</font></span>
+					<span class="line_right">融资额<br /><font>{{ dtb_raise_project_basic.DtbRaiseProjectWheel.getAimMoney() }}万元</font></span>
+					<span class="line_right">出让股份 <br /><font>{{ dtb_raise_project_basic.DtbRaiseProjectWheel.getAimEquityOffered() }}%</font></span>
+					<span class="line_right">起投额<br /><font>{{ dtb_raise_project_basic.DtbRaiseProjectWheel.getAlreadyMoney() }}万元</font></span>
+					<span>剩余时间<br /><font>{{ dtb_raise_project_basic.DtbRaiseProjectWheel.getEndTs() }}天</font></span>
 				</div>
 				<div class="jindutiao01"></div>
-				<div class="ren">创始人{{ dtb_raise_project_basic.DtbUserBasic.getNickname()}}<img alt="王先生" src="/images/ren.jpg" />  领投人<img alt="王先生" src="/images/ren.jpg" /><img alt="王先生" src="images/ren.jpg" /></div>
+				<div class="ren">创始人{{ dtb_raise_project_basic.DtbUserBasic.getNickname()}}<img alt="王先生" src="/images/ren.jpg" /> </div>
 			</li>
    {% endfor %}
 		</ul>

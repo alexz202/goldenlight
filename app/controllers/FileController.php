@@ -18,13 +18,22 @@ class FileController extends Controller
 
             // Print the real file names and sizes
             foreach ($this->request->getUploadedFiles() as $file) {
-
+                $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
                 // Print file details
-                echo $file->getName(), " ", $file->getSize(), "\n";
-
+                $file_name = sha1(time() . mt_rand(111111, 999999)) . "." . $ext;
+               // echo $file_name;
+                $data=array(
+                    'key'=>$file->getKey(),
+                    'o_name'=>$file->getName(),
+                    'new_name'=>$file_name,
+                );
+               echo json_encode($data);
+               // echo json_encode($file);
                 // Move the file into the application
-                $file->moveTo('files/' . $file->getName());
+               // $file->moveTo('files/' . $file->getName());
+             //  $file->moveTo('files/' . $file_name);
             }
         }
     }
+
 }

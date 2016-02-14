@@ -13,7 +13,7 @@
     </head>
     <body>
     <!--{% include "public/header.volt"%}-->
-     {{ partial("public/header")}}
+     {{ partial("public/header_product")}}
 
 <!--content render start -->
        {{ content() }}

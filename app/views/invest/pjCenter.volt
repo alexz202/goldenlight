@@ -7,13 +7,13 @@
 		<div class="touzi_p01_cent">
 			<h3><span class="fl">{{dtb_raise_project_basic.project_name}}</span><span style="font-size:12px" class="fr"><img src="/images/ic07.png" width="9" height="12" />&nbsp;上海&nbsp;&nbsp;&nbsp;<img src="/images/ic08.png" width="12" height="12" />&nbsp;其它类目</span></h3>
 			{{dtb_raise_project_basic.project_desc}}……【<a href="#">查看更多</a>】		<br />
-			<span class="font_f60">计划筹资：{{dtb_raise_project_basic.aim_money}}万&nbsp;&nbsp;股份：{{dtb_raise_project_basic.aim_equity_offered}}%&nbsp;&nbsp;实际筹资和股份：{{dtb_raise_project_basic.already_money}}万&nbsp;&nbsp;公司估值：{{dtb_raise_project_basic.valuation}}万</span><br />
+			<span class="font_f60">计划筹资：{{dtb_raise_project_basic.DtbRaiseProjectWheel.getAimMoney()}}万&nbsp;&nbsp;股份：{{dtb_raise_project_basic.DtbRaiseProjectWheel.aim_equity_offered}}%&nbsp;&nbsp;实际筹资和股份：{{dtb_raise_project_basic.DtbRaiseProjectWheel.already_money}}万&nbsp;&nbsp;公司估值：{{dtb_raise_project_basic.valuation}}万</span><br />
 				创使人<img src="/images/ren.jpg" />&nbsp;&nbsp;领投人&nbsp;&nbsp;虚位以待
 			</div>
 			<div class="touzi_p01_bnt"><a href="#">我要投资</a></div>
 		</div>
 		<div class="touzi_part02">
-			<div class="touzi_p02_fl"><img width="320" src="/images/img02.jpg"/></div>
+			<div class="touzi_p02_fl"><embed src="http://player.youku.com/player.php/Type/Folder/Fid/26692687/Ob/1/sid/XMTQ2OTQwNzYzMg==/v.swf" width="320" height="260"></embed></div>
 			<div class="fr " >
             <div class='show_detail'>
 				  <!-- Nav tabs -->
@@ -31,21 +31,67 @@
                     <!-- idea -->
                      <div role="tabpanel" class="tab-pane touzi_p02_fr active " id="idea">
 							<img src="/images/img01.jpg" width="751" /><br />
-							<h3>公司简介</h3>
+							<h3>简介</h3>
 							 {{dtb_raise_project_basic.DtbRaiseProjectIdea.getIdeaInfo()}}
-							  <h3>公司简介</h3>
-							  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;东莞市彤光科技有限公司是一家高新术企业，多年来研发团队致力于液晶显示器测试技术和视觉自动化技术的研发，公司产品及解决方案主要应用于液晶显示器行业，提供从背光模组、液晶显示模组和触摸屏面板的视觉检测方案，同时也为客户提供视觉检测及装配等自动化设备的定制。公司属于精密质检仪器制造行业。
+							  <h3>宗旨</h3>
+							 {{dtb_raise_project_basic.DtbRaiseProjectIdea.getPurpose()}}
+                              <h3>目前取得的成就</h3>
+                             {{dtb_raise_project_basic.DtbRaiseProjectIdea.getLivestock()}}
+                               <h3>useform</h3>
+                              {{dtb_raise_project_basic.DtbRaiseProjectIdea.getUseform()}}
+                              <h3>筹资策略</h3>
+                            {{dtb_raise_project_basic.DtbRaiseProjectIdea.getTechnical()}}
                      </div>
                       <!-- market -->
-                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="market">..2.</div>
+                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="market">
+                            <h3>目标市场</h3>
+							 {{dtb_raise_project_basic.DtbRaiseProjectMarket.getAimMarket()}}
+							  <h3>目标市场的特征</h3>
+							 {{dtb_raise_project_basic.DtbRaiseProjectMarket.getAimMarketFeaure()}}
+                              <h3>竞争力</h3>
+                             {{dtb_raise_project_basic.DtbRaiseProjectMarket.getCompetitiveStrategy()}}
+                     </div>
                       <!-- team -->
-                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="team">.3..</div>
+                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="team">
+                      <h3>团队成员</h3>
+                     {%for item in dtb_raise_project_basic.DtbRaiseProjectTeam%}
+                        {{item.getUserName()}}
+                        <img src='{{item.getAvatar()}}'/>
+
+                     {%endfor%}
+
+                     </div>
                       <!-- update -->
-                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="update">.2..</div>
+                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="update">
+
+                       {%for item in dtb_raise_project_basic.DtbRaiseProjectUpdates%}
+                                 <h3>       {{item.getTitle()}}</h3>
+                                                               <p> {{item.getContent()}}</p>
+                      {%endfor%}
+                     </div>
                       <!-- qa -->
-                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="qa">.2..</div>
+                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="qa">
+
+                     {%for item in dtb_raise_project_basic.DtbRaiseProjectQa%}
+
+                                  <h3>       {{item.getMsg()}}</h3>
+                                         <p> {{item.DtbUserBasic.getNickname()}}</p>
+                                  <h3>       {{item.getReMsg()}}</h3>
+                     {%endfor%}
+
+
+                     </div>
                       <!-- investors -->
-                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="investors">.2..</div>
+                     <div role="tabpanel" class="tab-pane touzi_p02_fr" id="investors">
+
+                     {%for item in dtb_raise_project_basic.DtbRaiseProjectInvestor%}
+                                         <p> {{item.DtbUserBasic.getNickname()}}</p>
+                                          <p><img src='{{item.DtbUserBasic.getAvatarUrl()}}'/></p>
+                                          <h3>       {{item.getInvestMoney()}}</h3>
+                     {%endfor%}
+
+
+                     </div>
                    </div>
 	</div>
 
@@ -57,6 +103,4 @@
 </div>
 
 
-
-{{javascript_include('js/bootstrap/bootstrap.min.js')}}
 {{javascript_include('js/show.js')}}

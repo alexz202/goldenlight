@@ -17,19 +17,22 @@
                   </tr>
                   <tr>
                     <td align="right">法人身份证号</td>
-                    <td colspan="2"><input name="legal_identity_card" type="text" class="dl_input" size="48" id='legal_identity_card'/></td>
+                    <td colspan="2">
+                    <input name="legal_identity_card" type="text" class="dl_input" size="48" id='legal_identity_card'/></td>
                   </tr>
 
                   <tr>
                     <td align="right">法人身份证正面</td>
                      <td  colspan="2">
-                                         {{ file_field('legal_idc_img1', 'size': "30", 'class': "") }}
+    {{ file_field('legal_idc_img1', 'size': "30", 'class': "") }}
+
                                         </td>
                   </tr>
                    <tr>
                   <td align="right">法人身份证反面</td>
                   <td  colspan="2">
-                                      {{ file_field('legal_idc_img2', 'size': "30", 'class': "") }}
+                                    {{ file_field('legal_idc_img2', 'size': "30", 'class': "") }}
+
                                      </td>
                   </tr>
                   <tr>
@@ -51,7 +54,9 @@
                   </tr>
                    <tr>
                                     <td align="right">营业执照复印件</td>
-                                    <td>  {{ file_field('bul_img', 'size': "30", 'class': "") }}</td>
+                                    <td>
+                                    {{ file_field('bul_img', 'size': "30", 'class': "",'style':'line_height:80px;') }}
+                                    </td>
                                     <td></td>
                                   </tr>
                  <tr>
@@ -96,10 +101,14 @@
                     <td align="right"></td>
                     <td colspan="2" id='show_project'>
                                             <table class='project'>
-                                            <tr><td> {{ file_field('project_logo', 'size': "30", 'class': "project_logo") }} </td></tr>
-                                            <tr><td><input name="project_name" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
-                                            <tr><td><input name="web_url" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
-                                             <tr><td><input name="project_desc" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
+                                            <tr><td>
+
+
+{{ file_field('project_logo', 'size': "30", 'class': "project_logo",'name': "project_logo[]") }}
+                                            </td></tr>
+                                            <tr><td><input name="project_name[]" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
+                                            <tr><td><input name="web_url[]" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
+                                             <tr><td><input name="project_desc[]" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
                                             </table>
                                        </td>
                   </tr>
@@ -109,7 +118,7 @@
                                                          </tr>
                     <tr>
                       <td>&nbsp;</td>
-                       <td colspan="2"><input id='check_leader' name="checkbox"  type="checkbox" style="list-style:none" value="checkbox" />
+                       <td colspan="2"><input id='check_leader' name="check_leader"  type="checkbox" style="list-style:none" value="checkbox" />
                       同时申请领投人认证</td>
                      </tr>
                   <tr>
@@ -121,10 +130,15 @@
 			</form>
 
 			  <table class='project' id='project_model' style='display:none;'>
-                                                 <tr><td> {{ file_field('_project_logo', 'size': "30", 'class': "project_logo") }} </td></tr>
-                                                 <tr><td><input name="project_name" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
-                                                 <tr><td><input name="web_url" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
-                                                  <tr><td><input name="project_desc" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
+                                                 <tr><td>
+                                                 <div style='float:left;margin:0px 10px 0px 0px' data-item='1'> {{ file_field( 'size': "30", 'class': "model_img") }}</div>
+                                                                                                                   <div style='float:left'> <input type='hidden' name='project_logo[]'  class='model_img_value'/><span id='project_logo_tag'></span></div>
+                                                 {{ file_field('size': "30", 'class': "project_logo") }}
+
+                                                 </td></tr>
+                                                 <tr><td><input name="project_name[]" type="text" class="dl_input project_name" size="48" id='project_name' placeholder='项目名称'/></td></tr>
+                                                 <tr><td><input name="web_url[]" type="text" class="dl_input web_url" size="48" id='web_url' placeholder='网站地址'/></td></tr>
+                                                  <tr><td><input name="project_desc[]" type="text" class="dl_input project_desc" size="48" id='project_desc' placeholder='项目介绍'/></td></tr>
                           </table>
 		</div>
 	</div>
@@ -135,70 +149,10 @@
     {{javascript_include('js/uploadify/jquery.uploadify.min.js')}}
     {{javascript_include('js/bootstrap/bootstrap.min.js')}}
 <script type="text/javascript">
-$('#tag_leader_show').popover();
-        //上传图片
-        /* 初始化上传插件 */
-        $("#legal_idc_img1").uploadify({
-                       "height"          : 30,
-                       "swf"             : "/js/uploadify/uploadify.swf",
-                       "fileObjName"     : "upload_avatar_url",
-                       "buttonText"      : "上传图片",
-                       "uploader"        : "/file/upload",
-                       "width"           : 120,
-                       'removeTimeout'	  : 1,
-                       'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-                       "onUploadSuccess" : uploadPicture,
-                       'onFallback' : function() {
-                           alert('未检测到兼容版本的Flash.');
-                       }
-                   });
-       $("#legal_idc_img2").uploadify({
-                   "height"          : 30,
-                   "swf"             : "/js/uploadify/uploadify.swf",
-                   "fileObjName"     : "upload_avatar_url",
-                   "buttonText"      : "上传图片",
-                   "uploader"        : "/file/upload",
-                   "width"           : 120,
-                   'removeTimeout'	  : 1,
-                   'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-                   "onUploadSuccess" : uploadPicture,
-                   'onFallback' : function() {
-                       alert('未检测到兼容版本的Flash.');
-                   }
-               });
-          $("#bul_img").uploadify({
-                           "height"          : 30,
-                           "swf"             : "/js/uploadify/uploadify.swf",
-                           "fileObjName"     : "upload_avatar_url",
-                           "buttonText"      : "上传图片",
-                           "uploader"        : "/file/upload",
-                           "width"           : 120,
-                           'removeTimeout'	  : 1,
-                           'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-                           "onUploadSuccess" : uploadPicture,
-                           'onFallback' : function() {
-                               alert('未检测到兼容版本的Flash.');
-                           }
-                       });
-
-
-     $(".project_logo").uploadify({
-                            "height"          : 30,
-                            "swf"             : "/js/uploadify/uploadify.swf",
-                            "fileObjName"     : "upload_avatar_url",
-                            "buttonText"      : "上传图片",
-                            "uploader"        : "/file/upload",
-                            "width"           : 120,
-                            'removeTimeout'	  : 1,
-                            'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
-                            "onUploadSuccess" : uploadPicture,
-                            'onFallback' : function() {
-                                alert('未检测到兼容版本的Flash.');
-                            }
-                        });
-    function uploadPicture(file, data){
-             console.log(file);
-             console.log(data);
-           }
+$('#tag_leader_show').popover({html:true,
+content:function(){
+return "{{tag_leader_show}}";
+}
+});
 
     </script>

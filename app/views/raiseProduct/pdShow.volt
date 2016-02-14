@@ -2,26 +2,18 @@
 	<div class=" blank"></div>
 	<div class="width_site sc_cent">
 		<div class="sc_cent_left fl">
-			<div class="sc_cent_left_img"><img src="images/img03.jpg" /></div>
-			<ul>
-				<li><span><img src="images/img03.jpg" /></span></li>
-				<li><img src="images/img03.jpg" /></li>
-				<li><img src="images/img03.jpg" /></li>
-				<li><img src="images/img03.jpg" /></li>
-			</ul>
+			<div class="sc_cent_left_img"><img src="{{product_img}}" /></div>
 		</div>
 		<div class="sc_cent_right fr">
-			<h2>大标题</h2>
-			<h3>二标题二标题<br />
-			二标题</h3>
+			<h2>{{product_name}}</h2>
+			<h3>{{project_name}}<<br />
+			</h3>
 			<table width="100%" border="0" cellpadding="10" cellspacing="0">
 			  <tr>
-				<td width="81%" bgcolor="#FDF5EE">价格：<font class="font_f60" style="font-size:20px; font-family:Arial">￥5320.00</font></td>
-				<td width="19%" align="center" bgcolor="#FDF5EE"><span style="border-left:#f5dcce solid 1px; padding-left:10px;"><a href="#"><font class="font_f60">累积评价<br />
-			    233</font></a></span></td>
+				<td width="81%" bgcolor="#FDF5EE">价格：<font class="font_f60" style="font-size:20px; font-family:Arial">￥{{price}}</font></td>
 			  </tr>
 			  <tr>
-				<td bgcolor="#FDF5EE"><font class="font_f60">促销消息：<span style="background-color:#F60; color:#FFF; padding:0px 5px 0px 5px;">加价购</span>&nbsp;满40元加10元可换购，或满50元加10元可换购。</font></td>
+				<td bgcolor="#FDF5EE"><</td>
 				<td bgcolor="#FDF5EE">&nbsp;</td>
 			  </tr>
 			  <tr>
@@ -30,12 +22,12 @@
 			      <label>
 			      <input name="textfield2" type="text" value="1" size="5" />
 			      +			      </label>
-                 件（库存1123件）                
+                 件（库存{{exist_num}}件）
 			    </form>			    </td>
 		      </tr>
-			  <tr>
+		<!--	  <tr>
 			    <td colspan="2" bgcolor="#FFFFFF"><a href="#"><span class="bnt_goumai">立即购买</span></a><a href="#"><span class="bnt_gwc">加入购物车</span></a></td>
-		      </tr>
+		      </tr>-->
 		  </table>
 
 		</div>

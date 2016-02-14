@@ -12,6 +12,7 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
         $this->hasMany('raise_id','DtbRaiseProjectTeam','raise_id');
         $this->hasMany('raise_id','DtbRaiseProjectQa','raise_id');
         $this->hasMany('raise_id','DtbRaiseProjectUpdates','raise_id');
+        $this->hasOne('now_wheel_id','DtbRaiseProjectWheel','wheel_id');
     }
 
     /**
@@ -50,31 +51,14 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
      */
     protected $company_logo;
 
-    /**
-     *
-     * @var double
-     */
-    protected $aim_money;
 
-    /**
-     *
-     * @var double
-     */
-    protected $aim_equity_offered;
-
-    /**
-     *
-     * @var double
-     */
-    protected $already_equity_offered;
 
     protected $project_type;
 
-    /**
-     *
-     * @var double
-     */
-    protected $already_money;
+
+    protected $now_wheel;
+
+    protected $last_wheel;
 
     /**
      *
@@ -294,57 +278,20 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    /**
-     * Method to set the value of field aim_money
-     *
-     * @param double $aim_money
-     * @return $this
-     */
-    public function setAimMoney($aim_money)
+    public function setNowWheel($now_wheel)
     {
-        $this->aim_money = $aim_money;
+        $this->now_wheel = $now_wheel;
 
         return $this;
     }
 
-    /**
-     * Method to set the value of field aim_equity_offered
-     *
-     * @param double $aim_equity_offered
-     * @return $this
-     */
-    public function setAimEquityOffered($aim_equity_offered)
+    public function setLastWheel($last_wheel)
     {
-        $this->aim_equity_offered = $aim_equity_offered;
+        $this->last_wheel = $last_wheel;
 
         return $this;
     }
 
-    /**
-     * Method to set the value of field already_equity_offered
-     *
-     * @param double $already_equity_offered
-     * @return $this
-     */
-    public function setAlreadyEquityOffered($already_equity_offered)
-    {
-        $this->already_equity_offered = $already_equity_offered;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field already_money
-     *
-     * @param double $already_money
-     * @return $this
-     */
-    public function setAlreadyMoney($already_money)
-    {
-        $this->already_money = $already_money;
-
-        return $this;
-    }
 
     /**
      * Method to set the value of field valuation
@@ -668,6 +615,18 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
         return $this->project_name;
     }
 
+
+    public function getNowWheel()
+    {
+        return $this->now_wheel;
+    }
+
+
+    public function getLastWheel()
+    {
+        return $this->last_wheel;
+    }
+
     /**
      * Returns the value of field project_desc
      *
@@ -696,46 +655,6 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     public function getCompanyLogo()
     {
         return $this->company_logo;
-    }
-
-    /**
-     * Returns the value of field aim_money
-     *
-     * @return double
-     */
-    public function getAimMoney()
-    {
-        return $this->aim_money;
-    }
-
-    /**
-     * Returns the value of field aim_equity_offered
-     *
-     * @return double
-     */
-    public function getAimEquityOffered()
-    {
-        return $this->aim_equity_offered;
-    }
-
-    /**
-     * Returns the value of field already_equity_offered
-     *
-     * @return double
-     */
-    public function getAlreadyEquityOffered()
-    {
-        return $this->already_equity_offered;
-    }
-
-    /**
-     * Returns the value of field already_money
-     *
-     * @return double
-     */
-    public function getAlreadyMoney()
-    {
-        return $this->already_money;
     }
 
     /**
@@ -988,6 +907,20 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    public  function getAllSuccessTotal(){
+        $sql="select sum(rate_of_return) as all_rate_of_return,count(DISTINCT(raise_id)) as all_project_count,count(DISTINCT(user_id)) as all_raise_user_count from DtbRaiseProjectBasic where status=1 ";
+        //var_dump($this->getDI());
+        $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
+        return  $res=$query->execute();
+    }
+
+    public function getSuccessProject($limit){
+       $sql="select DtbRaiseProjectBasic.company,DtbRaiseProjectBasic.company_logo,DtbRaiseProjectBasic.project_name,DtbRaiseProjectWheel.already_money,DtbRaiseProjectWheel.wheel_invested_num from DtbRaiseProjectBasic,DtbRaiseProjectWheel where DtbRaiseProjectWheel.status=1  and DtbRaiseProjectBasic.now_wheel_id=DtbRaiseProjectWheel.wheel_id order by DtbRaiseProjectWheel.end_ts,DtbRaiseProjectWheel.already_money desc  limit $limit";
+        //var_dump($this->getDI());
+        $query=new Phalcon\Mvc\Model\Query($sql,$this->getDI());
+        return $res=$query->execute();
     }
 
 }

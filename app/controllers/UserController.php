@@ -179,7 +179,7 @@ class UserController extends ControllerBase
                 die('value is invaild');
             }
             $this->view->user_id=$user_id;
-            $this->view->tag_leader_show='1.至少投资过一个项目，且金额大于20万以上;2.至少有一次成功退出经历;';
+            $this->view->tag_leader_show='<p>1.至少投资过一个项目，且金额大于20万以上;</p><p>2.至少有一次成功退出经历;</p>';
 
         } else {
             die('value is invaild');
@@ -188,6 +188,12 @@ class UserController extends ControllerBase
 
     public function applyPersonSubmitAction(){
         if ($this->request->isPost()) {
+
+            //图片上传
+            $img_list=array();
+            $project_log=array();
+            list($img_list,$project_log) = $this->_upload_img();
+
             $user_id = $this->request->getPost('user_id');
             $params = array();
             $ubm = new DtbUserBasic();
@@ -205,8 +211,11 @@ class UserController extends ControllerBase
             $city = $this->request->getPost('city');
             $dist = $this->request->getPost('dist');
             $address = $this->request->getPost('address');
-            $idc_img1 = $this->request->getPost('idc_img1');
-            $idc_img2 = $this->request->getPost('idc_img2');
+           // $idc_img1 = $this->request->getPost('idc_img1');
+            //$idc_img2 = $this->request->getPost('idc_img2');
+            $idc_img1=isset($img_list['idc_img1'])?$img_list['idc_img1']:'';
+            $idc_img2=isset($img_list['idc_img2'])?$img_list['idc_img2']:'';
+
             $income_y = $this->request->getPost('income_y');
             $company = $this->request->getPost('company');
             $position = $this->request->getPost('position');
@@ -224,6 +233,9 @@ class UserController extends ControllerBase
             $project_name = $this->request->getPost('project_name');
             $web_url = $this->request->getPost('web_url');
             $project_desc = $this->request->getPost('project_desc');
+
+
+
 
             $invest_person_info=$uipm->getDataByUserId($user_id);
             if($invest_person_info){
@@ -257,6 +269,15 @@ class UserController extends ControllerBase
 
                 $res=$uipm->applyPerson($user_id,$params);
                 if($res){
+
+                    if($this->request->getPost('check_leader')==1){
+                        //申请领头人
+                        $project_name_list=$this->request->getPost('project_name');
+                        $web_url_list=$this->request->getPost('web_url');
+                        $project_desc_list=$this->request->getPost('project_desc');
+                        $this->_add_leader_cases($user_id,$project_name_list,$web_url_list,$project_desc_list,$project_log);
+                    }
+
                     $this->flash->success('认证成功');
                     return  $this->response->redirect('/user/center');
                     return $this->dispatcher->forward(array(
@@ -289,7 +310,7 @@ class UserController extends ControllerBase
                 die('value is invaild');
             }
             $this->view->user_id=$user_id;
-            $this->view->tag_leader_show='1.至少投资过一个项目，且金额大于20万以上;2.至少有一次成功退出经历;';
+            $this->view->tag_leader_show='<p>1.至少投资过一个项目，且金额大于20万以上;</p><p>2.至少有一次成功退出经历;</p>';
 
         } else {
             die('value is invaild');
@@ -300,6 +321,13 @@ class UserController extends ControllerBase
     public function applyCompanySubmitAction(){
         if ($this->request->isPost()) {
             $user_id = $this->request->getPost('user_id');
+
+            //图片上传
+            $img_list=array();
+            $project_log=array();
+            list($img_list,$project_log) = $this->_upload_img();
+
+
             $params = array();
             $ubm = new DtbUserBasic();
             $uiom = new DtbInvestorOrgaization();
@@ -313,8 +341,11 @@ class UserController extends ControllerBase
             $legal_name = $this->request->getPost('legal_name');
             $legal_identity_card = $this->request->getPost('legal_identity_card');
 
-            $legal_idc_img1 = $this->request->getPost('legal_idc_img1');
-            $legal_idc_img2 = $this->request->getPost('legal_idc_img2');
+//            $legal_idc_img1 = $this->request->getPost('legal_idc_img1');
+//            $legal_idc_img2 = $this->request->getPost('legal_idc_img2');
+            $legal_idc_img1=isset($img_list['legal_idc_img1'])?$img_list['legal_idc_img1']:'';
+            $legal_idc_img1=isset($img_list['$legal_idc_img2'])?$img_list['legal_idc_img2']:'';
+
 
             $contact_name = $this->request->getPost('contact_name');
             $prov = $this->request->getPost('prov');
@@ -323,7 +354,9 @@ class UserController extends ControllerBase
             $address = $this->request->getPost('address');
 
             $business_licence = $this->request->getPost('business_licence');
-            $bul_img = $this->request->getPost('bul_img');
+           // $bul_img = $this->request->getPost('bul_img');
+            $bul_img=isset($img_list['bul_img'])?$img_list['bul_img']:'';
+
             $company = $this->request->getPost('company');
 
             $gold_fund = $this->request->getPost('gold_fund');
@@ -372,6 +405,16 @@ class UserController extends ControllerBase
 
                 $res = $uiom->applyCompany($user_id, $params);
                 if ($res) {
+
+                    if($this->request->getPost('check_leader')==1){
+                        //申请领头人
+                        $project_name_list=$this->request->getPost('project_name');
+                        $web_url_list=$this->request->getPost('web_url');
+                        $project_desc_list=$this->request->getPost('project_desc');
+                        $this->_add_leader_cases($user_id,$project_name_list,$web_url_list,$project_desc_list,$project_log);
+                    }
+
+
                     $this->flash->success('认证成功');
                     return  $this->response->redirect('/user/center');
                     return $this->dispatcher->forward(array(
@@ -396,6 +439,68 @@ class UserController extends ControllerBase
     }
 
 
+    private function _add_leader_cases($user_id,$project_name_list,$web_url_list,$project_desc_list,$project_logo){
+        $dtb_leader_cases=new DtbInvestLeaderCases();
+        if(count($project_name_list)>0){
+            $i=0;
+            foreach($project_name_list as $v) {
+                if(!empty($v)){
+                    $dtb_leader_cases->user_id=$user_id;
+                    $dtb_leader_cases->project_name=$v;
+                    $dtb_leader_cases->web_url=$web_url_list[$i];
+                    $dtb_leader_cases->project_desc=isset($project_desc_list[$i])?$project_desc_list[$i]:'';
+                    $dtb_leader_cases->project_logo=isset($project_logo[$i])?$project_logo[$i]:'';
+                   if($dtb_leader_cases->create()==false){
+                       return false;
+                   }
+
+                }
+                $i++;
+            }
+            return true;
+        }
+
+    }
+
+    private function _upload_img(){
+        $img_list=array();
+        $project_logo=array();
+        //图片上传
+        if ($this->request->hasFiles()) {
+            $i=0;
+            // Print the real file names and sizes
+            foreach ($this->request->getUploadedFiles() as $file) {
+                $o_name= $file->getName();
+                if($file->getKey()=='project_logo'){
+                    if(empty($o_name))
+                        //特殊处理
+                        $project_logo[$i]='';
+                    else{
+                        $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
+                        // Print file details
+                        $file_name = sha1(time() . mt_rand(111111, 999999)) . "." . $ext;
+                        $img_list[$file->getKey()]=$file_name;
+                        $project_logo[$i]=$file_name;
+                        //  $file->moveTo('files/' . $file_name);
+                    }
+                    $i++;
+
+                }else{
+                    if(!empty($o_name)){
+                        $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
+                        // Print file details
+                        $file_name = sha1(time() . mt_rand(111111, 999999)) . "." . $ext;
+                        $img_list[$file->getKey()]=$file_name;
+                        // Move the file into the application
+                        // $file->moveTo('files/' . $file->getName());
+                        //  $file->moveTo('files/' . $file_name);
+
+                    }
+                }
+            }
+        }
+        return array($img_list,$project_logo);
+    }
 
 
     public function centerAction()

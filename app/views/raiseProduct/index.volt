@@ -1,41 +1,42 @@
 <div class="width100P bg">
+
+{% if page.items is defined %}
   <div class="width_site touzi_main">
 		<ul>
+		  {% for dtb_product in page.items %}
 			<li>
-				<img src="images/img.jpg" />
-				<h3><a href="sc_cent.html">彤光科技</a></h3>
-				<div class="sc_price"><font size="+1" class="font_f60 fl">￥300</font><font class="fr">库存：23</font></div>
+				<img src="{{dtb_product.getProductImg()}}" />
+					<h3><a href="sc_cent.html">{{dtb_product.getProductName()}}</a></h3>
+				<div class="sc_price"><font size="+1" class="font_f60 fl">￥{{dtb_product.getPrice()}}</font><font class="fr">库存：{{dtb_product.getExistNum()}}</font></div>
 		 	</li>
-			<li class="jl">
-				<img src="images/img.jpg" />
-				<h3><a href="sc_cent.html">彤光科技</a></h3>
-				<div class="sc_price"><font size="+1" class="font_f60 fl">￥300</font><font class="fr">库存：23</font></div>
-			</li>
-			<li>
-				<img src="images/img.jpg" />
-				<h3><a href="sc_cent.html">彤光科技</a></h3>
-				<div class="sc_price"><font size="+1" class="font_f60 fl">￥300</font><font class="fr">库存：23</font></div>
-			</li>
-			<li>
-				<img src="images/img.jpg" />
-				<h3><a href="sc_cent.html">彤光科技</a></h3>
-				<div class="sc_price"><font size="+1" class="font_f60 fl">￥300</font><font class="fr">库存：23</font></div>
-			</li>
-			<li class="jl">
-				<img src="images/img.jpg" />
-				<h3><a href="sc_cent.html">彤光科技</a></h3>
-				<div class="sc_price"><font size="+1" class="font_f60 fl">￥300</font><font class="fr">库存：23</font></div>
-			</li>
-			<li>
-				<img src="images/img.jpg" />
-				<h3><a href="sc_cent.html">彤光科技</a></h3>
-				<div class="sc_price"><font size="+1" class="font_f60 fl">￥300</font><font class="fr">库存：23</font></div>
-			</li>
+ 			{% endfor%}
 		</ul>
 	</div>
+
 		<div class="width_site">
 			<div class="main_page">
-			<a style="border-top-left-radius:3px;border-bottom-left-radius:3px; background-color:#7fbb30; color:#FFF" href="#">1</a><a href="#">2</a><a href="#">3</a><a style="border-right:#CCC solid 1px;border-top-right-radius:3px;border-bottom-right-radius:3px;" href="#">&gt;</a>
+						<?php
+            			if($page_split['total_split']>0){
+            					$url_pix="/raiseProduct";
+            				 if($page_split['now_split']>1){
+            				 $prev=$page_split['start']-1;
+            							echo "<a class='page_tag' href='$url_pix&page=$prev'><</a>";
+            							}
+
+            				for($i=$page_split['start'];$i<=$page_split['end'];$i++){
+            				if($i==intval($page->current))
+            				echo "<a href='javascript:;' class='current_page_tag'>".$i."</a>";
+            				else
+            				echo "<a href='$url_pix&page=$i'>".$i."</a>";
+            				}
+            				if($page_split['now_split']<$page_split['total_split']){
+            				$next=$page_split['end']+1;
+            				echo "<a class='page_tag' href='$url_pix&page=$next'>&gt;</a>";
+            				}
+                        }
+
+            			?>
 			</div>
 		</div>
+ {% endif %}
 </div>

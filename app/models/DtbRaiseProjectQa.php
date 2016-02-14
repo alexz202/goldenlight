@@ -5,6 +5,8 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
 
     public function initialize(){
         $this->belongsTo('raise_id','DtbRaiseProjectBasic','raise_id');
+        $this->hasOne('user_id','DtbUserBasic','user_id');
+       // $this->hasOne('company_admin_id','DtbUserBasic','user_id');
     }
     /**
      *

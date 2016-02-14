@@ -68,9 +68,10 @@ class Security extends Plugin
                 'Invest'=>array('index','pjCenter'),
                 'raiseFunds'=>array('index'),
                 'RaiseFunds'=>array('index'),
+                'RaiseProduct'=>array('index','pdShow'),
                 'raiseProduct'=>array('index','pdShow'),
                 'UserRaiseBasic'=>array('index','search','new','edit','create','save','delete'),
-                'UserRaiseBasic'=>array('index','search','new','edit','create','save','delete'),
+
 //                'Index' => array('index'),
             );
             foreach ($publicResources as $resource => $actions) {

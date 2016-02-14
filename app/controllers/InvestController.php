@@ -95,7 +95,7 @@ class InvestController extends ControllerBase
 
 
 
-    public function pjCenterAction()
+    public function pjCenterAction($raise_id)
     {
         if($this->request->isGet()){
             $raise_id=$this->request->getQuery('raise_id');
@@ -108,7 +108,10 @@ class InvestController extends ControllerBase
             $dtb_raise_project_basic=DtbRaiseProjectBasic::findFirst($parameters);
             $this->view->dtb_raise_project_basic=$dtb_raise_project_basic;
 
+            $volt = new \Phalcon\Mvc\View\Engine\Volt($this->view, $this->di);
 
+            $compiler = $volt->getCompiler();
+            $compiler->addFunction('shuffle', 'md5');
 
         }
         else{
@@ -117,6 +120,40 @@ class InvestController extends ControllerBase
 
 
     }
+
+
+    public function makeOrder($raise_id){
+        if (!$this->request->isPost()) {
+
+            $dtb_project = DtbRaiseProjectBasic::findFirstByraise_id($raise_id);
+            if (!$dtb_project) {
+                $this->flash->error("dtb_product was not found");
+
+            }
+
+            $this->view->raise_id = $dtb_project->raise_id;
+
+            $this->tag->setDefault("project_name", $dtb_project->getProjectName());
+            $this->tag->setDefault("user_id", $dtb_project->getUserId());
+            $this->tag->setDefault("project_desc", $dtb_project->getProjectDesc());
+            $this->tag->setDefault("aim_money", $dtb_project->getAimMoney());
+            $this->tag->setDefault("aim_equity_offered", $dtb_project->getAimEquityOffered());
+            $this->tag->setDefault("already_equity_offered", $dtb_project->getAlreadyEquityOffered());
+            $this->tag->setDefault("already_money", $dtb_project->getAlreadyMoney());
+            $this->tag->setDefault("rate_of_return", $dtb_project->getRateOfReturn());
+
+        }
+    }
+
+    public function submitOrder($raise_id){
+         //TODO 生成订单
+
+
+
+
+    }
+
+
 
 
 }

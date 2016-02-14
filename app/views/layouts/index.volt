@@ -7,6 +7,8 @@
          {{ stylesheet_link('css/bootstrap/bootstrap.min.css') }}
          {{ stylesheet_link('js/uploadify/uploadify.css') }}
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+       {{javascript_include('js/jquery/jquery-2.1.4.min.js')}}
+             {{javascript_include('js/bootstrap/bootstrap.min.js')}}
         <title>金色光首页</title>
     </head>
     <body>
