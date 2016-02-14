@@ -107,8 +107,7 @@ $(function(){
 
     });
 
-    //cityselect
-    $("#city_select").citySelect({prov:"北京",nodata:"none"});
+
 
     //add_new_project
     $('#add_new_project').click(function(){
@@ -162,4 +161,48 @@ $(function(){
     })
 
 
+    var lasttime=0;
+    var InterValObj;
+    var waits=60;
+    var curCount=waits;
+    var is_clicked=false;
+    $('#resetm').bind('click',function(){
+        if(is_clicked==false){
+            var phone= $('#mobile').val();
+            //$.ajax({
+            //    type:'get',
+            //    dataType:'jsonp',
+            //    data:'',
+            //    jsonp:'callback',
+            //    url:'http://180.168.179.50:8081/IFC/SMS/SmsSend.ashx?hl_mobile='+phone,
+            //    success:function(msg){
+            //        // console.log(msg);
+            //        lasttime=nowtimer;
+            //    },
+            //    timeout:3000
+            //});
+            $('#resetm').attr("disabled", "true");
+            is_clicked=true;
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        }
+
+    });
+//timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            //$("#resetm").removeAttr("disabled");//启用按钮
+            is_clicked=false;
+            $("#resetm").html("重新发送验证码");
+            curCount=waits;
+            lasttime=1;
+//                    code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+        }
+        else {
+            curCount--;
+            $("#resetm").html( curCount + "秒后重新发送");
+        }
+    }
+
 })
+

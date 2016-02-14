@@ -145,6 +145,7 @@
 
     {{javascript_include('js/cityselect/jquery.cityselect.js')}}
     {{javascript_include('js/register.js')}}
+      {{javascript_include('js/apply.js')}}
     {{javascript_include('js/uploadify/jquery.uploadify.min.js')}}
 <script type="text/javascript">
 $('#tag_leader_show').popover({html:true,

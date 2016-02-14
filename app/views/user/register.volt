@@ -32,7 +32,8 @@
                   <tr>
                     <td align="right">验证码</td>
                     <td><input name="mobile_code" type="text" class="dl_input_200" size="48" /></td>
-                    <td><span class="bnt_duanxin"><a href="#">发送短信验证码</a></span></td>
+                    <td><div class="bnt_duanxin" id='resetm' style='cursor:pointer;'>
+                    发送短信验证码</div></td>
                   </tr>
                   <tr>
                     <td>&nbsp;</td>
