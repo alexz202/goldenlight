@@ -25,12 +25,21 @@ class UserController extends ControllerBase
            // $type = $this->request->getPost('type');
 
 
-
             //Taking the variables sent by POST
 //            $mobile = $this->request->getPost('mobile');
 //            $email = $this->request->getPost('email');
             $account_id = $this->request->getPost('account_id');
             $password = $this->request->getPost('password');
+            $img_verity=$this->request->getPost('img_verity');
+            $res=$this->checkVerity($img_verity);
+            if(!$res){
+                $this->flash->error('验证码错误');
+                return $this->dispatcher->forward(array(
+                    'controller' => 'user',
+                    'action' => 'login'
+                ));
+            }
+
             $mobile = $account_id;
             $email = $account_id;
             $ubm = new DtbUserBasic();
@@ -82,6 +91,7 @@ class UserController extends ControllerBase
     public function registerSubmitAction(){
         if ($this->request->isPost()) {
             $type = $this->request->getPost('type');
+
             $params = array();
             $ubm = new DtbUserBasic();
             $check_value = true;
@@ -89,6 +99,16 @@ class UserController extends ControllerBase
             $password = $this->request->getPost('password');
             $nickname = $this->request->getPost('nickname');
             $img_verity=$this->request->getPost('img_verity');
+
+           $res= $this->checkVerity($img_verity);
+            if(!$res){
+                $this->flash->error('验证码错误！！');
+                return $this->dispatcher->forward(array(
+                    'controller' => 'user',
+                    'action' => 'register'
+                ));
+            }
+
 
             if ($type == 1) {
                 //mobile
@@ -299,6 +319,18 @@ class UserController extends ControllerBase
     /*
      * 申请企业投资人
      */
+
+
+    public function imgVerity(){
+        $verity=new \Think\Verify();
+        $verity->entry(1);
+
+    }
+
+    private function checkVerity($img_verity){
+        $verity=new \Think\Verify();
+       return $res=$verity->check($img_verity);
+    }
 
     public function applyCompanyAction(){
         if (isset($_GET['user_id'])) {

@@ -61,7 +61,7 @@ class Security extends Plugin
             }
             //Public area resources
             $publicResources = array(
-                'user' => array('index', 'register', 'login','loginSubmit','registerSubmit','loginout','applyInvest','applyPerson','applyPersonSubmit','applyCompany','applyCompanySubmit','applyTest'),
+                'user' => array('index', 'register', 'login','loginSubmit','registerSubmit','loginout','applyInvest','applyPerson','applyPersonSubmit','applyCompany','applyCompanySubmit','applyTest','imgVerity'),
                 'index' => array('index'),
                 'file'=>array('upload'),
                 'invest'=>array('index','pjCenter'),

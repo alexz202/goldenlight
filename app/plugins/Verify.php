@@ -11,9 +11,11 @@
 
 namespace Think;
 
+define(NOW_TIME,time());
+
 class Verify {
     protected $config =	array(
-        'seKey'     => 'ThinkPHP.CN',   //验证码加密密钥
+        'seKey'     => 'gold.light',   //验证码加密密钥
         'expire'    => 1800,            // 验证码过期时间（s）
         'useZh'     => false,           // 使用中文验证码 
         'useImgBg'  => false,           // 使用背景图片 

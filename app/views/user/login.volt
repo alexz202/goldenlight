@@ -19,9 +19,9 @@
                     <td colspan="2"><input type="password" type="text" class="dl_input" size="48" id='password' name='password'  /></td>
                   </tr>
                   <tr>
-                    <td align="right">图片认证</td>
+                    <td align="right">验证码</td>
                     <td width="46%"><input name="img_verity" type="text" class="dl_input_200" size="48"  id='img_verity'/></td>
-                    <td>图形认证图片</td>
+                    <td><img src='/user/imgVerity'></td>
                   </tr>
                 <!--  <tr>
                     <td align="right">验证码</td>
