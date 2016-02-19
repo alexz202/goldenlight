@@ -40,8 +40,8 @@
             {% for dtb_raise_project_basic in page.items %}
 			<li><div style=" position:absolute"><div class="img_logo_touzi"><img src="/images/img_logo.jpg" /></div></div>
 				<img src="/images/img.jpg" />
-				<h3><a href="/Invest/pjCenter?raise_id={{dtb_raise_project_basic.getRaiseId()}}">{{ dtb_raise_project_basic.getProjectName() }}</a></h3>
-				<h4><a href="/Invest/pjCenter?raise_id={{dtb_raise_project_basic.getRaiseId()}}">{{ dtb_raise_project_basic.getProjectDesc() }}</a>……</h4>
+				<h3><a href="/invest/pjCenter?raise_id={{dtb_raise_project_basic.getRaiseId()}}">{{ dtb_raise_project_basic.getProjectName() }}</a></h3>
+				<h4><a href="/invest/pjCenter?raise_id={{dtb_raise_project_basic.getRaiseId()}}">{{ dtb_raise_project_basic.getProjectDesc() }}</a>……</h4>
 				<div class="touzi_main_canshuo">
 					<span class="line_right">融资额<br /><font>{{ dtb_raise_project_basic.DtbRaiseProjectWheel.getAimMoney() }}万元</font></span>
 					<span class="line_right">出让股份 <br /><font>{{ dtb_raise_project_basic.DtbRaiseProjectWheel.getAimEquityOffered() }}%</font></span>
@@ -59,7 +59,7 @@
 			<div class="main_page">
 			<?php
 			if($page_split['total_split']>0){
-					$url_pix="/Invest?project_type=".$project_type.'&project_grow_up='.$project_grow_up;
+					$url_pix="/invest?project_type=".$project_type.'&project_grow_up='.$project_grow_up;
 				 if($page_split['now_split']>1){
 				 $prev=$page_split['start']-1;
 							echo "<a class='page_tag' href='$url_pix&page=$prev'><</a>";

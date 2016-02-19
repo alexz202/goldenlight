@@ -5,9 +5,9 @@
 		  <div style='float:left;'>
 				<ul>
 					<li><a href="/index">首页</a></li>
-					<li><a href="/Invest">投资</a></li>
-					<li><a href="/RaiseFunds">筹资</a></li>
-					<li><a href="/raiseProduct">网上商城</a></li>
+					<li><a href="/invest">投资</a></li>
+					<li><a href="/raise_funds">筹资</a></li>
+					<li><a href="/raise_product">网上商城</a></li>
 					<li><a href="">转让</a></li>
 					</ul>
  				</div>

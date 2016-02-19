@@ -61,16 +61,13 @@ class Security extends Plugin
             }
             //Public area resources
             $publicResources = array(
-                'user' => array('index', 'register', 'login','loginSubmit','registerSubmit','loginout','applyInvest','applyPerson','applyPersonSubmit','applyCompany','applyCompanySubmit','applyTest','imgVerity'),
+                'user' => array('index', 'register', 'login','loginSubmit','registerSubmit','loginout','applyInvest','applyPerson','applyPersonSubmit','applyCompany','applyCompanySubmit','applyTest','imgVerity','img_verity'),
                 'index' => array('index'),
                 'file'=>array('upload'),
                 'invest'=>array('index','pjCenter'),
-                'Invest'=>array('index','pjCenter'),
-                'raiseFunds'=>array('index'),
-                'RaiseFunds'=>array('index'),
-                'RaiseProduct'=>array('index','pdShow'),
-                'raiseProduct'=>array('index','pdShow'),
-                'UserRaiseBasic'=>array('index','search','new','edit','create','save','delete'),
+                'raise_funds'=>array('index'),
+                'raise_product'=>array('index','pdShow'),
+                'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
 
 //                'Index' => array('index'),
             );

@@ -321,14 +321,14 @@ class UserController extends ControllerBase
      */
 
 
-    public function imgVerity(){
-        $verity=new \Think\Verify();
+    public function imgVerityAction(){
+        $verity=new Verify();
         $verity->entry(1);
 
     }
 
     private function checkVerity($img_verity){
-        $verity=new \Think\Verify();
+        $verity=new Verify();
        return $res=$verity->check($img_verity);
     }
 

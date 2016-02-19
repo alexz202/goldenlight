@@ -9,9 +9,9 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Think;
+#namespace Think;
 
-define(NOW_TIME,time());
+
 
 class Verify {
     protected $config =	array(
@@ -19,12 +19,12 @@ class Verify {
         'expire'    => 1800,            // 验证码过期时间（s）
         'useZh'     => false,           // 使用中文验证码 
         'useImgBg'  => false,           // 使用背景图片 
-        'fontSize'  => 25,              // 验证码字体大小(px)
-        'useCurve'  => true,            // 是否画混淆曲线
-        'useNoise'  => true,            // 是否添加杂点	
-        'imageH'    => 0,               // 验证码图片高度
-        'imageW'    => 0,               // 验证码图片宽度
-        'length'    => 5,               // 验证码位数
+        'fontSize'  => 20,              // 验证码字体大小(px)
+        'useCurve'  => false,            // 是否画混淆曲线
+        'useNoise'  => false,            // 是否添加杂点
+        'imageH'    => 50,               // 验证码图片高度
+        'imageW'    => 150,               // 验证码图片宽度
+        'length'    => 4,               // 验证码位数
         'fontttf'   => '',              // 验证码字体，不设置随机获取
         'bg'        => array(243, 251, 254),  // 背景颜色
         );
@@ -81,7 +81,7 @@ class Verify {
 
         $secode = $id ? $session[$id] : $session;
         // session 过期
-        if(NOW_TIME - $secode['verify_time'] > $this->expire) {
+        if(time() - $secode['verify_time'] > $this->expire) {
             //session($key, null);
             $_SESSION[$key]=null;
             return false;
@@ -101,6 +101,8 @@ class Verify {
      * 验证码保存到session的格式为： array('code' => '验证码值', 'time' => '验证码创建时间');
      */
     public function entry($id = '') {
+
+        $now_time=time();
         // 图片宽(px)
         $this->imageW || $this->imageW = $this->length*$this->fontSize*1.5 + $this->length*$this->fontSize/2; 
         // 图片高(px)
@@ -113,11 +115,13 @@ class Verify {
         // 验证码字体随机颜色
         $this->_color = imagecolorallocate($this->_image, mt_rand(1,150), mt_rand(1,150), mt_rand(1,150));
         // 验证码使用随机字体
-        $ttfPath = dirname(__FILE__) . '/Verify/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
+        //$ttfPath = dirname(__FILE__) . '/Verify/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
+        $ttfPath = __DIR__ . '/Verify/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
+        //$ttfPath =  './Verify/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
 
         if(empty($this->fontttf)){
             $dir = dir($ttfPath);
-            $ttfs = array();		
+            $ttfs = array();
             while (false !== ($file = $dir->read())) {
                 if($file[0] != '.' && substr($file, -4) == '.ttf') {
                     $ttfs[] = $file;
@@ -125,17 +129,20 @@ class Verify {
             }
             $dir->close();
             $this->fontttf = $ttfs[array_rand($ttfs)];
-        } 
+        }
+
         $this->fontttf = $ttfPath . $this->fontttf;
+
+       // $this->fontttf=dirname(__FILE__) . "/Verify/ttfs/1.ttf";
         
         if($this->useImgBg) {
             $this->_background();
         }
-        
+
         if ($this->useNoise) {
             // 绘杂点
             $this->_writeNoise();
-        } 
+        }
         if ($this->useCurve) {
             // 绘干扰线
             $this->_writeCurve();
@@ -154,31 +161,35 @@ class Verify {
                 $this->useZh || imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize*1.6, $this->_color, $this->fontttf, $code[$i]);
             }
         }
+
         
         $this->useZh && imagettftext($this->_image, $this->fontSize, 0, ($this->imageW - $this->fontSize*$this->length*1.2)/3, $this->fontSize * 1.5, $this->_color, $this->fontttf, iconv("GB2312","UTF-8", join('', $code)));
-        
+
+
         // 保存验证码
         $key = $this->authcode($this->seKey);
         $code = $this->authcode(strtoupper(implode('', $code)));
         $session = array();
         if($id) {
             $session[$id]['verify_code'] = $code; // 把校验码保存到session
-            $session[$id]['verify_time'] = NOW_TIME;  // 验证码创建时间
+            $session[$id]['verify_time'] = $now_time;  // 验证码创建时间
         } else {
             $session['verify_code'] = $code; // 把校验码保存到session
-            $session['verify_time'] = NOW_TIME;  // 验证码创建时间
+            $session['verify_time'] = $now_time;  // 验证码创建时间
         }
+
         //session($key, $session);
-        $session[$key]=$session;
-                
+        $_SESSION[$key]=$session;
+
         header('Cache-Control: private, max-age=0, no-store, no-cache, must-revalidate');
         header('Cache-Control: post-check=0, pre-check=0', false);		
         header('Pragma: no-cache');
         header("content-type: image/png");
 
         // 输出图像
-        imagepng($this->_image);
+        $ss=imagepng($this->_image);
         imagedestroy($this->_image);
+        exit();
     }
 
     /** 

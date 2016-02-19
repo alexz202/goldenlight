@@ -24,9 +24,9 @@
 	<div class="width_site">
 			<ul>
 			<li class="fl"><a href="/index">首页</a></li>
-            					<li class="fl"><a href="/Invest">投资</a></li>
-            					<li class="fl"><a href="/RaiseFunds">筹资</a></li>
-            					<li class="fl"><a href="/raiseProduct">网上商城</a></li>
+            					<li class="fl"><a href="/invest">投资</a></li>
+            					<li class="fl"><a href="/raise_funds">筹资</a></li>
+            					<li class="fl"><a href="/raise_product">网上商城</a></li>
             					<li class="fl"><a href="">转让</a></li>
 				<li class="fl"><a href="more.html">更多</a></li>
 				<li class="fr"><img style="width:36px; height:36px;border-radius:20px; " src="images/ic03.png" />&nbsp;<a href="#">用户中心</a></li>
