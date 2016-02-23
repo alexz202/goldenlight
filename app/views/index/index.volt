@@ -1,4 +1,6 @@
-<div class="width100P vis"></div>
+<div class="width100P vis">
+<img src='/images/banner01.jpg' style='width:1100px;height:400px'/>
+</div>
 <div class="blank"></div>
 <div class="width_site blank part01">
 	<ul>

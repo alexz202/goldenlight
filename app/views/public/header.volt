@@ -1,6 +1,6 @@
 <div class="top width_100P">
 	<div class="width_site">
-	  <div class="logo fl"><a href="index.html"><img src="/images/LOGO.jpg" width="170" height="67" border="0" /></a></div>
+	  <div class="logo fl"><a href="/index"><img src="/images/LOGO.jpg" width="170" height="67" border="0" /></a> &nbsp;&nbsp;&nbsp;&nbsp;网站建设中，请稍后访问。。。</div>
 	  <div class="nav_header fr">
 		  <div style='float:left;'>
 				<ul>

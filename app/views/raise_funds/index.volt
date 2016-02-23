@@ -1,6 +1,6 @@
 <div class="width100P vis">
 	<div class="width_site">
-		<div class="bnt_vis"><a href="#">开始筹资</a></div>
+		<div class="bnt_vis" style=''><a href="#">开始筹资</a></div>
 	</div>
 </div>
 <div class="blank"></div>

@@ -1,4 +1,5 @@
-<div class="width100P vis"></div>
+<div class="width100P vis">
+<img src='/images/banner01.jpg' style='width:1100px;height:400px'/></div>
 <div class="width100P bg">
 	<div class="width_site">
 		<div class="touzi_title"><a href="/index">首页</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;项目列表</div>
