@@ -1,6 +1,6 @@
 <div class="top width_100P">
 	<div class="width_site">
-	  <div class="logo fl"><a href="/index"><img src="/images/LOGO.jpg" width="170" height="67" border="0" /></a> &nbsp;&nbsp;&nbsp;&nbsp;网站建设中，请稍后访问。。。</div>
+	  <div class="logo fl"><a href="/index"><img src="/images/LOGO.jpg" width="170" height="67" border="0" /></a></div>
 	  <div class="nav_header fr">
 		  <div style='float:left;'>
 				<ul>
@@ -9,27 +9,13 @@
 					<li><a href="/raise_funds">筹资</a></li>
 					<li><a href="/raise_product">网上商城</a></li>
 					<li><a href="">转让</a></li>
-					</ul>
- 				</div>
-			<div class="dropdown" style='float:left;'>
-					  <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-						更多>
-					  </a>
-					  <ul class="dropdown-menu" aria-labelledby="dLabel">
-					  <li><a href="">转让</a></li>
-					  <li><a href="">转让</a></li>
-					  <li><a href="">转让</a></li>
-					  </ul>
-		    </div>
-		<div style='float:left;'>
-					<ul>
+					<li><a href="">更多</a></li>
 					<li>
 					 {%if isLogin==1 %}
-					 <a href="/user/loginout"><span class="dl">登&nbsp;出</span></a>欢迎你
+<a href="/user/login"><img style="width:36px; height:36px;border-radius:20px; " src="/images/ic03.png" />&nbsp;<a href="/user/login">用户中心</a>
 					 {%else%}
 					 <a href="/user/login"><span class="dl">登&nbsp;录</span></a>    <a href="/user/register"><span class="zc">注&nbsp;册</span></a>
 					 {% endif  %}
-
 					</li>
 				</ul>
 		<div>

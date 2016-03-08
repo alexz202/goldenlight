@@ -40,6 +40,13 @@ class Security extends Plugin
             //Private area resources
             $privateResources = array(
                 'user' => array('center','changeAvatar','changePassword','applyInvest','applyPerson','applyCompany','applyTest'),
+                'raise_funds'=>array('create'),
+                'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_idea'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_market'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_qa'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_team'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_updates'=>array('index','search','new','edit','create','save','delete'),
 
             );
             //Grant resources to role users
@@ -49,9 +56,23 @@ class Security extends Plugin
                 ),
                 'Person' => array(
                     'user' => array('center','changeAvatar','changePassword'),
+                    'raise_funds'=>array('create'),
+                    'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_idea'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_market'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_qa'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_team'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_updates'=>array('index','search','new','edit','create','save','delete'),
                 ),
                 'Company' => array(
                     'user' => array('center','changeAvatar','changePassword'),
+                    'raise_funds'=>array('create'),
+                    'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_idea'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_market'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_qa'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_team'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_updates'=>array('index','search','new','edit','create','save','delete'),
                 ),
 
             );
@@ -67,8 +88,7 @@ class Security extends Plugin
                 'invest'=>array('index','pjCenter'),
                 'raise_funds'=>array('index'),
                 'raise_product'=>array('index','pdShow'),
-                'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
-
+                'user_raise_basic'=>array('ajaxGetType'),
 //                'Index' => array('index'),
             );
             foreach ($publicResources as $resource => $actions) {
@@ -107,7 +127,7 @@ class Security extends Plugin
                 $role = 'Guests';
             } else {
                 $role = $this->_getCookie('role');
-                // $role='Common';
+                $role='Person';
             }
 
         }else{

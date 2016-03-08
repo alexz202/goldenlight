@@ -14,6 +14,24 @@ class UserRaiseBasicController extends ControllerBase
         $this->persistent->parameters = null;
     }
 
+
+    public function ajaxGetTypeAction(){
+        if($this->request->isPost()){
+            $pid=$this->request->getPost('pid');
+            //行业分类
+            $type_children_list=array();
+            $type_list = $this->_getBusTypeList();
+            if(isset($type_list[$pid])){
+                $type_children_list=$type_list[$pid]['children'];
+                echo json_encode($type_children_list);
+            }
+
+        }else{
+            echo json_encode(array());
+        }
+        $this->view->disable();
+    }
+
     /**
      * Searches for dtb_raise_project_basic
      */
@@ -58,6 +76,28 @@ class UserRaiseBasicController extends ControllerBase
      */
     public function newAction()
     {
+        $type= $this->request->get('type');
+        $type=empty($type)?0:$type;
+        $user_id=$this->_getCookie('user_id');
+        $project_basic=DtbRaiseProjectBasic::findFirst(
+        array(
+            "conditions" => "user_id = :user_id: and status=0  ",
+            "bind"       => array("user_id" => $user_id),
+            "order"=>'raise_id desc'
+        ));
+
+        if($project_basic){
+           // $this->view->setVar('raise_id',$project_basic->getRaiseId());
+            $this->view->setVar('raise_id',1);
+        }else{
+
+        }
+        //tag default
+        $this->tag->setDefault('project_grow_up',$type);
+        $this->tag->setDefault('currency',1);
+        //行业分类
+        $type_list = $this->_getBusTypeList();
+        $this->view->type_list = $type_list;
 
     }
 
@@ -140,38 +180,51 @@ class UserRaiseBasicController extends ControllerBase
         $dtb_raise_project_basic->setProjectGrowUp($this->request->getPost("project_grow_up"));
         $dtb_raise_project_basic->setCompanyLogo($this->request->getPost("company_logo"));
         $dtb_raise_project_basic->setAimMoney($this->request->getPost("aim_money"));
-        $dtb_raise_project_basic->setAimEquityOffered($this->request->getPost("aim_equity_offered"));
-        $dtb_raise_project_basic->setAlreadyEquityOffered($this->request->getPost("already_equity_offered"));
-        $dtb_raise_project_basic->setAlreadyMoney($this->request->getPost("already_money"));
-        $dtb_raise_project_basic->setValuation($this->request->getPost("valuation"));
-        $dtb_raise_project_basic->setRateOfReturn($this->request->getPost("rate_of_return"));
-        $dtb_raise_project_basic->setVideoUrl($this->request->getPost("video_url"));
-        $dtb_raise_project_basic->setAddress1($this->request->getPost("address1"));
-        $dtb_raise_project_basic->setAddress2($this->request->getPost("address2"));
-        $dtb_raise_project_basic->setCountry($this->request->getPost("country"));
-        $dtb_raise_project_basic->setProvince($this->request->getPost("province"));
-        $dtb_raise_project_basic->setDist($this->request->getPost("dist"));
-        $dtb_raise_project_basic->setCity($this->request->getPost("city"));
-        $dtb_raise_project_basic->setPostCard($this->request->getPost("post_card"));
-        $dtb_raise_project_basic->setCompany($this->request->getPost("company"));
+
+
+        //图片上传
+        $img_list=array();
+        $project_log=array();
+        list($img_list,$project_log) = $this->_upload_img();
+        $company_logo=isset($img_list['company_logo'])?$img_list['company_logo']:'';
+        var_dump($company_logo);
+
+       // $dtb_raise_project_basic->setAimEquityOffered($this->request->getPost("aim_equity_offered"));
+       // $dtb_raise_project_basic->setAlreadyEquityOffered($this->request->getPost("already_equity_offered"));
+        //$dtb_raise_project_basic->setAlreadyMoney($this->request->getPost("already_money"));
+        //$dtb_raise_project_basic->setValuation($this->request->getPost("valuation"));
+        //$dtb_raise_project_basic->setRateOfReturn($this->request->getPost("rate_of_return"));
+        //$dtb_raise_project_basic->setVideoUrl($this->request->getPost("video_url"));
+        //$dtb_raise_project_basic->setAddress1($this->request->getPost("address1"));
+        //$dtb_raise_project_basic->setAddress2($this->request->getPost("address2"));
+        //$dtb_raise_project_basic->setCountry($this->request->getPost("country"));
+        //$dtb_raise_project_basic->setProvince($this->request->getPost("province"));
+        //$dtb_raise_project_basic->setDist($this->request->getPost("dist"));
+        //$dtb_raise_project_basic->setCity($this->request->getPost("city"));
+        //$dtb_raise_project_basic->setPostCard($this->request->getPost("post_card"));
+        //$dtb_raise_project_basic->setCompany($this->request->getPost("company"));
         $dtb_raise_project_basic->setWebstate($this->request->getPost("webstate"));
-        $dtb_raise_project_basic->setCreateTs($this->request->getPost("create_ts"));
-        $dtb_raise_project_basic->setPublicTs($this->request->getPost("public_ts"));
-        $dtb_raise_project_basic->setEndTs($this->request->getPost("end_ts"));
+        $dtb_raise_project_basic->setCreateTs(time());
+        $dtb_raise_project_basic->setPublicTs(time()+10*24*3600);//默认10天
+        $dtb_raise_project_basic->setEndTs(time()+180*24*3600);//默认3个月
         $dtb_raise_project_basic->setInvestedNum($this->request->getPost("invested_num"));
         $dtb_raise_project_basic->setCurrency($this->request->getPost("currency"));
-        $dtb_raise_project_basic->setNextTwoYTotalWage($this->request->getPost("next_two_y_total_wage"));
+        //$dtb_raise_project_basic->setNextTwoYTotalWage($this->request->getPost("next_two_y_total_wage"));
         $dtb_raise_project_basic->setNextDiscount($this->request->getPost("next_discount"));
-        $dtb_raise_project_basic->setComment($this->request->getPost("comment"));
-        $dtb_raise_project_basic->setStatus($this->request->getPost("status"));
-        $dtb_raise_project_basic->setResult($this->request->getPost("result"));
+        //$dtb_raise_project_basic->setComment($this->request->getPost("comment"));
+        //$dtb_raise_project_basic->setStatus($this->request->getPost("status"));
+        //$dtb_raise_project_basic->setResult($this->request->getPost("result"));
+
+
 
 
         if (!$dtb_raise_project_basic->save()) {
+
             foreach ($dtb_raise_project_basic->getMessages() as $message) {
                 $this->flash->error($message);
             }
 
+            die();
             return $this->dispatcher->forward(array(
                 "controller" => "dtb_raise_project_basic",
                 "action" => "new"
@@ -179,6 +232,7 @@ class UserRaiseBasicController extends ControllerBase
         }
 
         $this->flash->success("dtb_raise_project_basic was created successfully");
+        die('cusss');
 
         return $this->dispatcher->forward(array(
             "controller" => "dtb_raise_project_basic",
@@ -186,6 +240,10 @@ class UserRaiseBasicController extends ControllerBase
         ));
 
     }
+
+
+
+
 
     /**
      * Saves a dtb_raise_project_basic edited
@@ -304,6 +362,48 @@ class UserRaiseBasicController extends ControllerBase
             "controller" => "UserRaiseBasic",
             "action" => "index"
         ));
+    }
+
+
+
+    private function _upload_img(){
+        $img_list=array();
+        $project_logo=array();
+        //图片上传
+        if ($this->request->hasFiles()) {
+            $i=0;
+            // Print the real file names and sizes
+            foreach ($this->request->getUploadedFiles() as $file) {
+                $o_name= $file->getName();
+                if($file->getKey()=='project_logo'){
+                    if(empty($o_name))
+                        //特殊处理
+                        $project_logo[$i]='';
+                    else{
+                        $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
+                        // Print file details
+                        $file_name = sha1(time() . mt_rand(111111, 999999)) . "." . $ext;
+                        $img_list[$file->getKey()]=$file_name;
+                        $project_logo[$i]=$file_name;
+                        //  $file->moveTo('files/' . $file_name);
+                    }
+                    $i++;
+
+                }else{
+                    if(!empty($o_name)){
+                        $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
+                        // Print file details
+                        $file_name = sha1(time() . mt_rand(111111, 999999)) . "." . $ext;
+                        $img_list[$file->getKey()]=$file_name;
+                        // Move the file into the application
+                        // $file->moveTo('files/' . $file->getName());
+                        //  $file->moveTo('files/' . $file_name);
+
+                    }
+                }
+            }
+        }
+        return array($img_list,$project_logo);
     }
 
 }

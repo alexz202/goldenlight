@@ -192,6 +192,9 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
      */
     protected $result;
 
+    protected $aim_money;
+
+
     /**
      * Method to set the value of field raise_id
      *
@@ -227,6 +230,13 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     public function setProjectName($project_name)
     {
         $this->project_name = $project_name;
+
+        return $this;
+    }
+
+    public function setAimMoney($aim_money)
+    {
+        $this->aim_money = $aim_money;
 
         return $this;
     }
@@ -636,6 +646,13 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     {
         return $this->project_desc;
     }
+
+
+    public function getAimMoney()
+    {
+        return $this->aim_money;
+    }
+
 
     /**
      * Returns the value of field project_grow_up

@@ -6,7 +6,7 @@
 	</div>
 	<div class="dl_cent">
 		<div class="dl_cent_center">
-			<form action="/user/applyCompanySubmit" method="post" id='apply_form'>
+			<form action="/user/applyCompanySubmit" method="post" id='apply_form' enctype='multipart/form-data'>
 			  <table width="100%" border="0" cellspacing="0" cellpadding="5" id='tb_mobile'>
                   <tr>
                     <td width="17%" align="right">法人姓名</td>

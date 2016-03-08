@@ -22,6 +22,7 @@ class UserController extends ControllerBase
     }
     public function loginSubmitAction(){
         if ($this->request->isPost()) {
+
            // $type = $this->request->getPost('type');
 
 
@@ -31,14 +32,14 @@ class UserController extends ControllerBase
             $account_id = $this->request->getPost('account_id');
             $password = $this->request->getPost('password');
             $img_verity=$this->request->getPost('img_verity');
-            $res=$this->checkVerity($img_verity);
-            if(!$res){
-                $this->flash->error('验证码错误');
-                return $this->dispatcher->forward(array(
-                    'controller' => 'user',
-                    'action' => 'login'
-                ));
-            }
+            //$res=$this->checkVerity($img_verity);
+//            if(!$res){
+//                $this->flash->error('验证码错误');
+//                return $this->dispatcher->forward(array(
+//                    'controller' => 'user',
+//                    'action' => 'login'
+//                ));
+//            }
 
             $mobile = $account_id;
             $email = $account_id;
@@ -376,7 +377,7 @@ class UserController extends ControllerBase
 //            $legal_idc_img1 = $this->request->getPost('legal_idc_img1');
 //            $legal_idc_img2 = $this->request->getPost('legal_idc_img2');
             $legal_idc_img1=isset($img_list['legal_idc_img1'])?$img_list['legal_idc_img1']:'';
-            $legal_idc_img1=isset($img_list['$legal_idc_img2'])?$img_list['legal_idc_img2']:'';
+            $legal_idc_img2=isset($img_list['legal_idc_img2'])?$img_list['legal_idc_img2']:'';
 
 
             $contact_name = $this->request->getPost('contact_name');

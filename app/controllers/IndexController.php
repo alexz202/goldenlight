@@ -62,6 +62,26 @@ class IndexController extends ControllerBase
 
     }
 
+    public function ajaxGetTypeAction(){
+        echo 1;
+        die();
+        if($this->request->isPost()){
+            $pid=$$this->request->getPost('pid');
+            //行业分类
+            $type_children_list=array();
+            $type_list = $this->_getBusTypeList();
+            if(isset($type_list[$pid])){
+                $type_children_list=$type_list[$pid];
+                echo json_encode($type_children_list);
+            }
+
+        }else{
+            die('111');
+        }
+
+
+    }
+
 
 }
 
