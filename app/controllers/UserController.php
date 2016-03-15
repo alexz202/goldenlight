@@ -1,5 +1,10 @@
 <?php
 
+
+define('user_basic',1);
+define('changepassword',2);
+define('changemail',3);
+
 class UserController extends ControllerBase
 {
 
@@ -538,6 +543,7 @@ class UserController extends ControllerBase
 
     public function centerAction()
     {
+        $this->view->setVar('is_current',user_basic);
         //用户中心；
         echo "hello,to center";
     }
@@ -562,6 +568,8 @@ class UserController extends ControllerBase
             } else
                 $this->flash->error('修改失败');
         }
+
+        $this->view->setVar('is_current',changepassword);
     }
 
     public function changeAvatarAction()
@@ -572,6 +580,28 @@ class UserController extends ControllerBase
             $avatar_url = $this->request->getPost('avatar_url');
             $user_basic = new DtbUserBasic();
             $result = $user_basic->changeAvatar($user_id, $avatar_url);
+            if ($result) {
+                $this->flash->success('修改成功');
+                return $this->dispatcher->forward(array(
+                    'controller' => 'User',
+                    'action' => 'center'
+                ));
+            } else
+                $this->flash->error('修改失败');
+        }
+        $this->view->setVar('is_current',changemail);
+
+    }
+
+
+    public function changeMailAction()
+    {
+        $this->__initStatic();
+        if ($this->request->isPost()) {
+            $user_id = $this->request->getPost('user_id');
+            $mail = $this->request->getPost('email');
+            $user_basic = new DtbUserBasic();
+            $result = $user_basic->changeMail($user_id, $mail);
             if ($result) {
                 $this->flash->success('修改成功');
                 return $this->dispatcher->forward(array(

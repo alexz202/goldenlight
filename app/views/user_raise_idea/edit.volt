@@ -1,87 +1,61 @@
 {{ content() }}
-{{ form("dtb_raise_project_idea/save", "method":"post") }}
+<div class="width100P bg">
+	<div class="user_nav">
+	{{ partial("public/user_nav")}}
+	</div>
+	<div class="user">
+			{{ partial("public/project_nav")}}
 
-<table width="100%">
-    <tr>
-        <td align="left">{{ link_to("dtb_raise_project_idea", "Go Back") }}</td>
-        <td align="right">{{ submit_button("Save") }}</td>
-    </tr>
-</table>
+        	    {% if raise_id is defined %}
+            		{{ form("user_raise_idea/save", "method":"post","enctype":"multipart/form-data","id":"add_form") }}
+            		 {{ hidden_field("raise_id", "size" : 30,"value": raise_id) }}
+            		  {{ hidden_field("project_type", "size" : 30,"value": project_type) }}
+            		{% else%}
+                    {% endif %}
+		<table width="100%" border="0" cellspacing="0" cellpadding="30">
+		  <tr>
+			<td><table width="100%" border="0" cellspacing="0" cellpadding="10">
 
-<div align="center">
-    <h1>Edit dtb_raise_project_idea</h1>
+
+              <tr>
+               <td align="right">产品介绍</td>
+               <td>  {{ text_area("idea_info", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+             </tr>
+
+              <tr>
+                <td align="right">影响</td>
+                <td>  {{ text_area("purpose", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+              </tr>
+{%if project_type>0%}
+               <tr>
+                              <td align="right">取得的成就</td>
+                              <td>  {{ text_area("livestock", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+               </tr>
+
+{%endif%}
+             <tr>
+             <td align="right">筹资模式</td>
+                    <td>  {{ text_area("useform", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+              </tr>
+
+               <tr>
+               <td align="right">筹资用途</td>
+                      <td>  {{ text_area("technical", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+                </tr>
+
+            </table></td>
+		  </tr>
+
+		  <tr>
+			<td align="center">
+			<span class="bnt_xiugai" id='save_idea' style='cursor:pointer;'>保存</span>
+			</td>
+		  </tr>
+		</table>
+
+
+		</form>
+	</div>
 </div>
 
-<table>
-    <tr>
-        <td align="right">
-            <label for="raise_id">Raise</label>
-        </td>
-        <td align="left">
-            {{ text_field("raise_id", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="idea_info">Idea Of Info</label>
-        </td>
-        <td align="left">
-                {{ text_area("idea_info", "cols": "30", "rows": "4") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="purpose">Purpose</label>
-        </td>
-        <td align="left">
-            {{ text_field("purpose", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="livestock">Livestock</label>
-        </td>
-        <td align="left">
-            {{ text_field("livestock", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="useform">Useform</label>
-        </td>
-        <td align="left">
-            {{ text_field("useform", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="technical">Technical</label>
-        </td>
-        <td align="left">
-            {{ text_field("technical", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="update_ts">Update Of Ts</label>
-        </td>
-        <td align="left">
-            {{ text_field("update_ts", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="market_info">Market Of Info</label>
-        </td>
-        <td align="left">
-                {{ text_area("market_info", "cols": "30", "rows": "4") }}
-        </td>
-    </tr>
-
-    <tr>
-        <td>{{ hidden_field("id") }}</td>
-        <td>{{ submit_button("Save") }}</td>
-    </tr>
-</table>
-
-</form>
+  {{javascript_include('js/project.js')}}

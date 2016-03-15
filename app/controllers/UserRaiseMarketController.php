@@ -56,8 +56,30 @@ class UserRaiseMarketController extends ControllerBase
     /**
      * Displays the creation form
      */
-    public function newAction()
+    public function newAction($raise_id,$type)
     {
+
+        $user_id=$this->_getCookie('user_id');
+        $this->view->setVar('raise_id',$raise_id);
+        //tag default
+        $this->tag->setDefault('project_grow_up',$type);
+
+        $dtb_raise_project_market = DtbRaiseProjectMarket::findFirstByraise_id($raise_id);
+        if ($dtb_raise_project_market){
+            $this->tag->setDefault("raise_id", $dtb_raise_project_market->raise_id);
+            $this->tag->setDefault("aim_market", $dtb_raise_project_market->aim_market);
+            $this->tag->setDefault("aim_market_feaure", $dtb_raise_project_market->aim_market_feaure);
+            $this->tag->setDefault("competitive_strategy", $dtb_raise_project_market->competitive_strategy);
+            $this->tag->setDefault("update_ts", $dtb_raise_project_market->update_ts);
+        }
+
+
+        //tag setting
+        $this->view->iscreate=1;
+        $this->view->project_type=$type;
+        $this->view->is_current=4;
+
+
 
     }
 
@@ -76,8 +98,9 @@ class UserRaiseMarketController extends ControllerBase
                 $this->flash->error("dtb_raise_project_market was not found");
 
                 return $this->dispatcher->forward(array(
-                    "controller" => "dtb_raise_project_market",
-                    "action" => "index"
+                    "controller" => "user_raise_market",
+                    "action" => "edit",
+                    "params" => array($dtb_raise_project_market->raise_id)
                 ));
             }
 
@@ -90,6 +113,11 @@ class UserRaiseMarketController extends ControllerBase
             $this->tag->setDefault("update_ts", $dtb_raise_project_market->getUpdateTs());
             
         }
+        //tag setting
+        $this->view->iscreate=0;
+        $this->view->isu=0;
+        $this->view->isusercenter=1;
+        $this->view->is_current=4;
     }
 
     /**
@@ -111,8 +139,8 @@ class UserRaiseMarketController extends ControllerBase
         $dtb_raise_project_market->setAimMarket($this->request->getPost("aim_market"));
         $dtb_raise_project_market->setAimMarketFeaure($this->request->getPost("aim_market_feaure"));
         $dtb_raise_project_market->setCompetitiveStrategy($this->request->getPost("competitive_strategy"));
-        $dtb_raise_project_market->setUpdateTs($this->request->getPost("update_ts"));
-        
+        $dtb_raise_project_market->setUpdateTs(time());
+        $project_type=$this->request->getPost("project_type");
 
         if (!$dtb_raise_project_market->save()) {
             foreach ($dtb_raise_project_market->getMessages() as $message) {
@@ -120,16 +148,18 @@ class UserRaiseMarketController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_market",
-                "action" => "new"
+                "controller" => "user_raise_market",
+                "action" => "new",
+                "params" => array($dtb_raise_project_market->raise_id,$project_type)
             ));
         }
 
         $this->flash->success("dtb_raise_project_market was created successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_raise_project_market",
-            "action" => "index"
+            "controller" => "user_raise_around",
+            "action" => "new",
+            "params" => array($dtb_raise_project_market->raise_id,$project_type)
         ));
 
     }
@@ -143,7 +173,7 @@ class UserRaiseMarketController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_market",
+                "controller" => "user_raise_market",
                 "action" => "index"
             ));
         }
@@ -155,7 +185,7 @@ class UserRaiseMarketController extends ControllerBase
             $this->flash->error("dtb_raise_project_market does not exist " . $raise_id);
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_market",
+                "controller" => "user_raise_market",
                 "action" => "index"
             ));
         }
@@ -164,7 +194,7 @@ class UserRaiseMarketController extends ControllerBase
         $dtb_raise_project_market->setAimMarket($this->request->getPost("aim_market"));
         $dtb_raise_project_market->setAimMarketFeaure($this->request->getPost("aim_market_feaure"));
         $dtb_raise_project_market->setCompetitiveStrategy($this->request->getPost("competitive_strategy"));
-        $dtb_raise_project_market->setUpdateTs($this->request->getPost("update_ts"));
+        $dtb_raise_project_market->setUpdateTs(time());
         
 
         if (!$dtb_raise_project_market->save()) {
@@ -174,7 +204,7 @@ class UserRaiseMarketController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_market",
+                "controller" => "user_raise_market",
                 "action" => "edit",
                 "params" => array($dtb_raise_project_market->raise_id)
             ));
@@ -183,8 +213,9 @@ class UserRaiseMarketController extends ControllerBase
         $this->flash->success("dtb_raise_project_market was updated successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_raise_project_market",
-            "action" => "index"
+            "controller" => "user_raise_market",
+              "action" => "edit",
+                "params" => array($dtb_raise_project_market->raise_id)
         ));
 
     }
@@ -202,7 +233,7 @@ class UserRaiseMarketController extends ControllerBase
             $this->flash->error("dtb_raise_project_market was not found");
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_market",
+                "controller" => "user_raise_market",
                 "action" => "index"
             ));
         }
@@ -214,7 +245,7 @@ class UserRaiseMarketController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_market",
+                "controller" => "user_raise_market",
                 "action" => "search"
             ));
         }
@@ -222,7 +253,7 @@ class UserRaiseMarketController extends ControllerBase
         $this->flash->success("dtb_raise_project_market was deleted successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_raise_project_market",
+            "controller" => "user_raise_market",
             "action" => "index"
         ));
     }

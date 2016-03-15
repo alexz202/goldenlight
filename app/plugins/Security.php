@@ -41,12 +41,14 @@ class Security extends Plugin
             $privateResources = array(
                 'user' => array('center','changeAvatar','changePassword','applyInvest','applyPerson','applyCompany','applyTest'),
                 'raise_funds'=>array('create'),
-                'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_basic'=>array('index','search','new','edit','create','save','delete','newcompany','editcompany','saveCompany'),
                 'user_raise_idea'=>array('index','search','new','edit','create','save','delete'),
                 'user_raise_market'=>array('index','search','new','edit','create','save','delete'),
-                'user_raise_qa'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_qa'=>array('index','indexQa','search','new','edit','create','save','delete'),
                 'user_raise_team'=>array('index','search','new','edit','create','save','delete'),
                 'user_raise_updates'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_around'=>array('index','search','new','edit','create','save','delete'),
+                'user_raise_investor'=>array('index','search','new','edit','create','save','delete','detail'),
 
             );
             //Grant resources to role users
@@ -57,22 +59,26 @@ class Security extends Plugin
                 'Person' => array(
                     'user' => array('center','changeAvatar','changePassword'),
                     'raise_funds'=>array('create'),
-                    'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_basic'=>array('index','search','new','edit','create','save','delete','newcompany','editcompany','saveCompany'),
                     'user_raise_idea'=>array('index','search','new','edit','create','save','delete'),
                     'user_raise_market'=>array('index','search','new','edit','create','save','delete'),
-                    'user_raise_qa'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_qa'=>array('index','indexQa','search','new','edit','create','save','delete'),
                     'user_raise_team'=>array('index','search','new','edit','create','save','delete'),
                     'user_raise_updates'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_around'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_investor'=>array('index','search','new','edit','create','save','delete','detail'),
                 ),
                 'Company' => array(
                     'user' => array('center','changeAvatar','changePassword'),
                     'raise_funds'=>array('create'),
-                    'user_raise_basic'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_basic'=>array('index','search','new','edit','create','save','delete','newcompany','editcompany','saveCompany'),
                     'user_raise_idea'=>array('index','search','new','edit','create','save','delete'),
                     'user_raise_market'=>array('index','search','new','edit','create','save','delete'),
-                    'user_raise_qa'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_qa'=>array('index','indexQa','search','new','edit','create','save','delete'),
                     'user_raise_team'=>array('index','search','new','edit','create','save','delete'),
                     'user_raise_updates'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_around'=>array('index','search','new','edit','create','save','delete'),
+                    'user_raise_investor'=>array('index','search','new','edit','create','save','delete','detail'),
                 ),
 
             );
@@ -148,8 +154,10 @@ class Security extends Plugin
         $acl = $this->getAcl();
         $allowed = $acl->isAllowed($role, $controller, $action);
 
+
         if ($allowed != Acl::ALLOW) {
             $this->flash->error("You don't have access to this module");
+
             $dispatcher->forward(
                 array(
                     'controller' => 'user',

@@ -56,9 +56,16 @@ a:hover{color:#F60; }
 .footer_nav li a{color:#FFF; font-size:14px;}
 .footer{background-color:#330; height:50px; line-height:50px;color:#FFF;}
 
+
+
+
+
 .main_page{ padding-top:3px;height:60px; text-align:center; overflow:hidden}
 .main_page a{ font-size:16px; font-family: Arial;background-color:#FFF;border-bottom:#CCC solid 1px;border-top:#CCC solid 1px;border-left:#CCC solid 1px; padding:4px 10px 4px 10px;}
 .main_page a .font_page{background-color:#CCC; color:#FFF;}
+
+
+
 
 
 .but_test_1{border:#F60 solid 2px; padding:5px 15px 5px 15px;border-radius:3px;cursor:pointer;}

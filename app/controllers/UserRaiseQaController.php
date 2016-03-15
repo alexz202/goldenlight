@@ -14,6 +14,10 @@ class UserRaiseQaController extends ControllerBase
         $this->persistent->parameters = null;
     }
 
+
+    public function indexQaAction(){
+
+    }
     /**
      * Searches for dtb_raise_project_qa
      */

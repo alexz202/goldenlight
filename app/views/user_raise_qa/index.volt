@@ -1,86 +1,86 @@
 
 {{ content() }}
 
-<div align="right">
-    {{ link_to("dtb_raise_project_qa/new", "Create dtb_raise_project_qa") }}
+<div class="width100P bg">
+	<div class="user_nav">
+		{{ partial("public/user_nav")}}
+	</div>
+
+<div class="user">
+		<ul>
+			<li><a href="user4.html">更新</a></li>
+			<li class="user_cent_navbg"><a href="user4_02.html"><font color="#FFFFFF">常见问题</font></a></li>
+		</ul>
+
+        <table width="96%" border="0" align="center" cellpadding="10" cellspacing="0">
+          <tr>
+            <td class="line_bottom"><table width="100%" border="0" cellspacing="0" cellpadding="10">
+              <tr>
+                <td><font class="font_18 font_f60">问</font></td>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="92%"><font color="#0E4D9C">张娜娜</font>&nbsp;<font style="font-family:Arial; color:#999999">2016-02-12</font><br />
+我想请问一下金色光的客服，投资的时候会不会遇到诈骗的，如果钱被骗了，该如果解决呢？</td>
+                    <td width="8%"><a href="user3_cont.html"><span style="color:#FFF; background-color:#71ab24; padding:3px 5px 3px 5px;">我来回复</span></a></td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td width="4%" align="center" bgcolor="#F5F5F5"><font class="font_18 font_f60">答</font></td>
+                <td width="96%" bgcolor="#F5F5F5"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tr>
+                    <td class="line_bottom"><font color="#0E4D9C">王小布</font>&nbsp;<font style="font-family:Arial; color:#999999">2016-02-12</font><br />
+如果您的钱被骗了，我们公司将双倍奉上，用该网站尽可放心！</td>
+                  </tr>
+                </table>
+                  <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tr>
+                      <td class="line_bottom"><font color="#0E4D9C">王小布</font>&nbsp;<font style="font-family:Arial; color:#999999">2016-02-12</font><br />
+                        如果您的钱被骗了，我们公司将双倍奉上，用该网站尽可放心！</td>
+                    </tr>
+                  </table>
+                  <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tr>
+                      <td class="line_bottom"><font color="#0E4D9C">王小布</font>&nbsp;<font style="font-family:Arial; color:#999999">2016-02-12</font><br />
+                        如果您的钱被骗了，我们公司将双倍奉上，用该网站尽可放心！</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          </tr>
+          <tr>
+            <td class="line_bottom"><table width="100%" border="0" cellspacing="0" cellpadding="10">
+              <tr>
+                <td><font class="font_18 font_f60">问</font></td>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="92%"><font color="#0E4D9C">张娜娜</font>&nbsp;<font style="font-family:Arial; color:#999999">2016-02-12</font><br />
+                        我想请问一下金色光的客服，投资的时候会不会遇到诈骗的，如果钱被骗了，该如果解决呢？</td>
+                      <td width="8%"><a href="user3_cont.html"><span style="color:#FFF; background-color:#71ab24; padding:3px 5px 3px 5px;">我来回复</span></a></td>
+                    </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td width="4%" align="center" bgcolor="#F5F5F5"><font class="font_18 font_f60">答</font></td>
+                <td width="96%" bgcolor="#F5F5F5" class="line_bottom"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tr>
+                    <td class="line_bottom"><font color="#0E4D9C">王小布</font>&nbsp;<font style="font-family:Arial; color:#999999">2016-02-12</font><br />
+                      如果您的钱被骗了，我们公司将双倍奉上，用该网站尽可放心！</td>
+                  </tr>
+                </table></td>
+              </tr>
+
+
+            </table></td>
+          </tr>
+          <tr>
+            <td width="90%" class="line_bottom">&nbsp;</td>
+          </tr>
+        </table>
+        <br />
+  </div>
+
 </div>
 
-{{ form("dtb_raise_project_qa/search", "method":"post", "autocomplete" : "off") }}
-
-<div align="center">
-    <h1>Search dtb_raise_project_qa</h1>
-</div>
-
-<table>
-    <tr>
-        <td align="right">
-            <label for="id">Id</label>
-        </td>
-        <td align="left">
-            {{ text_field("id", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="raise_id">Raise</label>
-        </td>
-        <td align="left">
-            {{ text_field("raise_id", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="msg">Msg</label>
-        </td>
-        <td align="left">
-            {{ text_field("msg", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="remsg">Remsg</label>
-        </td>
-        <td align="left">
-            {{ text_field("remsg", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="msg_ts">Msg Of Ts</label>
-        </td>
-        <td align="left">
-            {{ text_field("msg_ts", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="remsg_ts">Remsg Of Ts</label>
-        </td>
-        <td align="left">
-            {{ text_field("remsg_ts", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="user_id">User</label>
-        </td>
-        <td align="left">
-            {{ text_field("user_id", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="company_admin_id">Company Of Admin</label>
-        </td>
-        <td align="left">
-            {{ text_field("company_admin_id", "type" : "numeric") }}
-        </td>
-    </tr>
-
-    <tr>
-        <td></td>
-        <td>{{ submit_button("Search") }}</td>
-    </tr>
-</table>
-
-</form>
+  {{javascript_include('js/project.js')}}

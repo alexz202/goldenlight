@@ -93,6 +93,18 @@ class ControllerBase extends Controller
         return $type_list;
     }
 
+     function getTypePid($type_list,$project_type){
+        $pid=0;
+        foreach($type_list as $k=>$v){
+            foreach ( $v['children'] as $type_info) {
+                if($type_info['type_id']==$project_type){
+                    $pid=$k;
+                }
+            }
+        }
+        return $pid;
+    }
+
     function _split_page($current,$total,$split=5){
         $data=array('start'=>0,'end'=>0,'now_split'=>0,'total_split'=>0);
         if($total<1)

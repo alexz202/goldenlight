@@ -1,63 +1,52 @@
 {{ content() }}
-{{ form("dtb_raise_project_market/save", "method":"post") }}
+<div class="width100P bg">
+	<div class="user_nav">
+	{{ partial("public/user_nav")}}
+	</div>
+	<div class="user">
+			{{ partial("public/project_nav")}}
 
-<table width="100%">
-    <tr>
-        <td align="left">{{ link_to("dtb_raise_project_market", "Go Back") }}</td>
-        <td align="right">{{ submit_button("Save") }}</td>
-    </tr>
-</table>
+        	    {% if raise_id is defined %}
+            		{{ form("user_raise_market/save", "method":"post","enctype":"multipart/form-data","id":"add_form") }}
+            		 {{ hidden_field("raise_id", "size" : 30,"value": raise_id) }}
+ {{ hidden_field("project_type", "size" : 30,"value": project_type) }}
+            		{% else%}
+                    {% endif %}
 
-<div align="center">
-    <h1>Edit dtb_raise_project_market</h1>
+		<table width="100%" border="0" cellspacing="0" cellpadding="30">
+		  <tr>
+			<td><table width="100%" border="0" cellspacing="0" cellpadding="10">
+
+
+              <tr>
+               <td align="right">目标市场</td>
+               <td>  {{ text_area("aim_market", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+             </tr>
+
+              <tr>
+                <td align="right">市场描述</td>
+                <td>  {{ text_area("aim_market_feaure", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+              </tr>
+
+
+               <tr>
+               <td align="right">竞争策略</td>
+                      <td>  {{ text_area("competitive_strategy", "cols":80,"class":"user_input01","placeholder":"介绍至少30字") }}</td>
+                </tr>
+
+            </table></td>
+		  </tr>
+
+		  <tr>
+			<td align="center">
+			<span class="bnt_xiugai" id='save_market' style='cursor:pointer;'>保存</span>
+			</td>
+		  </tr>
+		</table>
+
+
+		</form>
+	</div>
 </div>
 
-<table>
-    <tr>
-        <td align="right">
-            <label for="raise_id">Raise</label>
-        </td>
-        <td align="left">
-            {{ text_field("raise_id", "type" : "numeric") }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="aim_market">Aim Of Market</label>
-        </td>
-        <td align="left">
-            {{ text_field("aim_market", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="aim_market_feaure">Aim Of Market Of Feaure</label>
-        </td>
-        <td align="left">
-            {{ text_field("aim_market_feaure", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="competitive_strategy">Competitive Of Strategy</label>
-        </td>
-        <td align="left">
-            {{ text_field("competitive_strategy", "size" : 30) }}
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="update_ts">Update Of Ts</label>
-        </td>
-        <td align="left">
-            {{ text_field("update_ts", "type" : "numeric") }}
-        </td>
-    </tr>
-
-    <tr>
-        <td>{{ hidden_field("id") }}</td>
-        <td>{{ submit_button("Save") }}</td>
-    </tr>
-</table>
-
-</form>
+  {{javascript_include('js/project.js')}}

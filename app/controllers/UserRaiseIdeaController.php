@@ -56,8 +56,30 @@ class UserRaiseIdeaController extends ControllerBase
     /**
      * Displays the creation form
      */
-    public function newAction()
+    public function newAction($raise_id,$type)
     {
+        $user_id=$this->_getCookie('user_id');
+        $this->view->setVar('raise_id',$raise_id);
+        //tag default
+        $this->tag->setDefault('project_grow_up',$type);
+        $this->tag->setDefault('currency',1);
+
+        $dtb_raise_project_idea = DtbRaiseProjectIdea::findFirstByraise_id($raise_id);
+        if ($dtb_raise_project_idea){
+            $this->tag->setDefault("raise_id", $dtb_raise_project_idea->raise_id);
+            $this->tag->setDefault("idea_info", $dtb_raise_project_idea->idea_info);
+            $this->tag->setDefault("purpose", $dtb_raise_project_idea->purpose);
+            $this->tag->setDefault("livestock", $dtb_raise_project_idea->livestock);
+            $this->tag->setDefault("useform", $dtb_raise_project_idea->useform);
+            $this->tag->setDefault("technical", $dtb_raise_project_idea->technical);
+            $this->tag->setDefault("update_ts", $dtb_raise_project_idea->update_ts);
+        }
+
+
+        //tag setting
+        $this->view->iscreate=1;
+        $this->view->project_type=$type;
+        $this->view->is_current=3;
 
     }
 
@@ -90,9 +112,14 @@ class UserRaiseIdeaController extends ControllerBase
             $this->tag->setDefault("useform", $dtb_raise_project_idea->useform);
             $this->tag->setDefault("technical", $dtb_raise_project_idea->technical);
             $this->tag->setDefault("update_ts", $dtb_raise_project_idea->update_ts);
-            $this->tag->setDefault("market_info", $dtb_raise_project_idea->market_info);
+          //  $this->tag->setDefault("market_info", $dtb_raise_project_idea->market_info);
             
         }
+        //tag setting
+        $this->view->iscreate=0;
+        $this->view->isu=0;
+        $this->view->isusercenter=1;
+        $this->view->is_current=3;
     }
 
     /**
@@ -110,14 +137,22 @@ class UserRaiseIdeaController extends ControllerBase
 
         $dtb_raise_project_idea = new DtbRaiseProjectIdea();
 
+
+
+
+
+
         $dtb_raise_project_idea->raise_id = $this->request->getPost("raise_id");
         $dtb_raise_project_idea->idea_info = $this->request->getPost("idea_info");
         $dtb_raise_project_idea->purpose = $this->request->getPost("purpose");
-        $dtb_raise_project_idea->livestock = $this->request->getPost("livestock");
+
+        $project_type=$this->request->getPost("project_type");
+        if($project_type>0)
+            $dtb_raise_project_idea->livestock = $this->request->getPost("livestock");
         $dtb_raise_project_idea->useform = $this->request->getPost("useform");
         $dtb_raise_project_idea->technical = $this->request->getPost("technical");
-        $dtb_raise_project_idea->update_ts = $this->request->getPost("update_ts");
-        $dtb_raise_project_idea->market_info = $this->request->getPost("market_info");
+        $dtb_raise_project_idea->update_ts = time();
+       // $dtb_raise_project_idea->market_info = $this->request->getPost("market_info");
         
 
         if (!$dtb_raise_project_idea->save()) {
@@ -126,16 +161,18 @@ class UserRaiseIdeaController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_idea",
-                "action" => "new"
+                "controller" => "user_raise_idea",
+                "action" => "new",
+                "params" => array($dtb_raise_project_idea->raise_id,$project_type)
             ));
         }
 
         $this->flash->success("dtb_raise_project_idea was created successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_raise_project_idea",
-            "action" => "index"
+            "controller" => "user_raise_market",
+            "action" => "new",
+            "params" => array($dtb_raise_project_idea->raise_id,$project_type)
         ));
 
     }
@@ -161,7 +198,7 @@ class UserRaiseIdeaController extends ControllerBase
             $this->flash->error("dtb_raise_project_idea does not exist " . $raise_id);
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_idea",
+                "controller" => "user_raise_idea",
                 "action" => "index"
             ));
         }
@@ -183,7 +220,7 @@ class UserRaiseIdeaController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_idea",
+                "controller" => "user_raise_idea",
                 "action" => "edit",
                 "params" => array($dtb_raise_project_idea->raise_id)
             ));
@@ -192,8 +229,8 @@ class UserRaiseIdeaController extends ControllerBase
         $this->flash->success("dtb_raise_project_idea was updated successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_raise_project_idea",
-            "action" => "index"
+            "controller" => "user_raise_idea",
+            "action" => "edit"
         ));
 
     }

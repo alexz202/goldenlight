@@ -62,6 +62,10 @@
 .touzi_p02_navX{ background-color:#f7f7f8; height:40px;}
 .touzi_p02_navZ{ height:39px; background-color:#FFFFFF; }
 .touzi_p02_fr h3{font-size:14px}
+/* 投资流程 */
+.touzi_jindu_bg{background-color:#CCC; width:450px; height:14px;border-radius:6px; overflow:hidden}
+.touzi_jindu{background-color:#71AB24; width:150px; height:14px; float:left; display:block}
+.font_touzi_jindu{color:#999}
 /* 网上商城 */
 .sc_cent{background-color:#FFF;border-radius:3px; padding:20px 0px 20px 0px;overflow:hidden;}
 .sc_cent_left{width:380px; padding-left:20px;}
@@ -111,7 +115,7 @@
 .bnt_zc a:hover{text-decoration:none; color:#FFF;}
 .dl_cent_right{width:400px; padding:20px 0px 0px 68px; float:left}
 .dl_cent_right h1{ line-height:30px; border-bottom:#CCC solid 1px; font-size:16px; font-family:"微软雅黑"}
-.dl_cent_right span{margin-top:40px; display:block; width:300px; height:35px; line-height:35px;border-radius:3px; border:#F60 solid 1px; color:#F60; text-align:center} 
+.dl_cent_right span{margin-top:40px; display:block; width:300px; height:35px; line-height:35px;border-radius:3px; border:#F60 solid 1px; color:#F60; text-align:center}
 /*用户中心*/
 .user_nav{width:980px; height:80px; line-height:80px;margin:20px auto 20px auto;border-bottom:#CCC solid 1px; background-color:#e4e4e4;overflow:hidden;}
 .user_nav li{width:139px;  text-align:center; float:left}
@@ -124,6 +128,10 @@
 .user_cent_navbg a{color:#FFFFFF; text-decoration:none;}
 .user_cent_navbg a:hover{color:#FFFFFF; text-decoration:none;}
 .user_input{width:910px;background-color:#FFF;line-height:30px; border:#CCC solid 1px;border-radius:3px;}
+.user_input01{background-color:#FFF;line-height:30px; border:#CCC solid 1px;border-radius:3px;}
+
 .bnt_xiugai{background-color:#71ab24; border:#568715 solid 1px; color:#FFF; font-size:26px; padding:6px 25px 6px 25px;border-radius:3px;}
 .jindut_line{background-color:#FFF; border: #D4D4D4 solid 1px; width:580px; height:30px; padding:1px; text-align:center;}
 .jindut{width:77%; height:26px; line-height:26px; background-color:#7fbb30}
+
+.bnt_shangchuan{background-color:#025194; color:#FFF; display:block; width:100px; height:30px; line-height:30px; text-decoration:none; text-align:center}

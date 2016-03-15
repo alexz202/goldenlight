@@ -194,6 +194,13 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
 
     protected $aim_money;
 
+    protected $company_number;
+
+
+    protected $company_register_ts;
+
+    protected $immediate_loan;
+
 
     /**
      * Method to set the value of field raise_id
@@ -590,6 +597,49 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field result
+     *
+     * @param integer $result
+     * @return $this
+     */
+    public function setCompanyNumber($company_number)
+    {
+        $this->company_number = $company_number;
+
+        return $this;
+    }
+
+
+
+    /**
+     * Method to set the value of field result
+     *
+     * @param integer $result
+     * @return $this
+     */
+    public function setCompanyRegisterTs($company_register_ts)
+    {
+        $this->company_register_ts = $company_register_ts;
+
+        return $this;
+    }
+
+
+    /**
+     * Method to set the value of field result
+     *
+     * @param integer $result
+     * @return $this
+     */
+    public function setImmediateLoan($immediate_loan)
+    {
+        $this->immediate_loan = $immediate_loan;
+
+        return $this;
+    }
+
+
+    /**
      * Returns the value of field raise_id
      *
      * @return integer
@@ -893,6 +943,47 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     {
         return $this->result;
     }
+
+    /**
+     * Method to set the value of field result
+     *
+     * @param integer $result
+     * @return $this
+     */
+    public function getCompanyNumber()
+    {
+       return  $this->company_number ;
+
+    }
+
+
+
+    /**
+     * Method to set the value of field result
+     *
+     * @param integer $result
+     * @return $this
+     */
+    public function getCompanyRegisterTs()
+    {
+      return   $this->company_register_ts;
+
+    }
+
+
+    /**
+     * Method to set the value of field result
+     *
+     * @param integer $result
+     * @return $this
+     */
+    public function getImmediateLoan()
+    {
+     return  $this->immediate_loan ;
+
+    }
+
+
 
     /**
      * Returns table name mapped in the model.

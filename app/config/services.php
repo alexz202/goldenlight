@@ -124,7 +124,7 @@ $di->set('dispatcher', function () use ($di) {
 
     return $dispatcher;
 
-});
+},true);
 
 
 //$di->set('crypt', function () {

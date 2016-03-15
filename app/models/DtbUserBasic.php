@@ -701,6 +701,20 @@ class DtbUserBasic extends \Phalcon\Mvc\Model
 
     }
 
+    public function changeMail($user_id,$mail){
+        if(DtbUserBasic::findFirstByemail($mail))
+            return false;
+        $user_basic=DtbUserBasic::findFirstByuser_id($user_id);
+        if(!$user_basic)
+            return false;
+        $user_basic->mail=$mail;
+        if($user_basic->save()==false)
+            return false;
+        else
+            return true;
+
+    }
+
 
     public function changeAvatar($user_id,$avatar_url){
         $user_basic=DtbUserBasic::findFirstByuser_id($user_id);
