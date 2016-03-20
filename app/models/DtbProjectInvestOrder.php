@@ -451,7 +451,7 @@ class DtbProjectInvestOrder extends \Phalcon\Mvc\Model
         return  $res=$query->execute();
     }
 
-    function creatOrder($raise_id,$wheel_id,$user_id,$params){
+    function creatOrder(&$order_id,$raise_id,$wheel_id,$user_id,$params){
         $flag=false;
         try {
             $this->di['db']->begin();
@@ -460,7 +460,7 @@ class DtbProjectInvestOrder extends \Phalcon\Mvc\Model
             $order->invest_money = $params['invest_money'];
             $order->equit_offered = $params['equit_offered'];
             $order->service_fee = $params['service_fee'];
-            $order->raise_id = raise_id;
+            $order->raise_id = $raise_id;
             $order->user_id = $user_id;
             $order->bond = $params['bond'];
             $order->invite_code = $params['invite_code'];
@@ -489,6 +489,7 @@ class DtbProjectInvestOrder extends \Phalcon\Mvc\Model
                 else{
                     $flag=true;
                     $this->di['db']->commit();
+                    $order_id=$order->getOrderId();
                 }
                 return $flag;
             }
@@ -502,8 +503,7 @@ class DtbProjectInvestOrder extends \Phalcon\Mvc\Model
 
 
     function updateOrderId($order_id,$params){
-        $order = new  DtbProjectInvestOrder();
-        $order->findFirst(array('order_id=$order_id'));
+        $order = DtbProjectInvestOrder::findFirstByorder_id($order_id);
         if($order){
             $order->result=$params['result'];
             $order->status=$params['status'];

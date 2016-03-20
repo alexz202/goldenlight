@@ -11,7 +11,84 @@ class UserRaiseBasicController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        $user_project_info=$this->getUserProject();
+        if($user_project_info){
+            $raise_id=$user_project_info->getRaiseId();
+            $status=$user_project_info->getStatus();
+            $wheel_id=$user_project_info->getNowWheelId();
+            $dtb_wheel=DtbRaiseProjectWheel::findFirstBywheel_id($wheel_id);
+            $this->view->setVar('dtb_wheel_info',$dtb_wheel);
+            $this->view->is_user_nav=1;
+            $this->view->is_current=7;
+            $this->view->isusercenter=1;
+
+        }
+
+
+
+    }
+
+
+    public function protocolAction(){
+        $this->view->is_user_nav=5;
+    }
+
+
+    public function resultAction(){
+        $this->view->is_user_nav=5;
+    }
+    /*
+    * 项目状态
+    * '项目状态：0 ：审核中，1 ：审核通过进入筹资，2项目未通过审核 ，3项目筹资成功进入支付，4项目完结 ',
+    */
+    public function statusAction(){
+        $user_project_info=$this->getUserProject();
+        if($user_project_info){
+            $raise_id=$user_project_info->getRaiseId();
+            $status=$user_project_info->getStatus();
+            $wheel_id=$user_project_info->getNowWheelId();
+            $dtb_wheel=DtbRaiseProjectWheel::findFirstBywheel_id($wheel_id);
+            $this->view->setVar('dtb_wheel_info',$dtb_wheel);
+            $this->view->setVar('valuation',$user_project_info->getValuation());
+
+            $complete_percent=intval($dtb_wheel->getAlreadyMoney()/$dtb_wheel->getAimMoney()*100);
+            if(($complete_percent)>100)
+                $complete_percent="100%";
+            $this->view->setVar('complete_percent',$complete_percent);
+
+            $this->view->is_user_nav=2;
+
+        }
+
+
+
+
+    }
+
+
+
+    /*
+     *项目提醒
+     */
+
+    public function remainAction(){
+        $user_project_info=$this->getUserProject();
+        if($user_project_info){
+            $raise_id=$user_project_info->getRaiseId();
+            $status=$user_project_info->getStatus();
+            $wheel_id=$user_project_info->getNowWheelId();
+            $dtb_wheel=DtbRaiseProjectWheel::findFirstBywheel_id($wheel_id);
+            $this->view->setVar('dtb_wheel_info',$dtb_wheel);
+            $this->view->setVar('valuation',$user_project_info->getValuation());
+
+            $complete_percent=intval($dtb_wheel->getAlreadyMoney()/$dtb_wheel->getAimMoney()*100);
+            if(($complete_percent)>100)
+                $complete_percent="100%";
+            $this->view->setVar('complete_percent',$complete_percent);
+
+            $this->view->is_user_nav=2;
+
+        }
     }
 
 
@@ -81,14 +158,15 @@ class UserRaiseBasicController extends ControllerBase
         $user_id=$this->_getCookie('user_id');
         $project_basic=DtbRaiseProjectBasic::findFirst(
         array(
-            "conditions" => "user_id = :user_id: and status=0  ",
+            "conditions" => "user_id = :user_id: ",
             "bind"       => array("user_id" => $user_id),
             "order"=>'raise_id desc'
         ));
 
         if($project_basic){
            // $this->view->setVar('raise_id',$project_basic->getRaiseId());
-            $this->view->setVar('raise_id',1);
+            //$this->view->setVar('raise_id',1);
+            die('user has create project,you can modify the project  first!!!');
         }else{
 
         }
@@ -320,28 +398,57 @@ class UserRaiseBasicController extends ControllerBase
         //$dtb_raise_project_basic->setStatus($this->request->getPost("status"));
         //$dtb_raise_project_basic->setResult($this->request->getPost("result"));
 
+        $dtb_wheel=new DtbRaiseProjectWheel();
+        $flag=false;
 
+        try{
+            $this->di['db']->begin();
+            $res=$dtb_raise_project_basic->save();
 
+            $raise_id=$dtb_raise_project_basic->getRaiseId();
+            $dtb_wheel->setRaiseId($raise_id);
+            $dtb_wheel->setAimMoney($this->request->getPost("aim_money"));
+            $dtb_wheel->setAlreadymoney(0);
+            $dtb_wheel->setCreateTs(time());
+            $dtb_wheel->setEndTs(time()+180*24*3600);//默认3个月
+            $res1=$dtb_wheel->save();
 
-        if (!$dtb_raise_project_basic->save()) {
+            $wheel_id=$dtb_wheel->getWheelId();
 
-            foreach ($dtb_raise_project_basic->getMessages() as $message) {
-                $this->flash->error($message);
+            $dtb_raise_project_basic->setNowWheelId($wheel_id);
+            $res3=$dtb_raise_project_basic->save();
+
+            if ($res && $res1   && $res3){
+                $this->di['db']->commit();
+                $flag=true;
             }
-            return $this->dispatcher->forward(array(
-                "controller" => "user_raise_basic",
-                "action" => "new"
-            ));
+            else{
+                $this->di['db']->rollback();
+
+                foreach ($dtb_raise_project_basic->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                foreach ($dtb_wheel->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+
+            }
+
+        }catch(exception $ex){
+            $this->di['db']->rollback();
         }
 
-        $this->flash->success("dtb_raise_project_basic was created successfully");
 
+        if ($flag) {
+            $this->flash->success("dtb_raise_project_basic was created successfully");
 
-        return $this->dispatcher->forward(array(
-            "controller" => "user_raise_basic",
-            "action" => "newcompany",
-             "params" => array($dtb_raise_project_basic->raise_id,$dtb_raise_project_basic->project_type)
-        ));
+            return $this->dispatcher->forward(array(
+                "controller" => "user_raise_basic",
+                "action" => "newcompany",
+                "params" => array($dtb_raise_project_basic->raise_id,$dtb_raise_project_basic->project_type)
+            ));
+
+        }
 
     }
 
@@ -637,6 +744,10 @@ class UserRaiseBasicController extends ControllerBase
 
 
     }
+
+
+
+
 
 
     private function _upload_img(){

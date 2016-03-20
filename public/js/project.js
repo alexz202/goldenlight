@@ -185,7 +185,62 @@ $(function(){
         }
 
 
+
+    });
+
+    //updates
+    $('#save_update').click(function(){
+
+
+        var content=$('#content').val();
+
+
+        if ($.trim(content).length<10){
+            alert('更新内容不能为空');
+            return false;
+        }
+
+        else{
+            $('#add_form').submit();
+            return true;
+        }
+
+
+
     });
 
 })
+
+
+function remsg(rais_id,msg_id){
+   // alert(msg_id);
+
+    $('#myModal').modal('show');
+    $('.resmg_submit').click(function(){
+
+        var remsg=$('#remsg').val();
+        if(remsg.trim().length<3){
+            alert('回复内容不能为空');
+            return false;
+        }
+        $.ajax({
+                type:'post',
+                url:'/user_raise_qa/ajaxRemsg/'+rais_id+'/'+msg_id,
+                data:'remsg='+remsg+'&tm='+new Date().getTime(),
+                success:function(msg){
+                       if (msg==true){
+                            window.location.reload();
+                       }else{
+                           alert('提交失败');
+                       }
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            }
+
+        );
+        $('#myModal').modal('hide');
+    });
+}
 

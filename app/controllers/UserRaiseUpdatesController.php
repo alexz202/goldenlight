@@ -100,17 +100,17 @@ class UserRaiseUpdatesController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_updates",
-                "action" => "index"
+                "controller" => "user_raise_qa",
+                "action" => "indexQa"
             ));
         }
 
         $dtb_raise_project_update = new DtbRaiseProjectUpdates();
 
         $dtb_raise_project_update->setRaiseId($this->request->getPost("raise_id"));
-        $dtb_raise_project_update->setTitle($this->request->getPost("title"));
+        $dtb_raise_project_update->setTitle('');
         $dtb_raise_project_update->setContent($this->request->getPost("content"));
-        $dtb_raise_project_update->setCreateTs($this->request->getPost("create_ts"));
+        $dtb_raise_project_update->setCreateTs(time());
         
 
         if (!$dtb_raise_project_update->save()) {
@@ -119,16 +119,16 @@ class UserRaiseUpdatesController extends ControllerBase
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_updates",
-                "action" => "new"
+                "controller" => "user_raise_qa",
+                "action" => "indexQa"
             ));
         }
 
         $this->flash->success("dtb_raise_project_update was created successfully");
 
         return $this->dispatcher->forward(array(
-            "controller" => "dtb_raise_project_updates",
-            "action" => "index"
+            "controller" => "user_raise_qa",
+            "action" => "indexQa"
         ));
 
     }

@@ -11,7 +11,7 @@
 			<span class="font_f60">计划筹资：{{dtb_raise_project_basic.DtbRaiseProjectWheel.getAimMoney()}}万&nbsp;&nbsp;股份：{{dtb_raise_project_basic.DtbRaiseProjectWheel.aim_equity_offered}}%&nbsp;&nbsp;实际筹资和股份：{{dtb_raise_project_basic.DtbRaiseProjectWheel.already_money}}万&nbsp;&nbsp;公司估值：{{dtb_raise_project_basic.valuation}}万</span><br />
 				创使人<img src="/images/ren.jpg" />&nbsp;&nbsp;领投人&nbsp;&nbsp;虚位以待
 			</div>
-			<div class="touzi_p01_bnt"><a href="#">我要投资</a></div>
+			<div class="touzi_p01_bnt"><a href="/invest/makeOrder/{{dtb_raise_project_basic.getRaiseId()}}">我要投资</a></div>
 		</div>
 		<div class="touzi_part02">
 			<div class="touzi_p02_fl"><embed src="http://player.youku.com/player.php/Type/Folder/Fid/26692687/Ob/1/sid/XMTQ2OTQwNzYzMg==/v.swf" width="320" height="260"></embed></div>

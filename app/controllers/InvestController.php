@@ -2,6 +2,12 @@
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
+
+define('result_success',1);
+define('result_fail',2);
+
+define('status_success',1);
+define('status_fail',2);
 /**
  * 投资
  * Class InvestController
@@ -9,6 +15,7 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
 class InvestController extends ControllerBase
 {
 
+    const project_success_value=0.8;
 
     public function initialize()
     {
@@ -122,7 +129,7 @@ class InvestController extends ControllerBase
     }
 
 
-    public function makeOrder($raise_id){
+    public function makeOrderAction($raise_id){
         if (!$this->request->isPost()) {
 
             $dtb_project = DtbRaiseProjectBasic::findFirstByraise_id($raise_id);
@@ -137,16 +144,142 @@ class InvestController extends ControllerBase
             $this->tag->setDefault("user_id", $dtb_project->getUserId());
             $this->tag->setDefault("project_desc", $dtb_project->getProjectDesc());
             $this->tag->setDefault("aim_money", $dtb_project->getAimMoney());
-            $this->tag->setDefault("aim_equity_offered", $dtb_project->getAimEquityOffered());
-            $this->tag->setDefault("already_equity_offered", $dtb_project->getAlreadyEquityOffered());
-            $this->tag->setDefault("already_money", $dtb_project->getAlreadyMoney());
+           // $this->tag->setDefault("aim_equity_offered", $dtb_project->getAimEquityOffered());
+            //$this->tag->setDefault("already_equity_offered", $dtb_project->getAlreadyEquityOffered());
+          //  $this->tag->setDefault("already_money", $dtb_project->getAlreadyMoney());
             $this->tag->setDefault("rate_of_return", $dtb_project->getRateOfReturn());
+
 
         }
     }
 
-    public function submitOrder($raise_id){
+    public function payFormAction($order_id){
+        $invest_order=DtbProjectInvestOrder::findFirstByorder_id($order_id);
+        $invest_order->real_pay_fee;
+        $this->view->setVar('order_id',$order_id);
+        $this->view->setVar('real_pay_fee',$invest_order->real_pay_fee);
+    }
+
+    public function payFinishAction($order_id){
+        $invest_order=DtbProjectInvestOrder::findFirstByorder_id($order_id);
+        $invest_order->real_pay_fee;
+        $this->view->setVar('order_id',$order_id);
+        $this->view->setVar('real_pay_fee',$invest_order->real_pay_fee);
+    }
+
+//第三方支付
+    public function payCallbackAction($order_id){
+        $is_pay=true;
+        if($is_pay){
+            //TODO PAY CALLBACK
+            //modify order_id
+            $invest_order=DtbProjectInvestOrder::findFirstByorder_id($order_id);
+            $raise_id=$invest_order->getRaiseId();
+            $wheel_id=$invest_order->getWheelId();
+            $project_wheel_info=DtbRaiseProjectWheel::findFirstBywheel_id($wheel_id);
+
+            if($project_wheel_info->getRaiseId()!=$raise_id){
+                die('project error');
+            }
+            $invest_money=$invest_order->getInvestMoney();
+            $aim_money=$project_wheel_info->getAimMoney();
+            $already_money=$project_wheel_info->getAlreadyMoney();
+            $result=$project_wheel_info->getResult();
+            $is_update_status=false;
+
+            if(($invest_money+$already_money)>=$aim_money*self::project_success_value && intval($result)==0){
+                $is_update_status=true;
+            }
+            $wheel_invested_num=$project_wheel_info->getWheelInvestedNum();
+
+
+            try{
+                $this->di['db']->begin();
+                $invest_order_new=new DtbProjectInvestOrder();
+                $params=array('result'=>result_success,
+                    'status'=>0,
+                    'update_ts'=>time(),
+                );
+               $res1=$invest_order_new->updateOrderId($order_id,$params);
+
+                $project_wheel_info->setAlreadyMoney($invest_money+$already_money);
+                $project_wheel_info->setAlreadyMoney(intval($invest_money+$already_money));
+                $project_wheel_info->setWheelInvestedNum($wheel_invested_num+1);
+                if($is_update_status){
+                    $project_wheel_info->setResult(result_success);
+                }
+
+               $res2=$project_wheel_info->save();
+
+                if($res1 &&$res2){
+                    $this->di['db']->commit();
+                    $this->flash->success('成功');
+                    return  $this->response->redirect('/invest/payFinish/'.$order_id);
+
+                }else{
+                    $this->di['db']->rollback();
+                }
+
+            }catch (Exception $ex){
+                $this->di['db']->rollback();
+            }
+        }
+
+    }
+
+    public function submitOrderAction($raise_id){
          //TODO 生成订单
+
+        if($this->request->isPost()) {
+
+            $raise_id=intval($raise_id);
+            $dtb_project = DtbRaiseProjectBasic::findFirstByraise_id($raise_id);
+            $invest_order=new DtbProjectInvestOrder();
+            $invest_money = $this->request->getPost('invest_money');
+            $invest_code = $this->request->getPost('invest_code');
+            $check_use_invite_code = false;
+            if (empty($invest_code)) {
+                $invite_code = DtbInviteCode::findFirstByinvite_code($invest_code);
+                if ($invite_code)
+                    if ($invite_code['is_use'] == 0) {
+                        $check_use_invite_code = true;
+                    }
+            }
+            $user_id=$this->cookies->get('user_id');
+
+            if(!$check_use_invite_code)
+                $invest_code='';
+
+            $params=array(
+                'invest_money'=>$invest_money,
+               'invest_code'=>$invest_code,
+                'equit_offered'=>$invest_money,
+                'service_fee'=>0,
+                'bond'=>0,
+                'real_pay_fee'=>$invest_money,
+            );
+
+           $res= $invest_order->creatOrder($order_id,$raise_id,$dtb_project->now_wheel_id,$user_id,$params);
+            if($res) {
+                //$this->flash->success('修改成功');
+
+                $this->flash->success('认证成功');
+                return  $this->response->redirect('/invest/payForm/'.$order_id);
+//                return $this->dispatcher->forward(array(
+//                    'controller' => 'invest',
+//                    'action' => 'payForm',
+//                    "params" => array($order_id)
+//                ));
+            }else{
+                $this->flash->error("create order error");
+
+
+
+            }
+
+
+
+        }
 
 
 

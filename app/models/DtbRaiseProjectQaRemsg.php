@@ -1,14 +1,15 @@
 <?php
 
-class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
+class DtbRaiseProjectQaRemsg extends \Phalcon\Mvc\Model
 {
 
     public function initialize(){
-        $this->belongsTo('raise_id','DtbRaiseProjectBasic','raise_id');
-        $this->hasOne('user_id','DtbUserBasic','user_id');
-       // $this->hasMany('msg_id','DtbRaiseProjectQaRemsg','msg_id');
-         $this->hasOne('msg_id','DtbRaiseProjectQaRemsg','msg_id');
+        $this->belongsTo('msg_id','DtbRaiseProjectQa','msg_id');
+       // $this->hasOne('user_id','DtbUserBasic','user_id');
+        $this->hasOne('company_admin_id','DtbUserBasic','user_id');
     }
+
+    protected $id;
     /**
      *
      * @var integer
@@ -25,7 +26,7 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $msg;
+    protected $remsg;
 
 
 
@@ -33,7 +34,7 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    protected $msg_ts;
+    protected $remsg_ts;
 
 
 
@@ -41,9 +42,17 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    protected $user_id;
+    protected $company_admin_id;
 
 
+
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Method to set the value of field id
@@ -77,19 +86,6 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
      * @param string $msg
      * @return $this
      */
-    public function setMsg($msg)
-    {
-        $this->msg = $msg;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field remsg
-     *
-     * @param string $remsg
-     * @return $this
-     */
     public function setRemsg($remsg)
     {
         $this->remsg = $remsg;
@@ -97,15 +93,17 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
         return $this;
     }
 
+
+
     /**
-     * Method to set the value of field msg_ts
+     * Method to set the value of field remsg_ts
      *
-     * @param integer $msg_ts
+     * @param integer $remsg_ts
      * @return $this
      */
-    public function setMsgTs($msg_ts)
+    public function setRemsgTs($remsg_ts)
     {
-        $this->msg_ts = $msg_ts;
+        $this->remsg_ts = $remsg_ts;
 
         return $this;
     }
@@ -113,14 +111,14 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
 
 
     /**
-     * Method to set the value of field user_id
+     * Method to set the value of field company_admin_id
      *
-     * @param integer $user_id
+     * @param integer $company_admin_id
      * @return $this
      */
-    public function setUserId($user_id)
+    public function setCompanyAdminId($company_admin_id)
     {
-        $this->user_id = $user_id;
+        $this->company_admin_id = $company_admin_id;
 
         return $this;
     }
@@ -130,6 +128,12 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
      *
      * @return integer
      */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
     public function getMsgId()
     {
         return $this->msg_id;
@@ -145,41 +149,41 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
         return $this->raise_id;
     }
 
+
+
     /**
-     * Returns the value of field msg
+     * Returns the value of field remsg
      *
      * @return string
      */
-    public function getMsg()
+    public function getRemsg()
     {
-        return $this->msg;
+        return $this->remsg;
     }
 
 
 
     /**
-     * Returns the value of field msg_ts
+     * Returns the value of field remsg_ts
      *
      * @return integer
      */
-    public function getMsgTs()
+    public function getRemsgTs()
     {
-        return $this->msg_ts;
+        return $this->remsg_ts;
     }
 
 
 
     /**
-     * Returns the value of field user_id
+     * Returns the value of field company_admin_id
      *
      * @return integer
      */
-    public function getUserId()
+    public function getCompanyAdminId()
     {
-        return $this->user_id;
+        return $this->company_admin_id;
     }
-
-
 
     /**
      * Returns table name mapped in the model.
@@ -188,7 +192,7 @@ class DtbRaiseProjectQa extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'dtb_raise_project_qa';
+        return 'dtb_raise_project_qa_remsg';
     }
 
     /**

@@ -8,7 +8,7 @@
         			<li {%if is_current==4%} class="user_cent_navbg" {%endif%}><a href="user1_04.html">市场</a></li>
         			<li {%if is_current==5%} class="user_cent_navbg" {%endif%}><a href="user1_05.html">团队</a></li>
         			<li {%if is_current==6%} class="user_cent_navbg" {%endif%}><a href="user1_06.html">生态环境</a></li>
-        			<li {%if is_current==7%} class="user_cent_navbg" {%endif%}><a href="user1_07.html">审核情况</a></li>
+        			<li {%if is_current==7%} class="user_cent_navbg" {%endif%}><a href="/user_raise_basic/index">审核情况</a></li>
         		</ul>
 {%else%}
 

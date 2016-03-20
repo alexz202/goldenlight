@@ -105,6 +105,21 @@ class ControllerBase extends Controller
         return $pid;
     }
 
+
+
+
+    protected function getUserProject(){
+        $user_id=$this->_getCookie('user_id');
+        $dtb_raise_project_basic=DtbRaiseProjectBasic::findFirst(
+            array(
+                "conditions" => "user_id = :user_id:  ",
+                "bind"       => array("user_id" => $user_id),
+                "order"=>'raise_id desc'
+            ));
+
+        return $dtb_raise_project_basic;
+    }
+
     function _split_page($current,$total,$split=5){
         $data=array('start'=>0,'end'=>0,'now_split'=>0,'total_split'=>0);
         if($total<1)

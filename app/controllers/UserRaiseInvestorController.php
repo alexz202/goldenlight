@@ -11,7 +11,46 @@ class UserRaiseInvestorController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        $dtb_raise_project_basic=$this-> getUserProjectInvestor();
+        //var_dump($dtb_raise_project_basic);
+        //die();
+        $this->view->dtb_raise_project_basic=$dtb_raise_project_basic;
+
+        $this->view->is_user_nav=3;
+
+
+    }
+
+    public function detailAction($raise_id,$user_id){
+
+        $dtb_raise_project_investor=DtbRaiseProjectInvestor::findFirst(
+            array(
+                "conditions" => "raise_id = :raise_id: and user_id=:user_id: ",
+                "bind"       => array("raise_id" => $raise_id,'user_id'=>$user_id),
+                "order"=>'update_ts desc'
+            ));
+
+         $order_info=DtbProjectInvestOrder::find(
+             array(
+                 "conditions" => "raise_id = :raise_id: and user_id=:user_id: ",
+                 "bind"       => array("raise_id" => $raise_id,'user_id'=>$user_id),
+                 "order"=>'order_id desc'
+             )
+         );
+       // die();
+        $this->view->setVar('dtb_raise_project_investor',$dtb_raise_project_investor);
+        $this->view->setVar('dtb_project_invest_order',$order_info);
+        $this->view->is_user_nav=3;
+
+
+    }
+
+    private function getUserProjectInvestor(){
+        $user_project_info=$this->getUserProject();
+        if($user_project_info){
+          $raise_id=$user_project_info->getRaiseId();
+        }
+        return $user_project_info;
     }
 
     /**

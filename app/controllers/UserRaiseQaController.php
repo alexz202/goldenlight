@@ -11,13 +11,71 @@ class UserRaiseQaController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        $user_project_info=$this->getUserProject();
+        if($user_project_info){
+            $raise_id=$user_project_info->getRaiseId();
+        }
+       $this->view->setVar('raise_id',$raise_id);
+        $dtb_raise_qa=DtbRaiseProjectQa::find(
+            array(
+                "conditions" => "raise_id = :raise_id: ",
+                "bind"       => array("raise_id" => $raise_id),
+                "order"=>'msg_ts desc'
+            )
+        );
+
+
+        $this->view->dtb_raise_qa=$dtb_raise_qa;
+        $this->view->is_user_nav=4;
+
+
+    }
+
+    public function ajaxRemsgAction($raise_id,$msg_id){
+        if($this->request->isPost()){
+            $remsg_obj=new DtbRaiseProjectQaRemsg();
+            $remsg=$this->request->getPost('remsg');
+
+            $remsg_obj->setRaiseId($raise_id);
+            $remsg_obj->setRemsg($remsg);
+            $remsg_obj->setCompanyAdminId($user_id=$this->_getCookie('user_id'));
+            $remsg_obj->setRemsgTs(time());
+            $res=$remsg_obj->save();
+            if($res){
+                echo  true;
+            }else{
+                echo false;
+            }
+        }
+        echo false;
+
     }
 
 
     public function indexQaAction(){
+        $user_project_info=$this->getUserProject();
+        if($user_project_info){
+            $raise_id=$user_project_info->getRaiseId();
+        }
+        $this->view->setVar('raise_id',$raise_id);
+        $dtb_raise_qa=DtbRaiseProjectUpdates::findFirst(
+            array(
+                "conditions" => "raise_id = :raise_id: ",
+                "bind"       => array("raise_id" => $raise_id),
+                "order"=>'create_ts desc'
+            )
+
+        );
+
+        $this->view->dtb_raise_project_update=$dtb_raise_qa;
+        $this->view->is_user_nav=4;
+
+
 
     }
+
+
+
     /**
      * Searches for dtb_raise_project_qa
      */

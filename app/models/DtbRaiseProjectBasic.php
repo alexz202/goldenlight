@@ -56,9 +56,9 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     protected $project_type;
 
 
-    protected $now_wheel;
+    protected $now_wheel_id;
 
-    protected $last_wheel;
+    protected $last_wheel_id;
 
     /**
      *
@@ -295,16 +295,16 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
         return $this;
     }
 
-    public function setNowWheel($now_wheel)
+    public function setNowWheelId($now_wheel_id)
     {
-        $this->now_wheel = $now_wheel;
+        $this->now_wheel_id = $now_wheel_id;
 
         return $this;
     }
 
-    public function setLastWheel($last_wheel)
+    public function setLastWheelId($last_wheel_id)
     {
-        $this->last_wheel = $last_wheel;
+        $this->last_wheel_id = $last_wheel_id;
 
         return $this;
     }
@@ -676,15 +676,15 @@ class DtbRaiseProjectBasic extends \Phalcon\Mvc\Model
     }
 
 
-    public function getNowWheel()
+    public function getNowWheelId()
     {
-        return $this->now_wheel;
+        return $this->now_wheel_id;
     }
 
 
-    public function getLastWheel()
+    public function getLastWheelId()
     {
-        return $this->last_wheel;
+        return $this->last_wheel_id;
     }
 
     /**
