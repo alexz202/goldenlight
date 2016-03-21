@@ -134,69 +134,66 @@ class UserRaiseTeamController extends ControllerBase
     {
 
         if (!$this->request->isPost()) {
-
-            $dtb_raise_project_team = DtbRaiseProjectTeam::findFirstByraise_id($raise_id);
-            if (!$dtb_raise_project_team) {
-                $this->flash->error("dtb_raise_project_team was not found");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "dtb_raise_project_team",
-                    "action" => "index"
-                ));
-            }
-            $tmmember_id=$dtb_raise_project_team->tmmember_id;
-            $this->view->tmmember_id = $dtb_raise_project_team->tmmember_id;
-
             $this->view->raise_id = $raise_id;
-
-            $this->tag->setDefault("tmmember_id", $dtb_raise_project_team->getTmmemberId());
-            $this->tag->setDefault("raise_id", $dtb_raise_project_team->getRaiseId());
-            $this->tag->setDefault("user_name", $dtb_raise_project_team->getUserName());
-            $this->tag->setDefault("avatar", $dtb_raise_project_team->getAvatar());
-            $this->tag->setDefault("position", $dtb_raise_project_team->getPosition());
-            $this->tag->setDefault("commitment", $dtb_raise_project_team->getCommitment());
-            $this->tag->setDefault("ownership", $dtb_raise_project_team->getOwnership());
-            $this->tag->setDefault("nationality", $dtb_raise_project_team->getNationality());
-            $this->tag->setDefault("role", $dtb_raise_project_team->getRole());
-            $this->tag->setDefault("birthday", date('Y-m-d',$dtb_raise_project_team->getBirthday()));
-            $this->tag->setDefault("country", $dtb_raise_project_team->getCountry());
-            $this->tag->setDefault("city", $dtb_raise_project_team->getCity());
-            $this->tag->setDefault("address", $dtb_raise_project_team->getAddress());
-            $this->tag->setDefault("update_ts",date('Y-m-d',$dtb_raise_project_team->getUpdateTs()));
-
-            $dtb_raise_project_team_work_info=DtbRaiseProjectTeamWorkInfo::findFirstBytmmember_id($tmmember_id);
+            $dtb_raise_project_team = DtbRaiseProjectTeam::findFirstByraise_id($raise_id);
+            if ($dtb_raise_project_team) {
+                $tmmember_id=$dtb_raise_project_team->tmmember_id;
+                $this->view->tmmember_id = $dtb_raise_project_team->tmmember_id;
 
 
-            $dtb_raise_project_team_cert= DtbRaiseProjectTeamCertificate::findFirstBytmmember_id($tmmember_id);
 
-            $dtb_raise_project_team_edc= DtbRaiseProjectTeamEducation::findFirstBytmmember_id($tmmember_id);
+                $this->tag->setDefault("tmmember_id", $dtb_raise_project_team->getTmmemberId());
+                $this->tag->setDefault("raise_id", $dtb_raise_project_team->getRaiseId());
+                $this->tag->setDefault("user_name", $dtb_raise_project_team->getUserName());
+                $this->tag->setDefault("avatar", $dtb_raise_project_team->getAvatar());
+                $this->tag->setDefault("position", $dtb_raise_project_team->getPosition());
+                $this->tag->setDefault("commitment", $dtb_raise_project_team->getCommitment());
+                $this->tag->setDefault("ownership", $dtb_raise_project_team->getOwnership());
+                $this->tag->setDefault("nationality", $dtb_raise_project_team->getNationality());
+                $this->tag->setDefault("role", $dtb_raise_project_team->getRole());
+                $this->tag->setDefault("birthday", date('Y-m-d',$dtb_raise_project_team->getBirthday()));
+                $this->tag->setDefault("country", $dtb_raise_project_team->getCountry());
+                $this->tag->setDefault("city", $dtb_raise_project_team->getCity());
+                $this->tag->setDefault("address", $dtb_raise_project_team->getAddress());
+                $this->tag->setDefault("update_ts",date('Y-m-d',$dtb_raise_project_team->getUpdateTs()));
 
-            if($dtb_raise_project_team_work_info){
-                $this->tag->setDefault('company',$dtb_raise_project_team_work_info->getCompany());
-                $this->tag->setDefault('position',$dtb_raise_project_team_work_info->getPosition());
-                $this->tag->setDefault('start_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getStartTs()));
-                $this->tag->setDefault('end_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getEndTs()));
-                $this->view->setVar('start_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getStartTs()));
-                $this->view->setVar('end_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getEndTs()));
+                $dtb_raise_project_team_work_info=DtbRaiseProjectTeamWorkInfo::findFirstBytmmember_id($tmmember_id);
+
+
+                $dtb_raise_project_team_cert= DtbRaiseProjectTeamCertificate::findFirstBytmmember_id($tmmember_id);
+
+                $dtb_raise_project_team_edc= DtbRaiseProjectTeamEducation::findFirstBytmmember_id($tmmember_id);
+
+                if($dtb_raise_project_team_work_info){
+                    $this->tag->setDefault('company',$dtb_raise_project_team_work_info->getCompany());
+                    $this->tag->setDefault('position',$dtb_raise_project_team_work_info->getPosition());
+                    $this->tag->setDefault('start_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getStartTs()));
+                    $this->tag->setDefault('end_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getEndTs()));
+                    $this->view->setVar('start_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getStartTs()));
+                    $this->view->setVar('end_ts',date('Y-m-d',$dtb_raise_project_team_work_info->getEndTs()));
+                }
+                if($dtb_raise_project_team_cert) {
+                    $this->tag->setDefault('organization',$dtb_raise_project_team_cert->getOrganization());
+                    $this->tag->setDefault('certificate_name',$dtb_raise_project_team_cert->getCertificateName());
+                    $this->tag->setDefault('reward_ts',date('Y-m-d',$dtb_raise_project_team_cert->getRewardTs()));
+                    $this->view->setVar('reward_ts',date('Y-m-d',$dtb_raise_project_team_cert->getRewardTs()));
+                }
+
+
+                if($dtb_raise_project_team_edc){
+                    $this->tag->setDefault('major',$dtb_raise_project_team_edc->getMajor());
+                    $this->tag->setDefault('education',$dtb_raise_project_team_edc->getEducation());
+                    $this->tag->setDefault('reward_ts',date('Y-m-d',$dtb_raise_project_team_edc->getRewardTs()));
+                    $this->view->setVar('reward_ts',date('Y-m-d',$dtb_raise_project_team_edc->getRewardTs()));
+                }
+
+
             }
-           if($dtb_raise_project_team_cert) {
-               $this->tag->setDefault('organization',$dtb_raise_project_team_cert->getOrganization());
-               $this->tag->setDefault('certificate_name',$dtb_raise_project_team_cert->getCertificateName());
-               $this->tag->setDefault('reward_ts',date('Y-m-d',$dtb_raise_project_team_cert->getRewardTs()));
-               $this->view->setVar('reward_ts',date('Y-m-d',$dtb_raise_project_team_cert->getRewardTs()));
-           }
 
-
-            if($dtb_raise_project_team_edc){
-                $this->tag->setDefault('major',$dtb_raise_project_team_edc->getMajor());
-                $this->tag->setDefault('education',$dtb_raise_project_team_edc->getEducation());
-                $this->tag->setDefault('reward_ts',date('Y-m-d',$dtb_raise_project_team_edc->getRewardTs()));
-                $this->view->setVar('reward_ts',date('Y-m-d',$dtb_raise_project_team_edc->getRewardTs()));
-            }
 
         }
         $this->view->iscreate=1;
-
+        $this->view->isusercenter=1;
         $this->view->is_current=5;
     }
 
@@ -208,7 +205,7 @@ class UserRaiseTeamController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_team",
+                "controller" => "user_raise_team",
                 "action" => "index"
             ));
         }
@@ -329,25 +326,40 @@ class UserRaiseTeamController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_team",
-                "action" => "index"
+                "controller" => "user_raise_team",
+                "action" => "edit",
+                 "params" => array($this->request->getPost("raise_id"))
             ));
         }
 
          $tmmember_id = $this->request->getPost("tmmember_id");
 
-        $dtb_raise_project_team = DtbRaiseProjectTeam::findFirstBytmmember_id($tmmember_id);
+        if(!empty($tmmember_id)){
+            $dtb_raise_project_team = DtbRaiseProjectTeam::findFirstBytmmember_id($tmmember_id);
+            if (!$dtb_raise_project_team) {
+                $this->flash->error("dtb_raise_project_team does not exist " . $tmmember_id);
+            }
 
+            $dtb_raise_project_team_work_info=DtbRaiseProjectTeamWorkInfo::findFirstBytmmember_id($tmmember_id);
+            if (!$dtb_raise_project_team_work_info)
+                $dtb_raise_project_team_work_info=new DtbRaiseProjectTeamWorkInfo();
 
-        if (!$dtb_raise_project_team) {
+            $dtb_raise_project_team_cert=DtbRaiseProjectTeamCertificate::findFirstBytmmember_id($tmmember_id);
+            if (!$dtb_raise_project_team_cert)
+                $dtb_raise_project_team_cert=new DtbRaiseProjectTeamCertificate();
 
-            $this->flash->error("dtb_raise_project_team does not exist " . $tmmember_id);
+            $dtb_raise_project_team_edc=DtbRaiseProjectTeamEducation::findFirstBytmmember_id($tmmember_id);
+            if (!$dtb_raise_project_team_edc)
+                $dtb_raise_project_team_edc=new DtbRaiseProjectTeamEducation();
 
-            return $this->dispatcher->forward(array(
-                "controller" => "user_raise_team",
-                "action" => "index"
-            ));
+        }else{
+            $dtb_raise_project_team=new  DtbRaiseProjectTeam();
+            $dtb_raise_project_team_work_info=new DtbRaiseProjectTeamWorkInfo();
+            $dtb_raise_project_team_cert=new DtbRaiseProjectTeamCertificate();
+            $dtb_raise_project_team_edc= new DtbRaiseProjectTeamEducation();
         }
+
+
 
         $dtb_raise_project_team->setRaiseId($this->request->getPost("raise_id"));
         $dtb_raise_project_team->setUserName($this->request->getPost("user_name"));
@@ -364,30 +376,13 @@ class UserRaiseTeamController extends ControllerBase
         $dtb_raise_project_team->setUpdateTs(time());
 
 
-//        $dtb_raise_project_team_work_info=new DtbRaiseProjectTeamWorkInfo();
-//
-//        $dtb_raise_project_team_cert=new DtbRaiseProjectTeamCertificate();
-//
-//        $dtb_raise_project_team_edc= new DtbRaiseProjectTeamEducation();
-
-        $dtb_raise_project_team_work_info=DtbRaiseProjectTeamWorkInfo::findFirstBytmmember_id($tmmember_id);
-        if (!$dtb_raise_project_team_work_info)
-            $dtb_raise_project_team_work_info=new DtbRaiseProjectTeamWorkInfo();
-
-        $dtb_raise_project_team_cert=DtbRaiseProjectTeamCertificate::findFirstBytmmember_id($tmmember_id);
-        if (!$dtb_raise_project_team_cert)
-            $dtb_raise_project_team_cert=new DtbRaiseProjectTeamCertificate();
-
-        $dtb_raise_project_team_edc=DtbRaiseProjectTeamEducation::findFirstBytmmember_id($tmmember_id);
-        if (!$dtb_raise_project_team_edc)
-            $dtb_raise_project_team_edc=new DtbRaiseProjectTeamEducation();
-
         $flag=false;
         $this->di['db']->begin();
 
         try{
 
             $res=$dtb_raise_project_team->save();
+            $tmmember_id=$dtb_raise_project_team->getTmmemberId();
 
             $dtb_raise_project_team_work_info->setTmmemberId($tmmember_id);
             $dtb_raise_project_team_work_info->setCompany($this->request->getPost("company"));
@@ -425,11 +420,8 @@ class UserRaiseTeamController extends ControllerBase
 
         if ($flag){
             $this->flash->success("dtb_raise_project_team was created successfully");
+            return  $this->response->redirect('/user_raise_team/edit/'.$this->request->getPost("raise_id"));
 
-            return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_team",
-                "action" => "index"
-            ));
         }
         else{
             foreach ($dtb_raise_project_team->getMessages() as $message) {

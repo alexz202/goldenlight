@@ -12,6 +12,7 @@
             		  {{ hidden_field("project_type", "size" : 30,"value": project_type) }}
             		{% else%}
                     {% endif %}
+                     {{ hidden_field("isadd", "size" : 30,"value": isadd) }}
 		<table width="100%" border="0" cellspacing="0" cellpadding="30">
 		  <tr>
 			<td><table width="100%" border="0" cellspacing="0" cellpadding="10">

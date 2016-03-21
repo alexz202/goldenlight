@@ -6,11 +6,12 @@
 	</div>
 	<div class="user">
 			{{ partial("public/project_nav")}}
-
+	{{ form("user_raise_team/save", "method":"post","enctype":"multipart/form-data","id":"add_form") }}
+	 {{ hidden_field("raise_id", "size" : 30,"value": raise_id) }}
         	    {% if raise_id is defined and tmmember_id is defined %}
-            		{{ form("user_raise_team/save", "method":"post","enctype":"multipart/form-data","id":"add_form") }}
-            		 {{ hidden_field("raise_id", "size" : 30,"value": raise_id) }}
             		 {{ hidden_field("tmmember_id", "size" : 30,"value": tmmember_id) }}
+            		 {%else%}
+            		  {{ hidden_field("tmmember_id", "size" : 30,"value": 0) }}
                     {% endif %}
 		<table width="100%" border="0" cellspacing="0" cellpadding="30">
 		   <tr>

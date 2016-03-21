@@ -12,9 +12,19 @@
 		  <tr>
 			<td>&nbsp;</td>
 		  </tr>
+		  {%if status ==0%}
 		  <tr>
 			<td align="center"><span style="font-size:24px; color:#FF0000">系统正在审核……</span></td>
 		  </tr>
+		{%elseif status==1%}
+		<tr>
+			<td align="center"><span style="font-size:24px; color:#FF0000">审核通过</span></td>
+		</tr>
+		{%elseif status==2%}
+		<tr>
+			<td align="center"><span style="font-size:24px; color:#FF0000">审核未通过</span></td>
+	  	</tr>
+		{%endif%}
 		  <tr>
 			<td>&nbsp;</td>
 		  </tr>

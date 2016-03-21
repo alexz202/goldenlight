@@ -92,18 +92,16 @@ class UserRaiseIdeaController extends ControllerBase
     {
 
         if (!$this->request->isPost()) {
+            $this->view->raise_id =$raise_id;
+           $basic_info= DtbRaiseProjectBasic::findFirstByraise_id($raise_id);
 
+            $this->view->setVar('project_type',$basic_info->getProjectType());
             $dtb_raise_project_idea = DtbRaiseProjectIdea::findFirstByraise_id($raise_id);
             if (!$dtb_raise_project_idea) {
-                $this->flash->error("dtb_raise_project_idea was not found");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "dtb_raise_project_idea",
-                    "action" => "index"
-                ));
+                $this->tag->setDefault('isadd',1);
+            }else{
+                $this->tag->setDefault('isadd',0);
             }
-
-            $this->view->raise_id = $dtb_raise_project_idea->raise_id;
 
             $this->tag->setDefault("raise_id", $dtb_raise_project_idea->raise_id);
             $this->tag->setDefault("idea_info", $dtb_raise_project_idea->idea_info);
@@ -117,7 +115,7 @@ class UserRaiseIdeaController extends ControllerBase
         }
         //tag setting
         $this->view->iscreate=0;
-        $this->view->isu=0;
+        $this->view->su=0;
         $this->view->isusercenter=1;
         $this->view->is_current=3;
     }
@@ -136,11 +134,6 @@ class UserRaiseIdeaController extends ControllerBase
         }
 
         $dtb_raise_project_idea = new DtbRaiseProjectIdea();
-
-
-
-
-
 
         $dtb_raise_project_idea->raise_id = $this->request->getPost("raise_id");
         $dtb_raise_project_idea->idea_info = $this->request->getPost("idea_info");
@@ -186,22 +179,24 @@ class UserRaiseIdeaController extends ControllerBase
 
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
-                "controller" => "dtb_raise_project_idea",
-                "action" => "index"
+                "controller" => "user_raise_idea",
+                "action" => "edit",
+                "params" => array($this->request->getPost("raise_id"))
             ));
         }
 
         $raise_id = $this->request->getPost("raise_id");
-
-        $dtb_raise_project_idea = DtbRaiseProjectIdea::findFirstByraise_id($raise_id);
-        if (!$dtb_raise_project_idea) {
-            $this->flash->error("dtb_raise_project_idea does not exist " . $raise_id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "user_raise_idea",
-                "action" => "index"
-            ));
+        $isadd = $this->request->getPost("isadd");
+        if(intval($isadd)==0){
+            $dtb_raise_project_idea = DtbRaiseProjectIdea::findFirstByraise_id($raise_id);
+            if (!$dtb_raise_project_idea) {
+                $dtb_raise_project_idea=new DtbRaiseProjectIdea();
+            }
+        }else{
+            $dtb_raise_project_idea=new DtbRaiseProjectIdea();
         }
+
+
 
         $dtb_raise_project_idea->raise_id = $this->request->getPost("raise_id");
         $dtb_raise_project_idea->idea_info = $this->request->getPost("idea_info");
@@ -228,9 +223,11 @@ class UserRaiseIdeaController extends ControllerBase
 
         $this->flash->success("dtb_raise_project_idea was updated successfully");
 
+        return  $this->response->redirect('/user_raise_idea/edit/'.$this->request->getPost("raise_id"));
         return $this->dispatcher->forward(array(
             "controller" => "user_raise_idea",
-            "action" => "edit"
+            "action" => "edit",
+            "params" => array($this->request->getPost("raise_id"))
         ));
 
     }

@@ -6,8 +6,8 @@
 	</div>
 <div class="user">
 		<ul>
-			<li><a href="user7.html">投资协议签订</a></li>
-			<li class="user_cent_navbg"><a href="user7_02.html">项目投资收益</a></li>
+			<li><a href="/user_raise_basic/protocol">投资协议签订</a></li>
+			<li class="user_cent_navbg"><a href="/user_raise_basic/result">项目投资收益</a></li>
 		</ul>
 		<form action="" method="get">
 		  <table width="96%" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#DDDDDD">

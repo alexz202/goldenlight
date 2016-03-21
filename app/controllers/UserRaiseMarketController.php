@@ -92,25 +92,27 @@ class UserRaiseMarketController extends ControllerBase
     {
 
         if (!$this->request->isPost()) {
-
+            $this->view->raise_id = $raise_id;
             $dtb_raise_project_market = DtbRaiseProjectMarket::findFirstByraise_id($raise_id);
             if (!$dtb_raise_project_market) {
-                $this->flash->error("dtb_raise_project_market was not found");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "user_raise_market",
-                    "action" => "edit",
-                    "params" => array($dtb_raise_project_market->raise_id)
-                ));
+//                $this->flash->error("dtb_raise_project_market was not found");
+//
+//                return $this->dispatcher->forward(array(
+//                    "controller" => "user_raise_market",
+//                    "action" => "edit",
+//                    "params" => array($dtb_raise_project_market->raise_id)
+//                ));
+            }else{
+                $this->tag->setDefault("raise_id", $dtb_raise_project_market->getRaiseId());
+                $this->tag->setDefault("aim_market", $dtb_raise_project_market->getAimMarket());
+                $this->tag->setDefault("aim_market_feaure", $dtb_raise_project_market->getAimMarketFeaure());
+                $this->tag->setDefault("competitive_strategy", $dtb_raise_project_market->getCompetitiveStrategy());
+                $this->tag->setDefault("update_ts", $dtb_raise_project_market->getUpdateTs());
             }
 
-            $this->view->raise_id = $dtb_raise_project_market->raise_id;
 
-            $this->tag->setDefault("raise_id", $dtb_raise_project_market->getRaiseId());
-            $this->tag->setDefault("aim_market", $dtb_raise_project_market->getAimMarket());
-            $this->tag->setDefault("aim_market_feaure", $dtb_raise_project_market->getAimMarketFeaure());
-            $this->tag->setDefault("competitive_strategy", $dtb_raise_project_market->getCompetitiveStrategy());
-            $this->tag->setDefault("update_ts", $dtb_raise_project_market->getUpdateTs());
+
+
             
         }
         //tag setting
@@ -182,12 +184,7 @@ class UserRaiseMarketController extends ControllerBase
 
         $dtb_raise_project_market = DtbRaiseProjectMarket::findFirstByraise_id($raise_id);
         if (!$dtb_raise_project_market) {
-            $this->flash->error("dtb_raise_project_market does not exist " . $raise_id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "user_raise_market",
-                "action" => "index"
-            ));
+            $dtb_raise_project_market=new DtbRaiseProjectMarket();
         }
 
         $dtb_raise_project_market->setRaiseId($this->request->getPost("raise_id"));
@@ -211,6 +208,7 @@ class UserRaiseMarketController extends ControllerBase
         }
 
         $this->flash->success("dtb_raise_project_market was updated successfully");
+        return  $this->response->redirect('/user_raise_market/edit/'.$this->request->getPost("raise_id"));
 
         return $this->dispatcher->forward(array(
             "controller" => "user_raise_market",

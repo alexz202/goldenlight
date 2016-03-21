@@ -7,7 +7,7 @@
 			{{ partial("public/project_nav")}}
 
         	    {% if raise_id is defined %}
-            		{{ form("user_raise_around/create", "method":"post","id":"add_form") }}
+            		{{ form("user_raise_around/save", "method":"post","id":"add_form") }}
             		 {{ hidden_field("raise_id", "size" : 30,"value": raise_id) }}
             		{% else%}
                     {% endif %}

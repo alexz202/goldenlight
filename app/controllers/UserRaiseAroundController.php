@@ -94,22 +94,19 @@ class UserRaiseAroundController extends ControllerBase
         if (!$this->request->isPost()) {
 
             $dtb_raise_project_around = DtbRaiseProjectAround::findFirstByraise_id($raise_id);
-            if (!$dtb_raise_project_around) {
-                $this->flash->error("user_raise_around was not found");
+            if ($dtb_raise_project_around) {
+                $this->view->raise_id = $dtb_raise_project_around->raise_id;
 
-                return $this->dispatcher->forward(array(
-                    "controller" => "user_raise_around",
-                    "action" => "index"
-                ));
+                $this->tag->setDefault("raise_id", $dtb_raise_project_around->getRaiseId());
+                $this->tag->setDefault("bj_person", $dtb_raise_project_around->getBjPerson());
+                $this->tag->setDefault("invest_leader", $dtb_raise_project_around->getInvestLeader());
+                $this->tag->setDefault("monitor_system", $dtb_raise_project_around->getMonitorSystem());
+                $this->tag->setDefault("friend_link", $dtb_raise_project_around->getFriendLink());
+
+            }else{
+                $this->view->raise_id = $raise_id;
+               // $dtb_raise_project_around=new DtbRaiseProjectAround();
             }
-
-            $this->view->raise_id = $dtb_raise_project_around->raise_id;
-
-            $this->tag->setDefault("raise_id", $dtb_raise_project_around->getRaiseId());
-            $this->tag->setDefault("bj_person", $dtb_raise_project_around->getBjPerson());
-            $this->tag->setDefault("invest_leader", $dtb_raise_project_around->getInvestLeader());
-            $this->tag->setDefault("monitor_system", $dtb_raise_project_around->getMonitorSystem());
-            $this->tag->setDefault("friend_link", $dtb_raise_project_around->getFriendLink());
 
             $this->view->iscreate=0;
             $this->view->isusercenter=1;
@@ -185,12 +182,7 @@ class UserRaiseAroundController extends ControllerBase
 
         $dtb_raise_project_around = DtbRaiseProjectAround::findFirstByraise_id($raise_id);
         if (!$dtb_raise_project_around) {
-            $this->flash->error("user_raise_around does not exist " . $raise_id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "user_raise_around",
-                "action" => "index"
-            ));
+            $dtb_raise_project_around=new DtbRaiseProjectAround();
         }
 
         $dtb_raise_project_around->setRaiseId($this->request->getPost("raise_id"));
@@ -214,10 +206,12 @@ class UserRaiseAroundController extends ControllerBase
         }
 
         $this->flash->success("user_raise_around was updated successfully");
+        return  $this->response->redirect('/user_raise_around/edit/'.$dtb_raise_project_around->raise_id);
 
         return $this->dispatcher->forward(array(
             "controller" => "user_raise_around",
-            "action" => "index"
+            "action" => "edit",
+            "params" => array($dtb_raise_project_around->raise_id)
         ));
 
     }

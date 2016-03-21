@@ -33,7 +33,6 @@
 			<li class="user_nav_line"><a href="javascript;">网上商城</a></li>
 			<li class="user_nav_line"><a href="javascript;">股权转让信息</a></li>
 			<li><a href="/user_raise_basic/protocol">
-			筹资后续跟进
 			{%if is_user_nav==5%}
                                                 			<span class="font_f60">筹资后续跟进</span>
                                                 			{%else%}

@@ -21,6 +21,7 @@ class UserRaiseBasicController extends ControllerBase
             $this->view->is_user_nav=1;
             $this->view->is_current=7;
             $this->view->isusercenter=1;
+            $this->view->raise_id=$raise_id;
 
         }
 
@@ -238,26 +239,29 @@ class UserRaiseBasicController extends ControllerBase
 //        $type= $this->request->get('type');
 //        $type=empty($type)?0:$type;
         $user_id=$this->_getCookie('user_id');
-        if($raise_id)
+        if($raise_id){
             $dtb_raise_project_basic = DtbRaiseProjectBasic::findFirstByraise_id($raise_id);
 
-        $this->view->setVar('raise_id',$raise_id);
-        $this->view->setVar('project_type',$dtb_raise_project_basic->getProjectType());
+            $this->view->setVar('raise_id',$raise_id);
+            $this->view->setVar('project_type',$dtb_raise_project_basic->getProjectType());
 
-        $this->tag->setDefault("country", $dtb_raise_project_basic->getCountry());
-        $this->tag->setDefault("address1", $dtb_raise_project_basic->getAddress1());
-        $this->tag->setDefault("address2", $dtb_raise_project_basic->getAddress2());
-        $this->tag->setDefault("post_card", $dtb_raise_project_basic->getPostCard());
-        $this->tag->setDefault("city", $dtb_raise_project_basic->getCity());
-        $this->tag->setDefault("next_two_y_total_wage", $dtb_raise_project_basic->getNextTwoYTotalWage());
-        $this->tag->setDefault("company_number", $dtb_raise_project_basic->getCompanyNumber());
-        $this->tag->setDefault("company_register_ts",date('Y-m-d',$dtb_raise_project_basic->getCompanyRegisterTs()));
-        $this->tag->setDefault("immediate_loan", $dtb_raise_project_basic->getImmediateLoan());
+            $this->tag->setDefault("country", $dtb_raise_project_basic->getCountry());
+            $this->tag->setDefault("address1", $dtb_raise_project_basic->getAddress1());
+            $this->tag->setDefault("address2", $dtb_raise_project_basic->getAddress2());
+            $this->tag->setDefault("post_card", $dtb_raise_project_basic->getPostCard());
+            $this->tag->setDefault("city", $dtb_raise_project_basic->getCity());
+            $this->tag->setDefault("next_two_y_total_wage", $dtb_raise_project_basic->getNextTwoYTotalWage());
+            $this->tag->setDefault("company_number", $dtb_raise_project_basic->getCompanyNumber());
+            $this->tag->setDefault("company_register_ts",date('Y-m-d',$dtb_raise_project_basic->getCompanyRegisterTs()));
+            $this->tag->setDefault("immediate_loan", $dtb_raise_project_basic->getImmediateLoan());
 
-        $this->view->setVar('company_register_ts',date('Y-m-d',$dtb_raise_project_basic->getCompanyRegisterTs()));
+            $this->view->setVar('company_register_ts',date('Y-m-d',$dtb_raise_project_basic->getCompanyRegisterTs()));
+        }
+
         //tag default
 
         //tag setting
+        $this->view->raise_id=$raise_id;
         $this->view->iscreate=0;
         $this->view->is_current=2;
         $this->view->isusercenter=1;
